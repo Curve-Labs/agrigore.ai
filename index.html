@@ -165,7 +165,8 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   .bar-in { max-width: 1320px; height: 100%; margin: 0 auto; display: flex; align-items: center; gap: 22px; }
   .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--ink); flex: none; }
   .brand .mk { width: 32px; height: 32px; flex: none; display: block; }
-  .brand .wm { font: italic 400 25px/1 var(--display); letter-spacing: -.01em; text-transform: lowercase; color: var(--ink); }
+  /* the wordmark is set in capitals in the markup: a CSS uppercase would follow the page language and dot the I in Turkish */
+  .brand .wm { font: 460 19px/1 var(--display); letter-spacing: .15em; margin-right: -.15em; color: var(--ink); }
   .bar nav { flex: 1; min-width: 0; display: flex; justify-content: center; }
   .bar ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; }
   .bar nav a { position: relative; display: flex; align-items: baseline; gap: 6px; white-space: nowrap; padding: 10px 12px; border-radius: 999px; font: 500 14px/1 var(--sans); color: var(--ink-soft); text-decoration: none; transition: color .2s, background-color .2s; }
@@ -207,7 +208,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     :root { --bar: 58px; }
     .pill .label { display: none; } .pill { width: 38px; padding: 0; justify-content: center; } .join { display: none; }
     .brand .mk { width: 28px; height: 28px; }
-    .brand .wm { font-size: 22px; }
+    .brand .wm { font-size: 16.5px; }
   }
 
   /* ── first screen: the promise, and the wheel of places ────────── */
@@ -301,8 +302,8 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   }
   .step.on { opacity: 1; }
   .step > .inner { max-width: 31rem; margin-block: auto; }
-  .num { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; font: 500 11.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--leaf); margin: 0; }
-  .num .n { color: var(--ink-faint); }
+  .num { display: flex; align-items: center; gap: 12px; font: 500 12.5px/1.4 var(--mono); letter-spacing: .16em; color: var(--leaf); margin: 0; }
+  .num::after { content: ""; width: 34px; height: 1px; background: currentColor; opacity: .45; }
   .step h2 { font: var(--dw) calc(clamp(27px, 2.5vw, 36px) * var(--dscale))/1.14 var(--display); letter-spacing: var(--dtrack); margin: 12px 0 16px; text-wrap: balance; }
   .step p { color: var(--ink-soft); text-wrap: pretty; }
   .step p b { color: var(--ink); font-weight: 500; }
@@ -685,16 +686,16 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   <div class="bar-in">
     <a class="brand" href="#top" data-go="0" aria-label="Agrigore">
       <svg class="mk" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27C7.5 16 15.5 8 27 5 24.5 16 16.5 24 5 27Z" fill="var(--leaf-fill)"/><path d="M6.8 25.2C12 20.4 17 15.4 24.6 7.4" stroke="var(--paper)" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
-      <b class="wm">Agrigore</b>
+      <b class="wm" aria-hidden="true">AGRIGORE</b>
     </a>
     <nav aria-label="Chapters / Bölümler">
       <ul>
-        <li><a href="#ch-for" data-go="1" data-ch="for"><span class="nx">I</span><span lang="en">What it’s for</span><span lang="tr">Ne işe yarar</span></a></li>
-        <li><a href="#ch-how" data-go="3" data-ch="how"><span class="nx">II</span><span lang="en">How it works</span><span lang="tr">Nasıl çalışır</span></a></li>
-        <li><a href="#ch-livia" data-go="6" data-ch="livia"><span class="nx">III</span>Livia</a></li>
-        <li><a href="#ch-principles" data-go="7" data-ch="principles"><span class="nx">IV</span><span lang="en">Principles</span><span lang="tr">İlkeler</span></a></li>
-        <li><a href="#ch-inside" data-go="8" data-ch="inside"><span class="nx">V</span><span lang="en">Inside</span><span lang="tr">İçeride</span></a></li>
-        <li><a href="#ch-egregore" data-go="9" data-ch="egregore"><span class="nx">VI</span>Egregore</a></li>
+        <li><a href="#ch-problem" data-go="1" data-ch="problem"><span class="nx">I</span><span lang="en">Problem</span><span lang="tr">Sorun</span></a></li>
+        <li><a href="#ch-solution" data-go="2" data-ch="solution"><span class="nx">II</span><span lang="en">Solution</span><span lang="tr">Çözüm</span></a></li>
+        <li><a href="#ch-how" data-go="3" data-ch="how"><span class="nx">III</span><span lang="en">How it works</span><span lang="tr">Nasıl çalışır</span></a></li>
+        <li><a href="#ch-livia" data-go="6" data-ch="livia"><span class="nx">IV</span>Livia</a></li>
+        <li><a href="#ch-inside" data-go="7" data-ch="inside"><span class="nx">V</span><span lang="en">Inside</span><span lang="tr">İçeride</span></a></li>
+        <li><a href="#ch-egregore" data-go="8" data-ch="egregore"><span class="nx">VI</span>Egregore</a></li>
       </ul>
     </nav>
     <div class="ctl">
@@ -708,10 +709,10 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
       </button>
       <button type="button" class="icon-btn" id="themeBtn" aria-label="Theme"></button>
       <div class="ctl-end">
-        <a class="join" href="#join" data-go="10"><span class="ov"><span lang="en">Join the waitlist</span><span lang="tr">Listeye katıl</span></span></a>
+        <a class="join" href="#join" data-go="9"><span class="ov"><span lang="en">Join the waitlist</span><span lang="tr">Listeye katıl</span></span></a>
         <div class="deck deck-bar" role="group" aria-label="Slides / Slaytlar">
           <button class="js-prev" type="button" aria-label="Previous / Önceki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
-          <span class="count js-count">1 / 11</span>
+          <span class="count js-count">1 / 10</span>
           <button class="js-next" type="button" aria-label="Next / Sonraki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
         </div>
       </div>
@@ -723,13 +724,13 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
 <section class="hero slide solo" id="top" data-state="land" data-ch="top" aria-labelledby="h1">
   <div class="hero-in">
     <div class="pitch">
-      <p class="eyebrow"><span lang="en">Agrigore · for any crop and any land</span><span lang="tr">Agrigore · her ürün ve her arazi için</span></p>
+      <p class="eyebrow"><span lang="en">AGRIGORE · for any crop and any land</span><span lang="tr">AGRIGORE · her ürün ve her arazi için</span></p>
       <h1 id="h1"><span lang="en"><em>Situated</em> agricultural intelligence.</span><span lang="tr"><em>Yere özgü</em> tarım zekâsı.</span></h1>
       <p class="lede" lang="en">Agrigore brings together <span class="nw"><span class="g res"></span>research,</span> <span class="nw"><span class="g exp"></span>local</span> experts and <span class="nw"><span class="g grow"></span>growers,</span> and keeps every piece of knowledge with the place where it holds. The first incarnation is <b>Livia</b>, for the olive groves of the Northern Aegean.</p>
       <p class="lede" lang="tr">Agrigore <span class="nw"><span class="g res"></span>araştırmaları,</span> <span class="nw"><span class="g exp"></span>yerel</span> uzmanları ve <span class="nw"><span class="g grow"></span>üreticileri</span> bir araya getirir; her bilgiyi geçerli olduğu yerle birlikte tutar. İlk bedeni <b>Livia</b>: Kuzey Ege’nin zeytinlikleri için.</p>
       <div class="ctas">
-        <a class="btn primary" href="#join" data-go="10"><span lang="en">Join the Livia waitlist</span><span lang="tr">Livia bekleme listesine katıl</span></a>
-        <a class="btn" href="#ch-for" data-go="1"><span lang="en">See how it works</span><span lang="tr">Nasıl çalıştığını gör</span> <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg></a>
+        <a class="btn primary" href="#join" data-go="9"><span lang="en">Join the Livia waitlist</span><span lang="tr">Livia bekleme listesine katıl</span></a>
+        <a class="btn" href="#ch-problem" data-go="1"><span lang="en">Why Agrigore</span><span lang="tr">Neden Agrigore</span> <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg></a>
       </div>
       <p class="built"><span lang="en">Built on</span><span lang="tr">Temeli</span> <a href="https://egregore.xyz" rel="noopener">Egregore</a></p>
     </div>
@@ -756,47 +757,57 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   </div>
 
   <div class="steps">
-    <section class="step slide" id="ch-for" data-state="decide" data-ch="for">
+    <section class="step slide" id="ch-problem" data-state="decide" data-ch="problem">
       <div class="inner">
-        <p class="num"><span lang="en">I · What it’s for</span><span lang="tr">I · Ne işe yarar</span><span class="n">01</span></p>
-        <h2><span lang="en">A dozen decisions a year, and any one can cost the harvest.</span><span lang="tr">Yılda bir düzine karar; her biri hasada mal olabilir.</span></h2>
-        <p lang="en">In an olive grove: <b>when to prune</b> and how hard, <b>whether to water</b>, whether <b>the olive fly</b> is worth a spray, <b>when to pick</b>. Every crop has its own list, and each call comes once a year, so a working life allows <a href="https://www.aspeninstitute.org/blog-posts/howard-buffett-book-talk/" rel="noopener">about forty tries</a> at each. One grower cut their trees back from the top and saw the yield fall <mark>from about 200 kg a tree to about 70</mark>.</p>
-        <p lang="tr">Bir zeytin bahçesinde: <b>ne zaman ve ne kadar budamalı</b>, <b>sulamalı mı</b>, <b>zeytin sineği</b> ilaçlamaya değer mi, <b>ne zaman toplamalı</b>. Her ürünün kendi listesi var ve her karar yılda bir kez gelir; bir çalışma ömrü her biri için <a href="https://www.aspeninstitute.org/blog-posts/howard-buffett-book-talk/" rel="noopener">kırk kadar deneme</a> tanır. Ağaçlarını tepeden kesen bir üreticinin verimi <mark>ağaç başına yaklaşık 200 kg’dan 70 kg’a</mark> düştü.</p>
-        <p class="key" lang="en">No one gets enough seasons to learn it all alone.</p>
-        <p class="key" lang="tr">Kimsenin hepsini tek başına öğrenecek kadar mevsimi yok.</p>
+        <p class="num">I</p>
+        <h2><span lang="en">A dozen high-stakes decisions a year, and each depends on the land.</span><span lang="tr">Yılda bir düzine kritik karar ve her biri araziye bağlı.</span></h2>
+        <p lang="en">In an olive grove: <b>when to prune</b> and how hard, <b>whether to water</b>, whether <b>the olive fly</b> is worth a spray, <b>when to pick</b>. Every crop has its own list, and each call comes once a year, so a working life allows <a href="https://www.aspeninstitute.org/blog-posts/howard-buffett-book-talk/" rel="noopener">about forty tries</a> at each. A wrong call is costly: one grower cut their trees back from the top and saw the yield fall <mark>from about 200 kg a tree to about 70</mark>.</p>
+        <p lang="tr">Bir zeytin bahçesinde: <b>ne zaman ve ne kadar budamalı</b>, <b>sulamalı mı</b>, <b>zeytin sineği</b> ilaçlamaya değer mi, <b>ne zaman toplamalı</b>. Her ürünün kendi listesi var ve her karar yılda bir kez gelir; bir çalışma ömrü her biri için <a href="https://www.aspeninstitute.org/blog-posts/howard-buffett-book-talk/" rel="noopener">kırk kadar deneme</a> tanır. Yanlış bir karar pahalıya patlar: ağaçlarını tepeden kesen bir üreticinin verimi <mark>ağaç başına yaklaşık 200 kg’dan 70 kg’a</mark> düştü.</p>
+        <p lang="en">And the right call changes with <em>the land, the water, the variety and the season</em>. What saves one grove can harm the next, so advice from the global average <mark>misses the place</mark>.</p>
+        <p lang="tr">Üstelik doğru karar <em>araziye, suya, çeşide ve mevsime</em> göre değişir. Bir bahçeyi kurtaran, yanındakine zarar verebilir; küresel ortalamadan gelen tavsiye <mark>yeri ıskalar</mark>.</p>
         <ul class="legend"><li><i class="gq"></i><span lang="en">a decision a grower has to make</span><span lang="tr">üreticinin vermesi gereken bir karar</span></li></ul>
       </div>
     </section>
 
-    <section class="step slide" data-state="purpose" data-ch="for">
+    <section class="step slide" id="ch-solution" data-state="model" data-ch="solution">
       <div class="inner">
-        <p class="num"><span lang="en">I · What it’s for</span><span lang="tr">I · Ne işe yarar</span><span class="n">02</span></p>
-        <h2><span lang="en">What saves one grove can harm the next.</span><span lang="tr">Bir bahçeyi kurtaran, yanındakine zarar verebilir.</span></h2>
-        <p lang="en">Whether advice holds depends on <em>the land, the water, the variety and the season</em>. The knowledge to decide well is scattered: in <span class="nw"><span class="g res"></span><b>research papers</b></span>, in the heads of <span class="nw"><span class="g exp"></span><b>local experts</b></span>, and in what <span class="nw"><span class="g grow"></span><b>growers</b></span> learn season after season. A generic AI answers from the global average and <mark>loses the place</mark>.</p>
-        <p lang="tr">Bir tavsiyenin işe yarayıp yaramayacağı <em>araziye, suya, çeşide ve mevsime</em> bağlıdır. İyi karar vermek için gereken bilgi dağınıktır: <span class="nw"><span class="g res"></span><b>araştırma makalelerinde</b></span>, <span class="nw"><span class="g exp"></span><b>yerel uzmanların</b></span> aklında ve <span class="nw"><span class="g grow"></span><b>üreticilerin</b></span> mevsim mevsim öğrendiklerinde. Genel bir yapay zekâ küresel ortalamadan yanıt verir ve <mark>yeri kaybeder</mark>.</p>
-        <p class="key" lang="en">Agrigore brings the three together and keeps the place.</p>
-        <p class="key" lang="tr">Agrigore üçünü bir araya getirir ve yeri korur.</p>
-      </div>
-    </section>
-
-    <section class="step slide" id="ch-how" data-state="model" data-ch="how">
-      <div class="inner">
-        <p class="num"><span lang="en">II · How it works</span><span lang="tr">II · Nasıl çalışır</span><span class="n">03</span></p>
-        <h2><span lang="en">Three sources, one memory.</span><span lang="tr">Üç kaynak, tek bellek.</span></h2>
-        <p lang="en">Each source brings something the others cannot. Agrigore turns all three into <b>claims</b> and keeps each one with its <em>place, crop and conditions</em>, in <mark>one memory</mark> that every answer draws on.</p>
-        <p lang="tr">Her kaynak ötekilerin getiremediği bir şeyi getirir. Agrigore üçünü de <b>iddialara</b> dönüştürür ve her birini <em>yeri, ürünü ve koşullarıyla</em>, her yanıtın başvurduğu <mark>tek bir bellekte</mark> tutar.</p>
-        <ul class="model">
-          <li><span class="g res"></span><b><span lang="en">Research</span><span lang="tr">Araştırma</span></b><span><span lang="en">what has been measured: papers and official guidance</span><span lang="tr">ölçülmüş olan: makaleler ve resmî rehberler</span></span></li>
-          <li><span class="g exp"></span><b><span lang="en">Local experts</span><span lang="tr">Yerel uzmanlar</span></b><span><span lang="en">what works here, gathered in seminars</span><span lang="tr">burada işe yarayan, seminerlerde toplanır</span></span></li>
-          <li><span class="g grow"></span><b><span lang="en">Growers</span><span lang="tr">Üreticiler</span></b><span><span lang="en">questions, and what happened when they tried</span><span lang="tr">sorular ve denediklerinde ne olduğu</span></span></li>
+        <p class="num">II</p>
+        <h2><span lang="en">Agrigore joins research, local expertise and <span class="nw">real-time data</span> for your land.</span><span lang="tr">Agrigore araştırmayı, yerel uzmanlığı ve anlık veriyi araziniz için birleştirir.</span></h2>
+        <p lang="en">Research knows what holds in general, local experts know what works here, and growers see what their fields are doing right now. Agrigore keeps all three in <mark>one shared memory</mark>, each piece with the land it holds for, and answers from what fits yours: <em>situated</em> intelligence. It is built on <a href="https://egregore.xyz" rel="noopener">Egregore</a>.</p>
+        <p lang="tr">Araştırma genelde neyin geçerli olduğunu, yerel uzmanlar burada neyin işe yaradığını bilir; üreticiler ise tarlalarında şu an ne olduğunu görür. Agrigore üçünü de <mark>tek bir ortak bellekte</mark>, her parçayı geçerli olduğu araziyle birlikte tutar ve sizinkine uyandan yanıt verir: <em>yere özgü</em> zekâ. Temelinde <a href="https://egregore.xyz" rel="noopener">Egregore</a> var.</p>
+        <ul class="model facts">
+          <li><span class="g res"></span><b><span lang="en">Universal knowledge</span><span lang="tr">Evrensel bilgi</span></b><span><span lang="en">research papers and official guidance</span><span lang="tr">araştırma makaleleri ve resmî rehberler</span></span></li>
+          <li><span class="g exp"></span><b><span lang="en">Local expertise</span><span lang="tr">Yerel uzmanlık</span></b><span><span lang="en">what works here, gathered from local experts in seminars</span><span lang="tr">burada neyin işe yaradığı; seminerlerde yerel uzmanlardan toplanır</span></span></li>
+          <li><span class="g grow"></span><b><span lang="en">Real-time data</span><span lang="tr">Anlık veri</span></b><span><span lang="en">what growers see, ask and try in their own fields</span><span lang="tr">üreticilerin kendi tarlalarında gördükleri, sordukları ve denedikleri</span></span></li>
         </ul>
       </div>
     </section>
 
+    <section class="step slide" id="ch-how" data-state="conditions" data-ch="how">
+      <div class="inner">
+        <p class="num">III</p>
+        <h2><span lang="en">Every claim records where it applies and who said it.</span><span lang="tr">Her iddia nerede geçerli olduğunu ve kimin söylediğini kaydeder.</span></h2>
+        <p lang="en">Its conditions, <em>the land, the variety and the water</em>, set how much it counts: a question from the irrigated plain leans on <mark>what holds on the plain</mark>, and evidence from further away can still help, labelled as such. A statement that loses a condition, a negation or a timing is refused.</p>
+        <p lang="tr">Koşulları, yani <em>arazi, çeşit ve su</em>, ne kadar ağırlık taşıyacağını belirler: sulu ovadan gelen bir soru <mark>ovada geçerli olana</mark> dayanır; daha uzaktan gelen kanıt da, öyle olduğu belirtilerek, yine işe yarayabilir. Bir koşulunu, olumsuzluğunu ya da zamanlamasını yitiren ifade reddedilir.</p>
+        <div class="card">
+          <p class="eyebrow"><span lang="en">One claim, opened</span><span lang="tr">Açılmış bir iddia</span></p>
+          <blockquote><span lang="en">“<span class="nw">5 × 5</span> is very risky in a dry grove, <span class="nw">6 × 6</span> is borderline, <span class="nw">8 × 8</span> is safe in a drought.”</span><span lang="tr">“5x5 susuz bahçede çok riskli, 6x6 sınırda, 8x8 kuraklığa güvenli.”</span></blockquote>
+          <dl>
+            <dt><span lang="en">Land</span><span lang="tr">Arazi</span></dt><dd><span lang="en">dry hills, Gulf of Edremit</span><span lang="tr">kuru tepeler, Edremit Körfezi</span></dd>
+            <dt><span lang="en">Variety</span><span lang="tr">Çeşit</span></dt><dd>Ayvalık</dd>
+            <dt><span lang="en">Water</span><span lang="tr">Su</span></dt><dd><span lang="en">unirrigated</span><span lang="tr">susuz</span></dd>
+            <dt><span lang="en">Slope</span><span lang="tr">Eğim</span></dt><dd><span lang="en">contour planting above 5%</span><span lang="tr">%5’in üstünde kontur dikim</span></dd>
+            <dt><span lang="en">Source</span><span lang="tr">Kaynak</span></dt><dd><span class="g exp"></span><span lang="en">a grower since 1996 · seminar 1</span><span lang="tr">1996’dan beri üretici · seminer 1</span></dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+
     <section class="step slide" data-state="answer" data-ch="how">
       <div class="inner">
-        <p class="num"><span lang="en">II · How it works</span><span lang="tr">II · Nasıl çalışır</span><span class="n">04</span></p>
-        <h2><span lang="en">Answers that show their sources.</span><span lang="tr">Kaynağını gösteren yanıtlar.</span></h2>
+        <p class="num">III</p>
+        <h2><span lang="en">Answers draw on what holds for your land, and show their sources.</span><span lang="tr">Yanıtlar arazinizde geçerli olana dayanır ve kaynaklarını gösterir.</span></h2>
         <p lang="en">A grower on the <b>dry hills</b> asks about their own trees. Agrigore reads the conditions, answers from the claims that best match that land, and <mark>shows where every sentence came from</mark>.</p>
         <p lang="tr"><b>Kuru tepelerdeki</b> bir üretici kendi ağaçlarını sorar. Agrigore koşulları okur, o araziye en iyi uyan iddialardan yanıt verir ve <mark>her cümlenin nereden geldiğini gösterir</mark>.</p>
         <div class="card">
@@ -812,8 +823,8 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
 
     <section class="step slide" data-state="loop" data-ch="how">
       <div class="inner">
-        <p class="num"><span lang="en">II · How it works</span><span lang="tr">II · Nasıl çalışır</span><span class="n">05</span></p>
-        <h2><span lang="en">Questions show it what to learn next.</span><span lang="tr">Sorular ona neyi öğreneceğini gösterir.</span></h2>
+        <p class="num">III</p>
+        <h2><span lang="en">Every question Agrigore cannot answer becomes the next thing it learns.</span><span lang="tr">Agrigore’un yanıtlayamadığı her soru, öğreneceği bir sonraki şey olur.</span></h2>
         <p lang="en">When an answer depends on your grove, Agrigore <b>asks</b>. When the knowledge itself is missing, it <b>says so</b> and logs the question. Each gap then starts two searches: a <b>targeted research run</b> through the literature, and a place on <b>the next seminar’s agenda</b>. What they find comes back as <mark>new claims</mark>.</p>
         <p lang="tr">Yanıt bahçenize bağlıysa Agrigore <b>sorar</b>. Bilginin kendisi eksikse <b>bunu söyler</b> ve soruyu kaydeder. Her boşluk sonra iki arayış başlatır: literatürde <b>hedefli bir araştırma taraması</b> ve <b>bir sonraki seminerin gündeminde</b> bir yer. Bulunanlar <mark>yeni iddialar</mark> olarak geri döner.</p>
         <div class="timeline" aria-live="off">
@@ -834,10 +845,10 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
 
     <section class="step slide fit" id="ch-livia" data-state="livia" data-ch="livia">
       <div class="inner">
-        <p class="num"><span lang="en">III · Meet Livia</span><span lang="tr">III · Livia ile tanışın</span><span class="n">06</span></p>
-        <h2><span lang="en">Livia, the first incarnation.</span><span lang="tr">Livia, ilk beden.</span></h2>
-        <p lang="en">Livia is Agrigore for the olive groves of <b>Ayvalık, Edremit and Gömeç</b>, and she works in Turkish. Send her a question from below: the picture lights the claims that answer it.</p>
-        <p lang="tr">Livia, <b>Ayvalık, Edremit ve Gömeç</b> zeytinlikleri için Agrigore’dur ve Türkçe çalışır. Aşağıdan ona bir soru gönderin: resim onu yanıtlayan iddiaları aydınlatır.</p>
+        <p class="num">IV</p>
+        <h2><span lang="en">Livia is Agrigore’s first incarnation, for Northern Aegean olive groves.</span><span lang="tr">Livia, Agrigore’un ilk bedeni: Kuzey Ege zeytinlikleri için.</span></h2>
+        <p lang="en">She works in the groves of <b>Ayvalık, Edremit and Gömeç</b>, in Turkish. Send her a question from below: the picture lights the claims that answer it.</p>
+        <p lang="tr"><b>Ayvalık, Edremit ve Gömeç</b> bahçelerinde, Türkçe çalışır. Aşağıdan ona bir soru gönderin: resim onu yanıtlayan iddiaları aydınlatır.</p>
         <div class="demo" id="demo">
           <div class="d-body" id="dBody" aria-live="polite" aria-busy="false"></div>
           <div class="d-ask">
@@ -849,32 +860,12 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
       </div>
     </section>
 
-    <section class="step slide" id="ch-principles" data-state="conditions" data-ch="principles">
-      <div class="inner">
-        <p class="num"><span lang="en">IV · Principles</span><span lang="tr">IV · İlkeler</span><span class="n">07</span></p>
-        <h2><span lang="en">Every claim keeps its conditions.</span><span lang="tr">Her iddia koşullarını korur.</span></h2>
-        <p lang="en">A claim is stored with <em>the land, the variety and the water</em> it was observed under, and with <b>who said it</b>. Those conditions set how much it counts: a question from the irrigated plain leans on <mark>what holds on the plain</mark>, and evidence from further away can still help, labelled as such. A statement that loses a condition, a negation or a timing is refused.</p>
-        <p lang="tr">Bir iddia, gözlendiği <em>arazi, çeşit ve suyla</em> ve <b>kimin söylediğiyle</b> birlikte saklanır. Ne kadar ağırlık taşıyacağını bu koşullar belirler: sulu ovadan gelen bir soru <mark>ovada geçerli olana</mark> dayanır; daha uzaktan gelen kanıt da, öyle olduğu belirtilerek, yine işe yarayabilir. Bir koşulunu, olumsuzluğunu ya da zamanlamasını yitiren ifade reddedilir.</p>
-        <div class="card">
-          <p class="eyebrow"><span lang="en">One claim, opened</span><span lang="tr">Açılmış bir iddia</span></p>
-          <blockquote><span lang="en">“5 × 5 is very risky in a dry grove, 6 × 6 is borderline, 8 × 8 is safe in a drought.”</span><span lang="tr">“5x5 susuz bahçede çok riskli, 6x6 sınırda, 8x8 kuraklığa güvenli.”</span></blockquote>
-          <dl>
-            <dt><span lang="en">Land</span><span lang="tr">Arazi</span></dt><dd><span lang="en">dry hills, Gulf of Edremit</span><span lang="tr">kuru tepeler, Edremit Körfezi</span></dd>
-            <dt><span lang="en">Variety</span><span lang="tr">Çeşit</span></dt><dd>Ayvalık</dd>
-            <dt><span lang="en">Water</span><span lang="tr">Su</span></dt><dd><span lang="en">unirrigated</span><span lang="tr">susuz</span></dd>
-            <dt><span lang="en">Slope</span><span lang="tr">Eğim</span></dt><dd><span lang="en">contour planting above 5%</span><span lang="tr">%5’in üstünde kontur dikim</span></dd>
-            <dt><span lang="en">Source</span><span lang="tr">Kaynak</span></dt><dd><span class="g exp"></span><span lang="en">a grower since 1996 · seminar 1</span><span lang="tr">1996’dan beri üretici · seminer 1</span></dd>
-          </dl>
-        </div>
-      </div>
-    </section>
-
     <section class="step slide" id="ch-inside" data-state="whole" data-ch="inside">
       <div class="inner">
-        <p class="num"><span lang="en">V · Inside the memory</span><span lang="tr">V · Belleğin içi</span><span class="n">08</span></p>
-        <h2><span lang="en">What Livia knows, and how it is held.</span><span lang="tr">Livia’nın bildikleri ve nasıl tutulduğu.</span></h2>
-        <p lang="en">Every mark is a claim or a question, placed over the land where it holds and linked to where it came from. Answers weigh them by <mark>how closely their conditions match your grove</mark>: the nearest evidence counts most, and when Livia has to reach further, she says so.</p>
-        <p lang="tr">Her işaret, geçerli olduğu arazinin üzerine yerleşmiş ve geldiği yere bağlı bir iddia ya da sorudur. Yanıtlar onları <mark>koşullarının bahçenize ne kadar uyduğuna</mark> göre tartar: en yakın kanıt en çok sayılır; Livia daha uzağa uzanmak zorunda kaldığında bunu söyler.</p>
+        <p class="num">V</p>
+        <h2><span lang="en">Livia holds 1,200+ research documents and knowledge from five seminars.</span><span lang="tr">Livia 1.200’ü aşkın araştırma belgesini ve beş seminerden gelen bilgiyi taşır.</span></h2>
+        <p lang="en">Each mark is a claim or a question, placed over the land where it holds. Where growers and experts disagree, <mark>both claims stay</mark>, side by side, until the field settles it.</p>
+        <p lang="tr">Her işaret, geçerli olduğu arazinin üzerine yerleşmiş bir iddia ya da sorudur. Üreticiler ve uzmanlar ayrıştığında <mark>iki iddia da kalır</mark>; saha karar verene dek yan yana.</p>
         <ul class="model facts">
           <li><span class="g res"></span><b><span lang="en">Research</span><span lang="tr">Araştırma</span></b><span><span lang="en"><b>1,200+</b> olive research documents in Turkish and English, split into 32,736 passages, beside official guidance.</span><span lang="tr">Türkçe ve İngilizce <b>1.200’ü aşkın</b> zeytin araştırması, 32.736 paragrafa bölünmüş olarak resmî rehberlerin yanında.</span></span></li>
           <li><span class="g exp"></span><b><span lang="en">Local experts</span><span lang="tr">Yerel uzmanlar</span></b><span><span lang="en">Five seminars so far. The first brought eight growers and experts together for three hours and left <b>85 claims</b>, <b>6 disagreements</b> kept side by side, <b>10 open questions</b>, and a report that went back to the room for correction.</span><span lang="tr">Şimdiye dek beş seminer. İlki sekiz üretici ve uzmanı üç saat bir araya getirdi; geride <b>85 iddia</b>, yan yana tutulan <b>6 anlaşmazlık</b>, <b>10 açık soru</b> ve düzeltilmek üzere katılımcılara geri dönen bir rapor bıraktı.</span></span></li>
@@ -886,8 +877,8 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
 
     <section class="step slide" id="ch-egregore" data-state="egregore" data-ch="egregore">
       <div class="inner">
-        <p class="num"><span lang="en">VI · Built on Egregore</span><span lang="tr">VI · Egregore üzerine kurulu</span><span class="n">09</span></p>
-        <h2><span lang="en">Writing began as a farm record.</span><span lang="tr">Yazı bir tarım kaydı olarak başladı.</span></h2>
+        <p class="num">VI</p>
+        <h2><span lang="en">Farming gave us writing. Egregore gives it a shared memory.</span><span lang="tr">Tarım bize yazıyı verdi. Egregore ona ortak bir bellek veriyor.</span></h2>
         <p lang="en">The first tablets in Mesopotamia counted <b>grain and herds</b>: a memory that outlived the people who wrote it, and one a whole community could learn from. Agrigore takes that relationship to its next form, using frontier AI and careful systems design to turn daily field experience into <mark>situated intelligence and shared memory</mark>.</p>
         <p lang="tr">Mezopotamya’daki ilk tabletler <b>tahılı ve sürüleri</b> sayıyordu: onu yazanlardan uzun yaşayan ve bütün bir topluluğun öğrenebildiği bir bellek. Agrigore bu ilişkiyi bir sonraki biçimine taşıyor; öncü yapay zekâyı ve özenli sistem tasarımını kullanarak sahadaki gündelik deneyimi <mark>yere özgü bir zekâya ve ortak belleğe</mark> dönüştürüyor.</p>
         <p lang="en">It runs on <a href="https://egregore.xyz" rel="noopener"><b>Egregore</b></a>, infrastructure for collective intelligence: a shared memory where people and their AI keep what they learn, decide and correct, with its sources. Every member’s assistant starts from what the group already knows, and <em>a correction made once reaches the next person who asks</em>.</p>
@@ -944,7 +935,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
 
 <nav class="deck deck-float" aria-label="Slides / Slaytlar">
   <button class="js-prev" type="button" aria-label="Previous / Önceki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
-  <span class="count js-count">1 / 11</span>
+  <span class="count js-count">1 / 10</span>
   <button class="js-next" type="button" aria-label="Next / Sonraki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
 </nav>
 
@@ -1302,7 +1293,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
       cur = k;
     }
     draw(curG, curF);
-    return { show: show, get k() { return cur; }, normalize: function () { var i = ((cur % N) + N) % N; cur = i; setAngle(-i * step); } };
+    return { show: show, get k() { return cur; } };
   }
 
   var W1 = null, wheelTimer = 0, wheelAuto = !reduce && params.get("wheel") !== "0", wheelVisible = true;
@@ -1321,23 +1312,21 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     setTimeout(function () { fill(); incText.classList.remove("swap"); }, 240);
   }
   function wheelGo(k, animate) { W1.show(k, !animate); caption(((k % INC.length) + INC.length) % INC.length, animate); }
-  function stopWheel() { clearTimeout(wheelTimer); wheelTimer = 0; wheelAuto = false; }
+  // the wheel turns to the next place every four seconds while it is on screen. It holds while
+  // the pointer rests on it, and a turn by hand starts the four seconds again.
+  var WHEEL_MS = 4000, wheelHeld = false;
+  function wheelShown() { return wheelVisible && !wheelHeld && (mode !== "slides" || current === 0); }
   function playWheel() {
-    clearTimeout(wheelTimer);
+    clearTimeout(wheelTimer); wheelTimer = 0;
     if (!wheelAuto) return;
-    // one full turn through the places Agrigore could grow into, then back to Livia, where it rests
-    function tick() {
-      if (!wheelVisible) { wheelTimer = setTimeout(tick, 600); return; }
-      var k = W1.k + 1;
-      wheelGo(k, true);
-      if (k % INC.length === 0) { wheelAuto = false; setTimeout(function () { W1.normalize(); }, 900); return; }
-      wheelTimer = setTimeout(tick, 2300);
-    }
-    wheelTimer = setTimeout(tick, 1600);
+    wheelTimer = setTimeout(function () { wheelTimer = 0; if (wheelShown()) { wheelGo(W1.k + 1, true); playWheel(); } }, WHEEL_MS);
   }
-  W1 = Wheel($("wheelSvg"), { onPick: function (i) { stopWheel(); var k = W1.k, n = INC.length, cur = ((k % n) + n) % n, fwd = (i - cur + n) % n; wheelGo(k + fwd, true); } });
-  $("incPrev").addEventListener("click", function () { stopWheel(); wheelGo(W1.k - 1, true); });
-  $("incNext").addEventListener("click", function () { stopWheel(); wheelGo(W1.k + 1, true); });
+  function wheelTurn(k) { wheelGo(k, true); playWheel(); }
+  W1 = Wheel($("wheelSvg"), { onPick: function (i) { var k = W1.k, n = INC.length, cur = ((k % n) + n) % n; wheelTurn(k + (i - cur + n) % n); } });
+  $("incPrev").addEventListener("click", function () { wheelTurn(W1.k - 1); });
+  $("incNext").addEventListener("click", function () { wheelTurn(W1.k + 1); });
+  $("wheel1").addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { wheelHeld = true; clearTimeout(wheelTimer); wheelTimer = 0; } });
+  $("wheel1").addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { wheelHeld = false; playWheel(); } });
   var W2 = Wheel($("wheelSvg2"), { only: "livia" });
   W2.show(0, true);
   onLang.push(function () { caption(((W1.k % INC.length) + INC.length) % INC.length, false); });
@@ -1362,7 +1351,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     hill: { en: "Dry hills", tr: "Kuru tepeler" }, hillS: { en: "unirrigated", tr: "susuz" },
     lib: { en: "Research", tr: "Araştırma" }, libS: { en: "1,200+ documents", tr: "1.200+ belge" },
     room: { en: "Local experts", tr: "Yerel uzmanlar" }, roomS: { en: "5 seminars", tr: "5 seminer" },
-    grow: { en: "Growers", tr: "Üreticiler" }, growS: { en: "questions and feedback", tr: "sorular ve geri bildirim" },
+    grow: { en: "Growers", tr: "Üreticiler" }, growS: { en: "questions and live data", tr: "sorular ve anlık veri" },
     band: { en: "one shared memory", tr: "tek bir ortak bellek" },
     gap: { en: "not yet known", tr: "henüz bilinmiyor" },
     pair: { en: "kept side by side", tr: "yan yana tutulur" },
@@ -1709,13 +1698,8 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
         T(d.obj, { x: d.x, y: d.y, o: 1, r: .95 }, 300 + i * 110, { ease: "back", dur: 620 });
         T(d.lab, { o: 1 }, 420 + i * 110, { dur: 480 });
       });
-    },
-    purpose: function () {
-      landBase();
-      T(D.lib, { o: 1 }, 100); T(D.room, { o: 1 }, 250); T(D.growers, { o: 1 }, 400); T(D.growLab, { o: 1 }, 500);
-      // the year's decisions come down onto the growers' land and wait there as open questions
-      YEAR.forEach(function (d, i) { var g = GROWERS[i % 3]; T(d.obj, { x: g.x, y: g.y - 22, o: 0, r: .5 }, i * 25, { dur: 760 }); });
-      ASKQ.forEach(function (q, i) { T(q.obj, { x: q.x, y: q.y, o: 1, r: .85 }, 650 + i * 160, { ease: "back", dur: 700 }); });
+      // and every grower meets them on different land: plain, slopes, dry hills
+      ASKQ.forEach(function (q, i) { T(q.obj, { x: q.x, y: q.y, o: 1, r: .85 }, 1800 + i * 200, { ease: "back", dur: 700 }); });
     },
     model: function () {
       landBase(); sourcesOn(1); T(D.growLab, { o: 1 });
@@ -1796,8 +1780,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   };
   var ALT = {
     land: { en: "An olive landscape in cross-section: the Gulf of Edremit, an irrigable plain, gentle slopes and dry hills.", tr: "Kesit hâlinde bir zeytin arazisi: Edremit Körfezi, sulanabilir ova, hafif yamaçlar ve kuru tepeler." },
-    decide: { en: "A grower at the centre of one olive year, ringed by twelve pins, one for each decision: pruning, feeding, ploughing, what grows between the trees, peacock spot, water, the olive fly, the harvest, pickers, the mill, selling and planting.", tr: "Bir zeytin yılının ortasında bir üretici, çevresinde on iki iğne; her iğne bir karar: budama, gübre, sürüm, ağaç arası, halkalı leke, sulama, zeytin sineği, hasat, işçi, yağhane, satış ve dikim." },
-    purpose: { en: "The year's decisions come down onto the growers' land as open questions, while the knowledge to answer them sits apart: research documents and a seminar of local experts.", tr: "Yılın kararları üreticilerin arazisine açık sorular olarak iner; onları yanıtlayacak bilgi ise ayrı durur: araştırma belgeleri ve yerel uzmanların semineri." },
+    decide: { en: "A grower at the centre of one olive year, ringed by twelve pins, one for each decision: pruning, feeding, ploughing, what grows between the trees, peacock spot, water, the olive fly, the harvest, pickers, the mill, selling and planting. Below, three growers on different land, the irrigable plain, the gentle slopes and the dry hills, each with an open question.", tr: "Bir zeytin yılının ortasında bir üretici, çevresinde on iki iğne; her iğne bir karar: budama, gübre, sürüm, ağaç arası, halkalı leke, sulama, zeytin sineği, hasat, işçi, yağhane, satış ve dikim. Aşağıda farklı arazilerde üç üretici, sulanabilir ova, hafif yamaçlar ve kuru tepeler, her birinin üzerinde açık bir soru." },
     model: { en: "The three sources feed one shared memory over the land: squares from research, circles from local experts, triangles from growers.", tr: "Üç kaynak arazinin üzerindeki tek bir ortak belleği besler: araştırmadan kareler, yerel uzmanlardan daireler, üreticilerden üçgenler." },
     answer: { en: "A grower on the dry hills asks. Three claims that hold for the dry hills answer, with lines to their sources: one to research, two to local experts.", tr: "Kuru tepelerdeki bir üretici sorar. Kuru tepelerde geçerli üç iddia yanıt verir; kaynaklarına çizgiler uzanır: biri araştırmaya, ikisi yerel uzmanlara." },
     loop: { en: "Questions rise from a grower into the empty patch. Each starts a research run in the library and goes onto the next seminar's agenda; new claims from both fill the patch.", tr: "Sorular bir üreticiden boş alana yükselir. Her biri kütüphanede bir araştırma taraması başlatır ve sonraki seminerin gündemine girer; ikisinden gelen yeni iddialar boşluğu doldurur." },
@@ -2132,6 +2115,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     slides.forEach(function (s, k) { s.classList.toggle("on", k === i); });
     body.classList.toggle("at-solo", isSolo(i));
     body.classList.toggle("at-top", i === 0);
+    if (i === 0) playWheel();
     var ch = slides[i].getAttribute("data-ch");
     navLinks.forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("data-ch") === ch ? "true" : "false"); });
     var st = slides[i].getAttribute("data-state");
@@ -2278,12 +2262,18 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   /* Wheel and trackpad in scroll mode: native snap treats wheel input as "nearest point once it
      stops", so a single notch springs back. Page by section here instead, with the slides' give:
      the pull resists, past the threshold it lets go and springs into the next section, and a
-     flick's momentum is swallowed so it never skips two. Touch, keys and scrollbar stay native. */
+     flick's momentum is swallowed so it never skips two. The paging keys use the same glide (see
+     keys); touch and the scrollbar stay native. */
   var PG = { acc: 0, dir: 0, idle: 0, lock: 0, raf: 0, y: 0, v: 0, target: 0, last: 0 };
+  var PAGEKEY = { ArrowDown: 1, ArrowUp: -1, PageDown: 1, PageUp: -1, " ": 1 };
   function sectionAt(y) { var idx = 0; for (var i = 0; i < slides.length; i++) if (anchorOf(i) <= y + 2) idx = i; return idx; }
   function visibleH(i) { return window.innerHeight - barH() - (narrow() && !isSolo(i) ? stage.offsetHeight : 0); }
+  // how far a section's content runs past the screen. Bottom padding between sections is only air,
+  // so a section that overflows by padding alone pages like one that fits; the last section's
+  // padding is the page's own end, and counts.
+  function spill(i) { var s = slides[i], pb = i < slides.length - 1 ? parseFloat(getComputedStyle(s).paddingBottom) || 0 : 0; return Math.max(0, s.offsetHeight - pb - visibleH(i)); }
   // entering a section from below lands on its last screen, so a tall section is never skipped
-  function restOf(i, fromBelow) { return anchorOf(i) + (fromBelow ? Math.max(0, slides[i].offsetHeight - visibleH(i)) : 0); }
+  function restOf(i, fromBelow) { return anchorOf(i) + (fromBelow ? spill(i) : 0); }
   function stopGlide() { if (PG.raf) { cancelAnimationFrame(PG.raf); PG.raf = 0; } }
   function pgLoop(now) {
     var dt = Math.min(0.034, (now - PG.last) / 1000), n = 4, h = dt / n;
@@ -2294,8 +2284,12 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     PG.raf = requestAnimationFrame(pgLoop);
   }
   function landGlide() { stopGlide(); window.scrollTo(0, PG.target); root.classList.remove("gliding"); }
+  // any other press lands a glide at once; the paging keys steer it instead (see keys)
   ["keydown", "mousedown", "touchstart"].forEach(function (t) {
-    window.addEventListener(t, function () { if (mode === "scroll" && (PG.raf || root.classList.contains("gliding"))) { clearTimeout(PG.idle); PG.acc = 0; landGlide(); } }, { passive: true, capture: true });
+    window.addEventListener(t, function (e) {
+      if (t === "keydown" && PAGEKEY[e.key] && !e.metaKey && !e.ctrlKey && !e.altKey) return;
+      if (mode === "scroll" && (PG.raf || root.classList.contains("gliding"))) { clearTimeout(PG.idle); PG.acc = 0; landGlide(); }
+    }, { passive: true, capture: true });
   });
   function glideTo(target) {
     root.classList.add("gliding");
@@ -2310,10 +2304,9 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     var fwd = dy > 0 ? 1 : -1, y = window.scrollY;
     var inner = e.target.closest && e.target.closest(".d-body");
     if (inner && canScroll(inner, fwd > 0) && !PG.acc) return; // Livia's answer scrolls first
-    var i = sectionAt(PG.raf ? PG.target : y), a = anchorOf(i), sec = slides[i];
-    var visible = visibleH(i), end = a + Math.max(0, sec.offsetHeight - visible);
+    var i = sectionAt(PG.raf ? PG.target : y), a = anchorOf(i), over = spill(i), end = a + over;
     // a section taller than the screen scrolls natively until its edge is in view
-    if (!PG.raf && sec.offsetHeight > visible + 4 && ((fwd > 0 && y < end - 2) || (fwd < 0 && y > a + 2))) return;
+    if (!PG.raf && over > 4 && ((fwd > 0 && y < end - 2) || (fwd < 0 && y > a + 2))) return;
     e.preventDefault();
     var now = performance.now();
     clearTimeout(PG.idle);
@@ -2325,6 +2318,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     stopGlide();
     root.classList.add("gliding");
     var restAt = fwd > 0 ? end : a;
+    PG.target = restAt;
     window.scrollTo(0, restAt + fwd * resist(PG.acc) * (edge ? 0.45 : 1));
     PG.idle = setTimeout(function () { PG.acc = 0; glideTo(restAt); }, 140);
   }, { passive: false });
@@ -2381,20 +2375,45 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   }, { passive: true });
 
   /* ── keys ─────────────────────────────────────────────────────── */
+  // A held key repeats about thirty times a second. Each repeat that comes before the last move has
+  // landed is dropped, so holding a key walks one section, slide or place at a time and stops
+  // where it is let go. (Native snap restarted its animation on every repeat and crawled.)
+  var keyAt = 0, pressEl = null;
+  function paced(e, ms) { var now = performance.now(); if (e.repeat && now - keyAt < ms) return false; keyAt = now; return true; }
+  document.addEventListener("pointerdown", function (e) { pressEl = e.target; }, true);
+  // scroll mode: the paging keys move with the wheel's glide, from wherever the last move is headed.
+  // Inside a section taller than the screen a key shows its next screenful; at its edge, the next
+  // section. Livia's answers, once clicked into, scroll as usual.
+  function keyPage(e, fwd) {
+    var inner = pressEl && pressEl.closest && pressEl.closest(".d-body");
+    if (inner && canScroll(inner, fwd > 0)) return;
+    var moving = PG.raf || root.classList.contains("gliding"), y = moving ? PG.target : window.scrollY;
+    var i = sectionAt(y), a = anchorOf(i), end = a + spill(i), to;
+    if (fwd > 0 && y < end - 2) to = Math.min(end, y + visibleH(i) * 0.85);
+    else if (fwd < 0 && y > a + 2) to = Math.max(a, y - visibleH(i) * 0.85);
+    else if (i + fwd >= 0 && i + fwd < slides.length) to = restOf(i + fwd, fwd < 0);
+    if (to === undefined) { if (moving) e.preventDefault(); return; }
+    e.preventDefault();
+    if (!paced(e, 420)) return;
+    clearTimeout(PG.idle); PG.acc = 0;
+    glideTo(to);
+  }
   document.addEventListener("keydown", function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     var t = e.target, tag = t && t.tagName, k = e.key;
     if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
     if ((tag === "BUTTON" || tag === "A") && (k === " " || k === "Enter")) return;
+    if (e.repeat && /^[pPtTfF]$/.test(k)) { e.preventDefault(); return; } // a held toggle toggles once
     if (k === "p" || k === "P") { e.preventDefault(); toggleSlides(); return; }
     if (k === "t" || k === "T") { e.preventDefault(); tBtn.click(); return; }
     if (k === "Escape" && focused) { e.preventDefault(); clearFocus(); return; }
     // on the first screen, left and right turn the wheel (in scroll and in slides mode)
-    if (current === 0 && (k === "ArrowRight" || k === "ArrowLeft")) { e.preventDefault(); stopWheel(); wheelGo(W1.k + (k === "ArrowRight" ? 1 : -1), true); return; }
-    if (mode !== "slides") return;
+    if (current === 0 && (k === "ArrowRight" || k === "ArrowLeft")) { e.preventDefault(); if (paced(e, 520)) wheelTurn(W1.k + (k === "ArrowRight" ? 1 : -1)); return; }
+    var dir = k === " " ? (e.shiftKey ? -1 : 1) : 0;
+    if (mode !== "slides") { dir = dir || PAGEKEY[k] || 0; if (dir && !reduce) keyPage(e, dir); return; }
+    dir = dir || { ArrowRight: 1, ArrowDown: 1, PageDown: 1, Enter: 1, ArrowLeft: -1, ArrowUp: -1, PageUp: -1, Backspace: -1 }[k] || 0;
+    if (dir) { e.preventDefault(); if (paced(e, 420)) go(current + dir, k === "ArrowRight" || k === "ArrowLeft" ? "x" : "y"); return; }
     switch (k) {
-      case "ArrowRight": case "ArrowDown": case " ": case "PageDown": case "Enter": e.preventDefault(); go(current + 1, k === "ArrowRight" ? "x" : "y"); break;
-      case "ArrowLeft": case "ArrowUp": case "PageUp": case "Backspace": e.preventDefault(); go(current - 1, k === "ArrowLeft" ? "x" : "y"); break;
       case "Home": e.preventDefault(); go(0); break;
       case "End": e.preventDefault(); go(slides.length - 1); break;
       case "Escape": e.preventDefault(); exitSlides(); break;
@@ -2410,7 +2429,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   window.addEventListener("resize", function () { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(function () { rescale(); dEdge(); fromScroll(); }); });
   onLang.push(function () { layoutLabels(); clearFocus(); if (curState) svg.setAttribute("aria-label", L(ALT[curState])); });
   // the wheel turns only while someone can see it
-  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { wheelVisible = es[0].isIntersecting; }, { threshold: 0.3 }).observe($("wheel1"));
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { var was = wheelVisible; wheelVisible = es[0].isIntersecting; if (wheelVisible && !was) playWheel(); }, { threshold: 0.3 }).observe($("wheel1"));
 
   /* ── init (review overrides: ?lang= ?theme= ?s=N ?step=N ?motion=0 ?wheel=0 ?inc=N ?ask=N ?gap=0-15 ?focus=claim-id) ── */
   setTheme(theme, true);
@@ -2438,7 +2457,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   } else {
     activate(activeFromScroll(), true);
   }
-  if (current === 0 || mode === "slides") playWheel(); else { wheelAuto = false; }
+  playWheel();
   var focusParam = params.get("focus");
   if (focusParam && CM[focusParam]) setTimeout(function () { focusClaim(CM[focusParam]); }, 80);
   if ("fonts" in document) document.fonts.ready.then(function () { layoutLabels(); });
