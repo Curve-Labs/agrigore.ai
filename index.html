@@ -1,0 +1,2426 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<!-- An explicit head, which strict link-preview crawlers need. The prefix attribute and the content-first
+     viewport meta also keep the /view proxy from adding a second, generic set of preview tags. -->
+<head prefix="og: https://ogp.me/ns#">
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport">
+<title>Agrigore — situated agricultural intelligence</title>
+<meta name="title-en" content="Agrigore — situated agricultural intelligence">
+<meta name="title-tr" content="Agrigore — yere özgü tarım zekâsı">
+<meta name="description" content="Agrigore is situated agricultural intelligence: it brings together research, local experts and growers, and keeps every piece of knowledge with the place where it holds. It can take the shape of any crop and any land; the first is Livia, for the olive groves of the Northern Aegean.">
+<link rel="canonical" href="https://agrigore.ai/">
+<meta property="og:site_name" content="Agrigore">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://agrigore.ai/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="tr_TR">
+<meta property="og:title" content="Agrigore — situated agricultural intelligence">
+<meta property="og:description" content="Agronomic intelligence for any crop and any land, built from research, local experts and growers. First incarnation: Livia, for the olive groves of the Northern Aegean.">
+<meta property="og:image" content="https://egregore.xyz/og/agrigore.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Agrigore: situated agricultural intelligence. A wheel of crops and lands, resting on Livia, the olive groves of the Northern Aegean.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://egregore.xyz/og/agrigore.png">
+<meta name="twitter:image:alt" content="Agrigore: situated agricultural intelligence. A wheel of crops and lands, resting on Livia, the olive groves of the Northern Aegean.">
+<meta name="twitter:title" content="Agrigore — situated agricultural intelligence">
+<meta name="twitter:description" content="Agronomic intelligence for any crop and any land, built from research, local experts and growers. First incarnation: Livia, for the olive groves of the Northern Aegean.">
+<meta name="theme-color" content="#eef0ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1614" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="https://egregore.xyz/og/agrigore-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1614'/%3E%3Cpath d='M7 25.2C9.2 15.6 16 8.9 25.4 6.8 23.3 16.2 16.5 23 7 25.2Z' fill='%238fbf98'/%3E%3Cpath d='M8.6 23.6C12.9 19.6 17.1 15.3 23.4 8.6' stroke='%230f1614' stroke-width='1.3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+/* language and theme before first paint, so only one language ever shows */
+(function(){var d=document.documentElement,q=new URLSearchParams(location.search),g=function(k){try{return localStorage.getItem(k)}catch(e){return null}};
+var l=q.get("lang")||g("agrigore-lang")||((navigator.language||"").toLowerCase().indexOf("tr")===0?"tr":"en");if(l!=="tr")l="en";d.setAttribute("data-lang",l);d.lang=l;
+var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttribute("data-theme",t);})();
+</script>
+<style>
+  /* Aegean olive: limestone and sea-night grounds, olive leaf, Aegean sea, fig.
+     The knowledge model keeps one mark everywhere: research = sea square, local experts = fig circle,
+     growers' questions and feedback = leaf triangle, not yet known = sun (dashed).
+     A question is a pin with a question mark, pinned to the land it is about: open for a decision
+     still to make, filled while it is answered, dashed sun when the memory cannot answer it yet. */
+  :root {
+    color-scheme: light;
+    --bar: 66px;
+    --gut: clamp(16px, 3vw, 32px);
+    --paper: #eef0ec; --paper-2: #f4f6f2; --card: #fafbf8; --card-2: #ffffff;
+    --ink: #16201c; --ink-soft: #475550; --ink-faint: #5f6b65;
+    --line: #d3d9d3; --line-2: #b8c2ba;
+    --leaf: #3f6b4b; --leaf-fill: #4f7a5a; --leaf-dim: rgba(63,107,75,.12);
+    --sea: #2a5a80; --sea-dim: rgba(42,90,128,.11);
+    --fig: #76507f; --fig-dim: rgba(118,80,127,.11);
+    --sun: #7d5d0e; --sun-dim: rgba(125,93,14,.10);
+    --soil: #dfe5dc; --soil-2: #d3dbd0;
+    --olive: #7c987f; --olive-hi: #c3d2c1; --trunk: #7b817a; --grain: #c2a043; --tea: #3f6b4b;
+    --glow-a: rgba(42,90,128,.09); --glow-b: rgba(63,107,75,.09); --glow-c: rgba(118,80,127,.05);
+    --shadow: 0 1px 0 rgba(22,32,28,.04), 0 18px 40px -24px rgba(22,32,28,.28);
+    --band: #17231e; --band-2: #1f2d27; --band-ink: #e8ede9; --band-soft: #aab6b0; --band-line: #33443c;
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --display: "Fraunces", "Iowan Old Style", Georgia, serif; --dw: 380; --dtrack: -.022em; --dscale: 1;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  /* Fraunces at full softness: the rounded terminals read warmer than the default cut */
+  .hero h1, .step h2, .cta h2, .partner h3, .inc-top b, .step p.key, .brand .wm { font-variation-settings: "SOFT" 100; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #0f1614; --paper-2: #131c19; --card: #18231f; --card-2: #1d2a25;
+      --ink: #e6ebe7; --ink-soft: #a9b5af; --ink-faint: #859189;
+      --line: #24302b; --line-2: #34423c;
+      --leaf: #8fbf98; --leaf-fill: #6fa87c; --leaf-dim: rgba(143,191,152,.14);
+      --sea: #7aa9d4; --sea-dim: rgba(122,169,212,.14);
+      --fig: #c9a3d4; --fig-dim: rgba(201,163,212,.13);
+      --sun: #d3a946; --sun-dim: rgba(211,169,70,.12);
+      --soil: #16211d; --soil-2: #1a2621;
+      --olive: #6f9276; --olive-hi: #a9c4ac; --trunk: #8a918a; --grain: #d6bb63; --tea: #7fb38a;
+      --glow-a: rgba(70,120,170,.16); --glow-b: rgba(80,150,105,.11); --glow-c: rgba(150,110,170,.07);
+      --shadow: 0 1px 0 rgba(0,0,0,.2), 0 24px 48px -28px rgba(0,0,0,.7);
+      --band: #1b2823; --band-2: #22312b; --band-ink: #e6ebe7; --band-soft: #a9b5af; --band-line: #34463e;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #0f1614; --paper-2: #131c19; --card: #18231f; --card-2: #1d2a25;
+    --ink: #e6ebe7; --ink-soft: #a9b5af; --ink-faint: #859189;
+    --line: #24302b; --line-2: #34423c;
+    --leaf: #8fbf98; --leaf-fill: #6fa87c; --leaf-dim: rgba(143,191,152,.14);
+    --sea: #7aa9d4; --sea-dim: rgba(122,169,212,.14);
+    --fig: #c9a3d4; --fig-dim: rgba(201,163,212,.13);
+    --sun: #d3a946; --sun-dim: rgba(211,169,70,.12);
+    --soil: #16211d; --soil-2: #1a2621;
+    --olive: #6f9276; --olive-hi: #a9c4ac; --trunk: #8a918a; --grain: #d6bb63; --tea: #7fb38a;
+    --glow-a: rgba(70,120,170,.16); --glow-b: rgba(80,150,105,.11); --glow-c: rgba(150,110,170,.07);
+    --shadow: 0 1px 0 rgba(0,0,0,.2), 0 24px 48px -28px rgba(0,0,0,.7);
+    --band: #1b2823; --band-2: #22312b; --band-ink: #e6ebe7; --band-soft: #a9b5af; --band-line: #34463e;
+  }
+
+  /* language: every bilingual pair is <span lang="en">…</span><span lang="tr">…</span> */
+  :root[data-lang="en"] [lang="tr"]:not(html),
+  :root[data-lang="tr"] [lang="en"]:not(html) { display: none !important; }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  /* scroll mode snaps natively (touch, keys, scrollbar); the wheel is paged in script (see the pager) */
+  html { scroll-snap-type: y mandatory; scroll-padding-top: var(--bar); }
+  html:has(body[data-mode="slides"]), html.gliding { scroll-snap-type: none; }
+  .slide { scroll-snap-align: start; scroll-snap-stop: always; }
+
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 16.5px/1.6 var(--sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(60vw 48vw at 4% -10%, var(--glow-a), transparent 70%),
+      radial-gradient(48vw 42vw at 102% 14%, var(--glow-b), transparent 70%),
+      radial-gradient(70vw 45vw at 35% 110%, var(--glow-c), transparent 70%);
+  }
+  button, input, select { font: inherit; color: inherit; }
+  a { color: var(--sea); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { color: var(--ink); }
+  :focus-visible { outline: 2px solid var(--sea); outline-offset: 3px; border-radius: 6px; }
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 60; background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 8px; font: 500 14px var(--sans); }
+  .skip:focus { top: 10px; }
+  p { margin: 0 0 14px; }
+  .eyebrow { font: 500 11.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); margin: 0; }
+  .sprites { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* the three marks of the knowledge model, usable inline anywhere */
+  .g { display: inline-block; width: .6em; height: .6em; margin: 0 .2em .04em .1em; vertical-align: baseline; flex: none; }
+  .g.res { background: var(--sea); border-radius: 1.5px; }
+  .g.exp { background: var(--fig); border-radius: 50%; }
+  .g.grow { background: var(--leaf); clip-path: polygon(50% 4%, 100% 96%, 0 96%); width: .68em; }
+  /* the question mark of the model: a pin, open, filled (being answered) or dashed (not yet known) */
+  :root {
+    --q-open: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%27-11%20-29.5%2022%2031%27%3E%3Cpath%20d%3D%27M0%200C-2.2-5-9.5-9.3-9.5-17.5A9.5%209.5%200%201%201%209.5-17.5C9.5-9.3%202.2-5%200%200Z%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.9%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cpath%20d%3D%27M-3.4-21.3C-3.4-24.5%203.4-24.7%203.4-21.1%203.4-18.7%200-18.5%200-16.1%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%272.3%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20cy%3D%27-12.4%27%20r%3D%271.5%27%2F%3E%3C%2Fsvg%3E");
+    --q-ask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%27-11%20-29.5%2022%2031%27%3E%3Cmask%20id%3D%27m%27%3E%3Crect%20x%3D%27-11%27%20y%3D%27-30%27%20width%3D%2722%27%20height%3D%2732%27%20fill%3D%27%23fff%27%2F%3E%3Cpath%20d%3D%27M-3.4-21.3C-3.4-24.5%203.4-24.7%203.4-21.1%203.4-18.7%200-18.5%200-16.1%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%272.3%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20cy%3D%27-12.4%27%20r%3D%271.5%27%2F%3E%3C%2Fmask%3E%3Cpath%20d%3D%27M0%200C-2.2-5-9.5-9.3-9.5-17.5A9.5%209.5%200%201%201%209.5-17.5C9.5-9.3%202.2-5%200%200Z%27%20mask%3D%27url%28%23m%29%27%2F%3E%3C%2Fsvg%3E");
+    --q-gap: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%27-11%20-29.5%2022%2031%27%3E%3Cpath%20d%3D%27M0%200C-2.2-5-9.5-9.3-9.5-17.5A9.5%209.5%200%201%201%209.5-17.5C9.5-9.3%202.2-5%200%200Z%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%271.9%27%20stroke-dasharray%3D%273.3%202.3%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cpath%20d%3D%27M-3.4-21.3C-3.4-24.5%203.4-24.7%203.4-21.1%203.4-18.7%200-18.5%200-16.1%27%20fill%3D%27none%27%20stroke%3D%27%23000%27%20stroke-width%3D%272.3%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20cy%3D%27-12.4%27%20r%3D%271.5%27%2F%3E%3C%2Fsvg%3E");
+  }
+  .gq { display: inline-block; flex: none; width: .82em; height: 1.15em; margin: 0 .36em -.18em .04em; background: var(--ink); -webkit-mask: var(--q-open) center / contain no-repeat; mask: var(--q-open) center / contain no-repeat; }
+  .gq.gap { background: var(--sun); -webkit-mask-image: var(--q-gap); mask-image: var(--q-gap); }
+  .m-q .m-who::before, .msg.me .who::before, .bub.gap .who::before { content: ""; display: inline-block; width: 9px; height: 12.6px; margin: 0 7px -2px 0; background: var(--ink-soft); -webkit-mask: var(--q-ask) center / contain no-repeat; mask: var(--q-ask) center / contain no-repeat; }
+  .bub.gap .who::before { background: var(--sun); -webkit-mask-image: var(--q-gap); mask-image: var(--q-gap); }
+
+  /* ── top bar: every control lives in it, never over content ────── */
+  .bar {
+    position: sticky; top: 0; z-index: 30; height: var(--bar); padding-inline: var(--gut);
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+    backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); transition: box-shadow .25s var(--ease);
+  }
+  .bar.scrolled, body[data-mode="slides"] .bar { box-shadow: 0 12px 30px -24px rgba(16, 26, 22, .5); }
+  .bar-prog { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; pointer-events: none; overflow: hidden; }
+  .bar-prog b { display: block; height: 100%; background: var(--leaf); transform-origin: 0 50%; transform: scaleX(0); transition: transform .18s linear; }
+  .bar-in { max-width: 1320px; height: 100%; margin: 0 auto; display: flex; align-items: center; gap: 22px; }
+  .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: var(--ink); flex: none; }
+  .brand .mk { width: 32px; height: 32px; flex: none; display: block; }
+  .brand .wm { font: italic 400 25px/1 var(--display); letter-spacing: -.01em; text-transform: lowercase; color: var(--ink); }
+  .bar nav { flex: 1; min-width: 0; display: flex; justify-content: center; }
+  .bar ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; }
+  .bar nav a { position: relative; display: flex; align-items: baseline; gap: 6px; white-space: nowrap; padding: 10px 12px; border-radius: 999px; font: 500 14px/1 var(--sans); color: var(--ink-soft); text-decoration: none; transition: color .2s, background-color .2s; }
+  .bar nav a .nx { font: 500 10.5px/1 var(--mono); letter-spacing: .06em; color: var(--ink-faint); }
+  .bar nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--card) 80%, transparent); }
+  .bar nav a[aria-current="true"] { color: var(--ink); }
+  .bar nav a[aria-current="true"] .nx { color: var(--leaf); }
+  .bar nav a[aria-current="true"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 2px; height: 2px; border-radius: 2px; background: var(--leaf); }
+  .ctl { margin-left: auto; display: flex; align-items: center; gap: 6px; flex: none; }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--paper-2); }
+  .seg button { min-height: 32px; }
+  .seg button, .icon-btn, .pill {
+    appearance: none; border: 0; background: transparent; color: var(--ink-soft);
+    font: 500 11.5px/1 var(--mono); letter-spacing: .06em; padding: 7px 10px; min-height: 34px; border-radius: 999px; cursor: pointer;
+  }
+  .seg button[aria-pressed="true"] { background: var(--card-2); color: var(--ink); box-shadow: 0 0 0 1px var(--line-2) inset; }
+  .icon-btn { border: 1px solid var(--line); width: 38px; min-height: 38px; padding: 0; display: grid; place-items: center; }
+  .pill { border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 7px; padding: 0 13px; min-height: 38px; }
+  .pill svg, .icon-btn svg { width: 15px; height: 15px; }
+  .pill svg { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-btn:hover, .seg button:hover, .pill:hover { color: var(--ink); }
+  .join { display: inline-flex; align-items: center; min-height: 38px; padding: 0 17px; border-radius: 999px; background: var(--ink); color: var(--paper); text-decoration: none; font: 500 14px/1 var(--sans); white-space: nowrap; }
+  .join:hover { color: var(--paper); background: color-mix(in srgb, var(--ink) 86%, var(--leaf)); }
+  .join { transition: opacity .25s var(--ease); }
+  body.at-top .join { opacity: 0; pointer-events: none; }
+  body[data-mode="slides"] .join { display: none; }
+  @media (max-width: 1200px) { .bar nav { display: none; } }
+  @media (max-width: 640px) {
+    :root { --bar: 58px; }
+    .pill .label { display: none; } .pill { width: 38px; padding: 0; justify-content: center; } .join { display: none; }
+    .brand .mk { width: 28px; height: 28px; }
+    .brand .wm { font-size: 22px; }
+  }
+
+  /* ── first screen: the promise, and the wheel of places ────────── */
+  .hero { position: relative; z-index: 1; min-height: calc(100vh - var(--bar)); min-height: calc(100svh - var(--bar)); display: flex; padding-inline: var(--gut); }
+  .hero-in {
+    flex: 1; width: 100%; max-width: 1240px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: center;
+    padding-block: clamp(20px, 4svh, 48px);
+  }
+  .hero h1 { font: var(--dw) calc(clamp(40px, min(5.2vw, 8.4svh), 70px) * var(--dscale))/1.02 var(--display); letter-spacing: var(--dtrack); margin: 16px 0 20px; text-wrap: balance; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--leaf); }
+  .hero .lede { font-size: clamp(17px, min(1.45vw, 2.5svh), 19.5px); line-height: 1.6; color: var(--ink-soft); margin: 0 0 26px; max-width: 540px; text-wrap: pretty; }
+  .hero .lede b { color: var(--ink); font-weight: 500; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font: 500 14.5px/1 var(--sans); padding: 12px 17px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--ink); background: transparent; cursor: pointer; }
+  .btn:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .btn.primary { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: color-mix(in srgb, var(--ink) 86%, var(--leaf)); color: var(--paper); }
+  .btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .built { margin: 22px 0 0; font: 400 12.5px/1.5 var(--mono); letter-spacing: .03em; color: var(--ink-faint); }
+  .built a { color: var(--ink-soft); }
+
+  .wheel { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+  .wheel svg { display: block; width: min(100%, calc(100svh - var(--bar) - 200px), 520px); height: auto; aspect-ratio: 1; overflow: visible; }
+  .inc { display: grid; grid-template-columns: 34px minmax(0, 1fr) 34px; align-items: center; gap: 10px; width: min(100%, 420px); margin-top: 4px; }
+  .inc-text { text-align: center; min-height: 56px; transition: opacity .25s var(--ease); }
+  .inc-text.swap { opacity: 0; }
+  .inc-top { display: flex; align-items: baseline; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .inc-top b { font: var(--dw) calc(26px * var(--dscale))/1.1 var(--display); letter-spacing: var(--dtrack); }
+  .inc-tag { font: 500 10.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); border: 1px dashed var(--line-2); border-radius: 999px; padding: 5px 9px; }
+  .inc-tag.first { color: var(--leaf); border: 1px solid color-mix(in srgb, var(--leaf) 55%, transparent); background: var(--leaf-dim); }
+  .inc-crop { font: 400 14.5px/1.4 var(--sans); color: var(--ink-soft); margin-top: 5px; }
+  .inc-nav { appearance: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper-2); color: var(--ink-soft); cursor: pointer; display: grid; place-items: center; }
+  .inc-nav:hover { color: var(--ink); border-color: var(--line-2); }
+  .inc-keys { margin: 8px 0 0; font: 400 11.5px/1.4 var(--mono); letter-spacing: .03em; color: var(--ink-faint); }
+  .inc-keys kbd { font: 500 11px/1 var(--mono); border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 5px; padding: 2px 5px; background: var(--card); color: var(--ink-soft); }
+  @media (hover: none) { .inc-keys { display: none; } }
+  .inc-nav svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 979px) {
+    .hero { min-height: 0; }
+    .hero-in { grid-template-columns: 1fr; gap: 18px; padding-block: 26px 36px; }
+    .hero .lede { max-width: none; }
+    .wheel svg { width: min(100%, 440px); }
+  }
+  @media (max-width: 560px) { .hero .ctas .btn { padding: 11px 14px; font-size: 14px; } }
+
+  /* the wheel's lens: a landscape that changes shape */
+  .ring-track { fill: none; stroke: var(--line-2); stroke-width: 1; }
+  .ring-tick { stroke: var(--line-2); stroke-width: 1; }
+  .node { cursor: pointer; }
+  .node .dot { fill: var(--paper-2); stroke: var(--line-2); stroke-width: 1.2; transition: stroke .3s, fill .3s; }
+  .node .face { transform-box: fill-box; transform-origin: center; transition: transform .35s var(--ease), opacity .3s; opacity: .72; }
+  .node:hover .face { opacity: 1; }
+  .node.on .dot { stroke: var(--leaf); stroke-width: 2; fill: var(--card-2); }
+  .node.on .face { transform: scale(1.16); opacity: 1; }
+  .node.first .dot { stroke-dasharray: none; }
+  .wheel.static .node:not(.on) .dot { stroke-dasharray: 3 3; }
+  .pointer { fill: var(--leaf); }
+  .sky { fill: var(--paper-2); }
+  .lens-rim { fill: none; stroke: var(--line-2); stroke-width: 1.2; }
+  .far { fill: var(--soil); opacity: .6; }
+  .lsoil { fill: url(#lsoilG); }
+  .lridge { fill: none; stroke: var(--line-2); stroke-width: 1; }
+  .lwater { fill: var(--sea); fill-opacity: .16; }
+  .lwave { fill: none; stroke: var(--sea); stroke-opacity: .4; stroke-width: 1; stroke-linecap: round; }
+  .mist { fill: var(--paper-2); }
+  .wire { fill: none; stroke: var(--trunk); stroke-width: .7; opacity: .7; }
+  .lland { pointer-events: none; }
+  .lland .extra { opacity: 0; transition: opacity .6s var(--ease); }
+  .lland.on .extra { opacity: 1; }
+  .lland .crop { transform-box: fill-box; transform-origin: 50% 100%; transform: scale(.001); opacity: 0;
+    transition: transform .55s cubic-bezier(.34, 1.5, .64, 1) var(--d, 0ms), opacity .2s linear var(--d, 0ms); }
+  .lland.on .crop { transform: scale(1); opacity: 1; }
+  .lland.out .crop { transition: transform .28s ease-in, opacity .28s linear; transform: scale(.3); opacity: 0; }
+  .lland.out .extra { transition: opacity .3s linear; opacity: 0; }
+
+  /* ── the story: text column + sticky picture ───────────────────── */
+  .story { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.28fr); }
+  .stage {
+    grid-column: 2; grid-row: 1; align-self: start;
+    position: sticky; top: var(--bar); height: calc(100vh - var(--bar)); height: calc(100svh - var(--bar));
+    display: flex; align-items: center; justify-content: center; padding: 2svh 3vw 2svh 1vw;
+  }
+  .scene { width: 100%; height: 100%; display: block; overflow: visible; touch-action: manipulation; }
+  .steps { grid-column: 1; grid-row: 1; }
+  .step {
+    min-height: calc(100vh - var(--bar)); min-height: calc(100svh - var(--bar));
+    display: flex; flex-direction: column; justify-content: flex-start;
+    padding: 7svh clamp(20px, 3vw, 40px) 7svh clamp(24px, 6vw, 110px);
+    opacity: .26; transition: opacity .6s var(--ease);
+  }
+  .step.on { opacity: 1; }
+  .step > .inner { max-width: 31rem; margin-block: auto; }
+  .num { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; font: 500 11.5px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--leaf); margin: 0; }
+  .num .n { color: var(--ink-faint); }
+  .step h2 { font: var(--dw) calc(clamp(27px, 2.5vw, 36px) * var(--dscale))/1.14 var(--display); letter-spacing: var(--dtrack); margin: 12px 0 16px; text-wrap: balance; }
+  .step p { color: var(--ink-soft); text-wrap: pretty; }
+  .step p b { color: var(--ink); font-weight: 500; }
+  /* reading aids in the story text: a marker for the one line to remember, quiet links */
+  :root { --hl: rgba(63,107,75,.17); }
+  :root[data-theme="dark"] { --hl: rgba(143,191,152,.2); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --hl: rgba(143,191,152,.2); } }
+  .step p em { font-style: italic; color: var(--ink); }
+  .step mark { color: var(--ink); background: linear-gradient(180deg, transparent 54%, var(--hl) 54%, var(--hl) 94%, transparent 94%); padding: 0 .08em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .step p a { color: var(--ink); text-decoration-color: color-mix(in srgb, var(--leaf) 70%, transparent); text-decoration-thickness: 1.5px; }
+  .step p a:hover { color: var(--leaf); }
+  .step p .g { margin-left: .15em; }
+  .nw { white-space: nowrap; }
+  .step p.key { color: var(--ink); font: 400 calc(19px * var(--dscale))/1.42 var(--display); letter-spacing: var(--dtrack); }
+  .hint { display: flex; align-items: center; gap: 8px; margin: 16px 0 0 !important; font: 400 12px/1.4 var(--mono); letter-spacing: .03em; color: var(--ink-faint) !important; }
+  .hint svg { width: 14px; height: 14px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .card { margin-top: 6px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); padding: 14px 16px 4px; }
+  .card > .eyebrow { margin-bottom: 8px; }
+  .card blockquote { margin: 0 0 10px; font: italic 400 19px/1.4 var(--display); color: var(--ink); }
+  .card dl { margin: 0 0 12px; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 13.5px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .card dt { font: 500 10.5px/1.75 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+  .card dd { margin: 0; color: var(--ink-soft); }
+  .model { list-style: none; margin: 4px 0 0; padding: 4px 0; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+  .model li { display: grid; grid-template-columns: 26px auto 1fr; align-items: baseline; gap: 4px 10px; padding: 10px 16px; border-top: 1px solid var(--line); font-size: 14.5px; }
+  .model li:first-child { border-top: 0; }
+  .model .g { width: 11px; height: 11px; margin: 0 0 0 4px; }
+  .model .g.grow { width: 12.5px; }
+  .model b { font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .model.facts li > span:last-child b { white-space: normal; }
+  .model.facts li { grid-template-columns: 26px 1fr; gap: 2px 10px; }
+  .model.facts .g { grid-row: 1; }
+  .model.facts b, .model.facts li > span:last-child { grid-column: 2; }
+  .model.facts li > span:last-child { font-size: 13.5px; line-height: 1.5; }
+  .model span:last-child { color: var(--ink-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 6px 0 0; padding: 0; list-style: none; font: 400 13px/1.4 var(--sans); color: var(--ink-soft); }
+  .legend li { display: inline-flex; align-items: center; gap: 2px; }
+  .legend .gap { display: inline-block; width: 11px; height: 11px; border-radius: 50%; border: 1.4px dashed var(--sun); margin-right: 5px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .links .btn { padding: 10px 14px; font-size: 14px; }
+
+  .replay { display: inline-flex; align-items: center; gap: 7px; padding: 0; border: 0; background: none; cursor: pointer; font: 400 12px var(--mono); letter-spacing: .03em; color: var(--leaf); }
+  .replay:hover { color: var(--ink); }
+  .replay svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .timeline { margin-top: 20px; max-width: 26rem; }
+  .timeline .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .timeline .now { font: 500 11.5px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  .timeline .track { position: relative; height: 2px; margin-top: 10px; background: var(--line); overflow: hidden; }
+  .timeline .track i { position: absolute; inset: 0 auto 0 0; width: 100%; background: var(--fig); transform-origin: 0 50%; transform: scaleX(1); transition: transform .25s linear; }
+  .fine { font: 400 12px/1.5 var(--mono); letter-spacing: .02em; color: var(--ink-faint) !important; margin-top: 12px !important; }
+
+  /* ── Livia, in context ─────────────────────────────────────────── */
+  .demo { margin-top: 4px; max-width: 460px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); overflow: hidden; }
+  .d-body { position: relative; display: flex; flex-direction: column; gap: 7px; padding: 14px 12px 10px; background: linear-gradient(180deg, var(--paper-2), var(--card) 70%); }
+  .d-body.scrolled { box-shadow: inset 0 10px 10px -10px rgba(16, 26, 22, .18); }
+  .step.fit { padding-block: 3.5svh; }
+  @media (min-width: 881px) { .d-body { height: min(40svh, 330px); overflow-y: auto; overscroll-behavior: contain; } }
+  @media (max-width: 880px) { .d-body { max-height: 52svh; overflow-y: auto; overscroll-behavior: contain; } }
+  .msg { display: flex; align-items: flex-end; gap: 7px; }
+  .msg.me { justify-content: flex-end; }
+  .msg .av { width: 24px; height: 24px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--leaf-dim); border: 1px solid color-mix(in srgb, var(--leaf) 45%, transparent); }
+  .msg .av svg { width: 13px; height: 13px; fill: var(--leaf-fill); }
+  .msg.lv + .msg.lv .av { visibility: hidden; }
+  .bub { max-width: 86%; padding: 8px 12px 9px; border-radius: 16px; font-size: 13.5px; line-height: 1.5; color: var(--ink); }
+  .bub p { margin: 0 0 6px; } .bub p:last-child { margin-bottom: 0; }
+  .bub .who { font: 500 10px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 3px; }
+  .msg.me .bub { background: var(--sea-dim); border: 1px solid color-mix(in srgb, var(--sea) 26%, transparent); border-bottom-right-radius: 5px; }
+  .msg.lv .bub { background: var(--card-2); border: 1px solid var(--line); border-bottom-left-radius: 5px; box-shadow: 0 1px 2px rgba(16, 26, 22, .04); }
+  .msg.lv .bub.meta { background: transparent; border-style: dashed; box-shadow: none; padding: 7px 10px 8px; }
+  .bub.meta .who { color: var(--leaf); }
+  .bub.meta .chip { font-size: 11.5px; padding: 3px 8px; }
+  .msg.lv .bub.ask { border-color: color-mix(in srgb, var(--sea) 40%, transparent); }
+  .bub.ask .who { color: var(--sea); }
+  .msg.lv .bub.gap { background: var(--sun-dim); border: 1px dashed var(--sun); box-shadow: none; }
+  .bub.gap .who { color: var(--sun); }
+  .bub .cite { display: inline-grid; place-items: center; min-width: 14px; height: 14px; margin-left: 3px; padding: 0 3px; font: 500 9px/1 var(--mono); color: var(--paper); vertical-align: 1.5px; }
+  .cite.exp { background: var(--fig); border-radius: 50%; } .cite.res { background: var(--sea); border-radius: 3px; } .cite.grow { background: var(--leaf); border-radius: 3px; }
+  .bub .srcs { list-style: none; margin: 8px 0 0; padding: 7px 0 0; border-top: 1px dashed var(--line-2); display: grid; gap: 4px; font-size: 11.5px; line-height: 1.4; color: var(--ink-soft); }
+  .bub .srcs li { display: grid; grid-template-columns: 18px 1fr; align-items: baseline; }
+  .bub .srcs .cite { margin-left: 0; }
+  .bub .srcs b { font-weight: 500; color: var(--ink); }
+  .bub.typing { display: inline-flex; gap: 4px; padding: 11px 13px; }
+  .bub.typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); animation: blink 1.1s infinite; }
+  .bub.typing span:nth-child(2) { animation-delay: .18s; } .bub.typing span:nth-child(3) { animation-delay: .36s; }
+  .rv { animation: rv .42s cubic-bezier(.2, .8, .2, 1) both; }
+  .msg.me.rv { animation-name: send; }
+  @keyframes rv { from { opacity: 0; transform: translateY(6px); } }
+  @keyframes send { from { opacity: 0; transform: translateY(22px) scale(.97); } }
+  /* suggested questions wait below, the way a messaging app offers replies */
+  .d-ask { border-top: 1px solid var(--line); padding: 8px 12px 10px; background: var(--card); }
+  .d-ask-l { margin: 0 0 6px; font: 500 10px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+  .d-qs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .d-qs button { appearance: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line-2); background: var(--card-2); color: var(--ink); font: 400 12.5px/1.2 var(--sans); padding: 5px 5px 5px 11px; border-radius: 999px; cursor: pointer; transition: border-color .2s, transform .2s var(--ease); }
+  .d-qs button:hover { border-color: var(--leaf); transform: translateY(-1px); }
+  .d-qs .go { width: 21px; height: 21px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--paper); transition: background-color .2s; }
+  .d-qs button:hover .go { background: var(--leaf); }
+  .d-qs .go svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .d-note { margin: 0 !important; padding: 7px 12px 9px; border-top: 1px solid var(--line); font: 400 11px/1.45 var(--sans); color: var(--ink-faint) !important; }
+  .m-q { margin: 4px 0 12px auto; max-width: 90%; background: var(--sea-dim); border: 1px solid color-mix(in srgb, var(--sea) 25%, transparent); border-radius: 16px 16px 4px 16px; padding: 9px 12px; }
+  .m-q p:not(.m-who) { margin: 0; font-size: 13.5px; line-height: 1.48; color: var(--ink); }
+  .m-who { font: 500 10.5px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex; align-items: baseline; gap: 6px; font: 400 12px/1.3 var(--sans); border: 1px solid var(--line); border-radius: 999px; padding: 4px 9px; background: var(--paper-2); color: var(--ink); }
+  .chip i { font: 500 10px/1 var(--mono); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+  @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+  /* ── the picture ───────────────────────────────────────────────── */
+  .scene text { font-family: var(--mono); letter-spacing: .03em; fill: var(--ink-soft); }
+  .scene .zl { font-family: var(--sans); font-weight: 500; letter-spacing: 0; fill: var(--ink-soft); }
+  .scene .zs, .scene .cap { letter-spacing: .1em; text-transform: uppercase; fill: var(--ink-faint); }
+  .scene .zs.sea { fill: var(--sea); }
+  .scene .tag { font-family: var(--sans); letter-spacing: 0; fill: var(--ink); }
+  .scene .halo { paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; }
+  .scene .soil { fill: url(#soilG); }
+  .scene .ridge { fill: none; stroke: var(--line-2); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+  .scene .water { fill: url(#waterG); }
+  .scene .wave { fill: none; stroke: var(--sea); stroke-opacity: .4; stroke-width: 1.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .scene .band { fill: var(--leaf); fill-opacity: .06; stroke: var(--leaf); stroke-opacity: .35; stroke-width: 1; stroke-dasharray: 2 5; vector-effect: non-scaling-stroke; }
+  .scene .col { fill: var(--leaf-dim); stroke: var(--leaf); stroke-width: 1.4; stroke-dasharray: 6 5; vector-effect: non-scaling-stroke; }
+  .scene .gapbox { fill: var(--sun-dim); stroke: var(--sun); stroke-width: 1.4; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+  .scene .cap.sun { fill: var(--sun); }
+  .scene .cap.leaf { fill: var(--leaf); }
+  .scene .c { transition: fill .5s var(--ease); }
+  .scene .c.res { fill: var(--sea); } .scene .c.exp { fill: var(--fig); } .scene .c.grow { fill: var(--leaf); }
+  .scene .c.hl { stroke: var(--paper); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .scene .ring { fill: none; stroke: var(--fig); stroke-width: 1.6; }
+  .scene .ln { fill: none; stroke: var(--ink-faint); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .scene .ln.research { stroke: var(--sea); } .scene .ln.experts { stroke: var(--fig); } .scene .ln.growers { stroke: var(--leaf); } .scene .ln.leaf { stroke: var(--leaf); }
+  .scene .ln.src { stroke-width: 1.8; }
+  .scene .ln.flow { stroke-dasharray: 2 5; }
+  .scene .ln.drop, .scene .ln.tagl { stroke: var(--ink-faint); stroke-dasharray: 2 4; }
+  .scene .ln.agenda { stroke: var(--fig); stroke-dasharray: 3 4; }
+  .scene .ln.run { stroke: var(--sea); stroke-dasharray: 3 4; }
+  .scene .ln.pair { stroke: var(--fig); stroke-width: 1.6; stroke-dasharray: 6 4; }
+  .scene .doc { fill: var(--card); stroke: var(--sea); stroke-width: 1.3; }
+  .scene .docl { stroke: var(--sea); stroke-opacity: .55; stroke-width: 1.2; }
+  .scene .table { fill: var(--fig-dim); stroke: var(--fig); stroke-width: 1.2; }
+  .scene .person .head, .scene .person .torso { fill: var(--card); stroke: var(--fig); stroke-width: 1.3; }
+  .scene .pulse { fill: none; stroke: var(--fig); stroke-width: 1.4; opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .scene .room.pulsing .pulse, .scene .lib.pulsing .pulse { animation: pulse 1.6s ease-out infinite; }
+  .scene .lib .pulse { stroke: var(--sea); }
+  @keyframes pulse { 0% { transform: scale(.7); opacity: .7; } 100% { transform: scale(1.5); opacity: 0; } }
+  .scene .qp { stroke-width: 1.5; stroke-linejoin: round; }
+  .scene .qp.open { fill: var(--paper); stroke: var(--ink); }
+  .scene .qp.ask { fill: var(--ink); stroke: var(--ink); }
+  .scene .qp.gap { fill: var(--paper); stroke: var(--sun); stroke-dasharray: 3.4 2.4; }
+  .scene .qm { fill: none; stroke-width: 2.1; stroke-linecap: round; }
+  .scene .qm.open { stroke: var(--ink); } .scene .qm.ask { stroke: var(--paper); } .scene .qm.gap { stroke: var(--sun); }
+  .scene .qd.open { fill: var(--ink); } .scene .qd.ask { fill: var(--paper); } .scene .qd.gap { fill: var(--sun); }
+  .scene .yr { fill: none; stroke: var(--line-2); stroke-width: 1.2; stroke-dasharray: 2 5; vector-effect: non-scaling-stroke; }
+  .scene .yl { fill: var(--ink-soft); }
+  .scene .bob { animation: bob 2.8s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-6px); } }
+  .scene .disc { fill: var(--paper-2); stroke: var(--line-2); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+  .scene .mnode { fill: var(--card); stroke-width: 1.6; }
+
+  /* hover / tap: everything recedes except one claim and its ties */
+  .scene .layer-claims, .scene .layer-lines { transition: opacity .15s var(--ease); }
+  .scene.dim .layer-claims, .scene.dim .layer-lines { opacity: .22; }
+  .scene .hv-ln { fill: none; stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+  .scene .hv-ln.res { stroke: var(--sea); } .scene .hv-ln.exp { stroke: var(--fig); } .scene .hv-ln.grow { stroke: var(--leaf); }
+  .scene .hv-ln.drop { stroke: var(--ink-faint); stroke-dasharray: 2 4; stroke-width: 1.2; }
+  .scene .hv-c { stroke: var(--paper); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .scene .hv-c.res { fill: var(--sea); } .scene .hv-c.exp { fill: var(--fig); } .scene .hv-c.grow { fill: var(--leaf); }
+  .tip {
+    position: absolute; z-index: 5; pointer-events: none; max-width: 280px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px 9px;
+    box-shadow: 0 10px 30px rgba(10, 20, 16, .18);
+  }
+  .tip:not([hidden]) { animation: tip-in .12s var(--ease); }
+  @keyframes tip-in { from { opacity: 0; transform: translateY(3px); } }
+  .tip b { display: block; font-weight: 500; font-size: 13.5px; line-height: 1.35; color: var(--ink); }
+  .tip span { display: block; margin-top: 3px; font: 400 11px/1.45 var(--mono); letter-spacing: .02em; color: var(--ink-soft); }
+
+  /* ── the close: a band of its own, with the two ways in ────────── */
+  .cta { position: relative; z-index: 1; min-height: calc(100vh - var(--bar)); min-height: calc(100svh - var(--bar)); display: flex; flex-direction: column; justify-content: center;
+    background: var(--band); color: var(--band-ink); padding: clamp(28px, 6svh, 64px) var(--gut) 22px; }
+  .cta-in { width: 100%; max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .cta .eyebrow { color: #9fcaa8; }
+  .cta h2 { font: var(--dw) calc(clamp(32px, 3.6vw, 50px) * var(--dscale))/1.06 var(--display); letter-spacing: var(--dtrack); margin: 12px 0 16px; text-wrap: balance; color: var(--band-ink); }
+  .cta h2 em { font-style: italic; font-weight: 400; color: #9fcaa8; }
+  .cta p { color: var(--band-soft); max-width: 36rem; }
+  .wl { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 8px; max-width: 36rem; }
+  .wl input, .wl select { min-height: 46px; border-radius: 999px; border: 1px solid var(--band-line); background: var(--band-2); color: var(--band-ink); padding: 0 16px; font-size: 15px; }
+  .wl input { flex: 1 1 170px; min-width: 0; }
+  .wl .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .wl button[disabled] { opacity: .7; cursor: progress; }
+  .wl select { flex: 0 0 196px; width: 196px; text-overflow: ellipsis; appearance: none; padding-right: 34px; background-image: linear-gradient(45deg, transparent 50%, var(--band-soft) 50%), linear-gradient(135deg, var(--band-soft) 50%, transparent 50%); background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px; background-size: 5px 5px; background-repeat: no-repeat; }
+  .wl input::placeholder { color: color-mix(in srgb, var(--band-soft) 70%, transparent); }
+  .wl input:focus-visible, .wl select:focus-visible { outline: 2px solid #9fcaa8; outline-offset: 2px; }
+  .wl button { min-height: 46px; border: 0; border-radius: 999px; padding: 0 20px; background: #cfe3d3; color: #13201a; font: 600 14.5px/1 var(--sans); cursor: pointer; }
+  .wl button:hover { background: #e2efe4; }
+  .wl-note { font: 400 12.5px/1.5 var(--mono); color: color-mix(in srgb, var(--band-soft) 85%, transparent) !important; }
+  .wl-note.ok { color: #9fcaa8 !important; }
+  .cta-side { display: grid; gap: 16px; justify-items: center; }
+  .cta-side .wheel svg { width: min(100%, 300px); }
+  .partner { width: 100%; border: 1px solid var(--band-line); border-radius: 18px; padding: 16px 18px; background: var(--band-2); }
+  .partner h3 { margin: 0 0 6px; font: var(--dw) calc(20px * var(--dscale))/1.2 var(--display); letter-spacing: var(--dtrack); color: var(--band-ink); }
+  .partner p { margin: 0 0 12px; font-size: 14.5px; }
+  .partner .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  .partner a.btn { color: var(--band-ink); border-color: var(--band-line); padding: 10px 14px; font-size: 14px; }
+  .partner a.btn:hover { border-color: var(--band-soft); }
+  .partner .mail { font: 400 13px var(--mono); color: var(--band-soft); }
+  .route { list-style: none; margin: 34px auto 0; padding: 18px 0 0; border-top: 1px solid var(--band-line); width: 100%; max-width: 1180px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 22px; }
+  .route li { font-size: 13.5px; line-height: 1.45; color: var(--band-soft); }
+  .route li b { display: block; color: var(--band-ink); font-weight: 500; font-size: 14.5px; margin: 3px 0 2px; }
+  .route .when { font: 500 10.5px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .route .done .when { color: #9fcaa8; } .route .next .when { color: #e0c070; } .route .later .when { color: #9cc3e6; }
+  .foot { width: 100%; max-width: 1180px; margin: 22px auto 0; padding-top: 12px; border-top: 1px solid var(--band-line); display: flex; flex-wrap: wrap; gap: 6px 22px; font: 400 12.5px/1.6 var(--sans); color: var(--band-soft); }
+  .foot a { color: var(--band-ink); }
+  @media (max-width: 979px) {
+    .cta-in { grid-template-columns: 1fr; }
+    .route { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  /* ── slides mode: motion is a spring driven from script ────────── */
+  .deck { display: none; }
+  .deck button { width: 36px; height: 36px; border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; display: grid; place-items: center; border-radius: 999px; }
+  .deck button:hover { color: var(--ink); }
+  .deck button:disabled { opacity: .3; cursor: default; }
+  .deck svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .deck .count { font: 400 12px var(--mono); color: var(--ink-soft); min-width: 52px; text-align: center; font-variant-numeric: tabular-nums; }
+  body[data-mode="slides"] { overflow: hidden; overscroll-behavior: none; }
+  body[data-mode="slides"] .story { position: fixed; top: var(--bar); left: 0; right: 0; bottom: 0; transition: opacity .34s var(--ease), visibility 0s; }
+  body[data-mode="slides"].at-solo .story { opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility 0s linear .3s; }
+  body[data-mode="slides"] .stage { position: relative; top: 0; height: 100%; }
+  body[data-mode="slides"] .scene { will-change: transform; }
+  body[data-mode="slides"] .steps { position: relative; height: 100%; }
+  body[data-mode="slides"] .step {
+    position: absolute; inset: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+    opacity: 0; visibility: hidden; will-change: transform;
+    transition: opacity .34s var(--ease), visibility 0s linear .34s;
+  }
+  body[data-mode="slides"] .step.on { opacity: 1; visibility: visible; transition: opacity .34s var(--ease) .04s; }
+  body[data-mode="slides"] .solo {
+    position: fixed; top: var(--bar); left: 0; right: 0; bottom: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; z-index: 3;
+    opacity: 0; visibility: hidden; transition: opacity .34s var(--ease), visibility 0s linear .34s;
+  }
+  body[data-mode="slides"] .solo.on { opacity: 1; visibility: visible; transition: opacity .34s var(--ease) .04s; }
+  body[data-mode="slides"] .deck-bar { display: flex; align-items: center; height: 34px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper-2); padding: 0 1px; }
+  .deck-bar button { width: 30px; height: 30px; }
+  .deck-bar .count { min-width: 46px; font-size: 11.5px; }
+
+  /* ── narrow screens: picture on top, text below ────────────────── */
+  @media (max-width: 880px) {
+    body { font-size: 16px; }
+    html { scroll-padding-top: calc(var(--bar) + 42vh); scroll-padding-top: calc(var(--bar) + 42svh); }
+    .cta { scroll-margin-top: -42vh; scroll-margin-top: -42svh; }
+    .story { display: block; }
+    .stage { position: sticky; top: var(--bar); z-index: 2; height: 42vh; height: 42svh; padding: 6px 8px 4px; background: var(--paper); }
+    .stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: -24px; height: 24px; background: linear-gradient(var(--paper), transparent); pointer-events: none; }
+    .step { min-height: calc(58vh - var(--bar)); min-height: calc(58svh - var(--bar)); justify-content: flex-start; padding: 5svh 20px 7svh; }
+    .step h2 { margin-top: 8px; }
+    .step > .inner { margin-block: 0; }
+    body[data-mode="slides"] .stage { height: 42svh; }
+    body[data-mode="slides"] .steps { position: absolute; top: 42svh; left: 0; right: 0; bottom: calc(60px + env(safe-area-inset-bottom, 0px)); height: auto; }
+    body[data-mode="slides"] .step { padding: 14px 20px 24px; }
+    body[data-mode="slides"] .solo { bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
+    body[data-mode="slides"] .deck-bar { display: none; }
+    body[data-mode="slides"] .deck-float {
+      display: flex; align-items: center; gap: 2px; position: fixed; z-index: 35; left: 50%; transform: translateX(-50%); bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 2px; box-shadow: var(--shadow);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-snap-type: y proximity; }
+    .step, body[data-mode="slides"] .step, body[data-mode="slides"] .step.on { transition: opacity .15s linear; }
+    .tip:not([hidden]) { animation: none; }
+    .rv { animation: none; } .bub.typing span { animation: none; }
+    .scene .room.pulsing .pulse, .scene .lib.pulsing .pulse { animation: none; }
+    .lland .crop, .lland .extra, .inc-text { transition: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main"><span lang="en">Skip to content</span><span lang="tr">İçeriğe geç</span></a>
+
+<!-- plants and people, drawn once and placed everywhere -->
+<svg class="sprites" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="p-olive">
+      <ellipse cx=".6" cy=".5" rx="8" ry="1.5" style="fill:var(--ink);opacity:.09"/>
+      <path d="M-1.9 .4C-1.3-2.1-2.7-4.3-1.5-6.7-2.9-7.9-4.7-8.6-6-9.8l.7-.6c1.4 1 2.8 1.7 4.4 2.4.5-1.4 1.2-2.3 2.3-2.9l.6.6c-.8.8-1.3 1.8-1.2 3 1-1 2.6-1.6 4-2l.2.7c-1.6.7-3.1 1.6-3.5 3.1-.3 1.8.7 3.6.5 5.9z" style="fill:var(--trunk)"/>
+      <path d="M-9.8-11.2c-1.4-2.4.6-5.2 3.4-4.6.4-2.8 4-4 6.4-2.4 2.2-1.8 6.2-.7 6.6 2.2 2.8.2 4 3.4 2 5 .6 2.2-2 3.6-3.9 2.6-1.5 1.5-4.5 1.3-5.8-.2-2 1.4-5.4.8-5.9-1-1.6.2-3-.6-2.8-1.6z" style="fill:var(--olive)"/>
+      <path d="M-7.6-13.7c.8-1.7 3-2 4.1-.9M-2.1-16.7c1.3-1.2 3.7-1 4.5.3M3.7-13.8c1.2-1 3.1-.6 3.5.8M-4.6-10.7c.9-.7 2.2-.7 2.9 0M1.2-10.9c.8-.6 2-.5 2.6.2" style="fill:none;stroke:var(--olive-hi);stroke-width:1.5;stroke-linecap:round"/>
+    </g>
+    <g id="p-vine">
+      <path d="M0 .4V-11" style="stroke:var(--trunk);stroke-width:1.1;fill:none"/>
+      <path d="M-6.2-9.8c-1.2-2.6 1.2-5 3.6-4 1-2.2 4.6-2.4 5.6 0 2.6-.8 4.6 1.8 3.2 4 .4 2-2 2.8-3.2 1.8-1.4 1.4-4.2 1.2-5.2-.2-2 1-4.6.2-4-1.6z" style="fill:var(--leaf-fill)"/>
+      <path d="M-4-11.6c.8-.9 2.1-1 2.8-.3M1.4-12.4c.8-.7 2-.6 2.5.2" style="fill:none;stroke:var(--olive-hi);stroke-width:1.1;stroke-linecap:round"/>
+      <circle cx="-1.7" cy="-6.6" r="1.3" style="fill:var(--fig)"/><circle cx=".9" cy="-6.4" r="1.3" style="fill:var(--fig)"/><circle cx="-.4" cy="-4.4" r="1.25" style="fill:var(--fig)"/>
+    </g>
+    <g id="p-wheat">
+      <path d="M0 .3C.2-5 .4-10 1-15M.3-6C-1.6-7.6-2.6-9.4-3-11" style="stroke:var(--grain);stroke-width:.9;fill:none;stroke-linecap:round"/>
+      <path d="M1-14.4c1.4-2 1.5-5.6.5-8.2-1.4 2.4-1.5 6-.5 8.2z" style="fill:var(--grain)"/>
+      <path d="M1.6-21.8l1-3.2M.9-20.4l-1.3-3M2-19l1.4-2.4" style="stroke:var(--grain);stroke-width:.5;fill:none"/>
+    </g>
+    <g id="p-rice">
+      <path d="M0 .3C-.6-3.4-2.4-6.2-4.2-7.8M0 .3C0-3.8.3-7.4 1-10M0 .3c.8-3.7 2.6-6.1 4.2-7.3" style="stroke:var(--leaf-fill);stroke-width:1.05;stroke-linecap:round;fill:none"/>
+      <path d="M1-10c1.4-.6 2.6.4 3 2.2" style="stroke:var(--grain);stroke-width:1.4;stroke-linecap:round;fill:none"/>
+    </g>
+    <g id="p-tea">
+      <path d="M-7.4.3c-.6-4.9 3.2-8.1 7.4-8.1S8 -4.6 7.4.3z" style="fill:var(--tea)"/>
+      <path d="M-4.6-4.6l1.4-1M-1-6l1.4-.8M2.6-5l1.4-.6M-2.6-2.4l1.2-.8M1.2-3l1.4-.6M4.4-2.4l1-.6" style="stroke:var(--olive-hi);stroke-width:.9;stroke-linecap:round"/>
+    </g>
+    <g id="p-coffee">
+      <path d="M-5.6.3c-.6-3.9 2.4-6.7 5.6-6.7S6.2-3.6 5.6.3z" style="fill:var(--leaf-fill)"/>
+      <path d="M-3.2-4c.7-.8 1.8-.9 2.4-.3M1-4.8c.7-.6 1.7-.5 2.1.2" style="fill:none;stroke:var(--olive-hi);stroke-width:1;stroke-linecap:round"/>
+      <circle cx="-2" cy="-2.2" r="1.05" style="fill:var(--fig)"/><circle cx="1.3" cy="-3.2" r="1.05" style="fill:var(--fig)"/><circle cx="2.9" cy="-1.2" r="1.05" style="fill:var(--fig)"/>
+    </g>
+    <g id="p-shade">
+      <path d="M-.9.3L-.4-18h.8L.9.3zM0-14l-5.2-5.2M0-15.2l5.6-4.4" style="fill:var(--trunk);stroke:var(--trunk);stroke-width:.9"/>
+      <path d="M-15-19.6c2-4 10-5.4 15-4.4 5-1.6 13.6.4 15 4.4-5 2-25 2-30 0z" style="fill:var(--leaf-fill)"/>
+      <path d="M-9-21.8c2-1 4.6-1.2 6.4-.6M3-22.6c2-.8 4.8-.6 6.4.4" style="fill:none;stroke:var(--olive-hi);stroke-width:1.1;stroke-linecap:round"/>
+    </g>
+    <g id="p-tree">
+      <path d="M-1.4.3C-1-4-1.2-8-.6-12h1.2c.6 4 .4 8 .8 12.3z" style="fill:var(--trunk)"/>
+      <path d="M-10-14c-1.6-4.6 2-9.4 6.6-8.4 2-3.6 8-3.6 9.6.6 4.2.4 5.8 5.4 3.4 8.2.4 3.4-3.6 5-6 3.4-2 1.8-5.8 1.6-7.2-.2-3.2 1.4-7.2-.4-6.4-3.6z" style="fill:var(--leaf-fill)"/>
+      <path d="M-6.4-17.6c1-2.2 3.8-2.8 5.2-1.4M2.2-20.4c1.4-1 3.8-.6 4.4 1M-3-12.8c1-.8 2.6-.8 3.4 0" style="fill:none;stroke:var(--olive-hi);stroke-width:1.3;stroke-linecap:round"/>
+    </g>
+    <g id="p-fruit">
+      <path d="M-1 .3C-.7-3-.9-6-.5-9h1c.4 3 .2 6 .5 9.3z" style="fill:var(--trunk)"/>
+      <path d="M-7.4-10.4c-1.2-3.4 1.4-7 4.8-6.2 1.6-2.6 6-2.6 7.2.4 3 .4 4.2 4 2.4 6 .4 2.6-2.6 3.8-4.4 2.6-1.6 1.2-4.4 1.2-5.4-.2-2.4 1-5.4-.2-4.6-2.6z" style="fill:var(--olive)"/>
+      <circle cx="-3.4" cy="-10" r="1.2" style="fill:var(--fig)"/><circle cx="1.2" cy="-12.6" r="1.2" style="fill:var(--fig)"/><circle cx="4" cy="-9.4" r="1.2" style="fill:var(--fig)"/>
+    </g>
+    <g id="p-shrub">
+      <path d="M-5.4.3c-.8-3.6 2-6.2 5.4-6.2S6.2-3.3 5.4.3z" style="fill:var(--leaf-fill)"/>
+      <path d="M-2.8-3.6c.6-.8 1.8-.9 2.4-.3M1.4-4.2c.7-.6 1.6-.5 2 .2" style="fill:none;stroke:var(--olive-hi);stroke-width:1;stroke-linecap:round"/>
+    </g>
+    <g id="p-herb">
+      <path d="M0 .3C-.4-2-1.6-3.4-2.4-4M0 .3v-4.9M0 .3C.6-2 1.6-3.2 2.6-3.6" style="stroke:var(--leaf-fill);stroke-width:.8;fill:none;stroke-linecap:round"/>
+      <circle cx="-2.5" cy="-4.2" r=".9" style="fill:var(--fig)"/><circle cx="0" cy="-5" r=".9" style="fill:var(--grain)"/><circle cx="2.7" cy="-3.8" r=".9" style="fill:var(--fig)"/>
+    </g>
+    <g id="p-person">
+      <path d="M-4.4 0c0-3.6 2-5.6 4.4-5.6S4.4-3.6 4.4 0z" style="fill:var(--card);stroke:var(--person, var(--ink-soft));stroke-width:1.1"/>
+      <circle cx="0" cy="-8.3" r="2.5" style="fill:var(--card);stroke:var(--person, var(--ink-soft));stroke-width:1.1"/>
+      <path d="M-2.3-10.1C-2.3-12.5-1.3-13.5 0-13.5S2.3-12.5 2.3-10.1Z" style="fill:var(--grain);stroke:var(--person, var(--ink-soft));stroke-width:.8;stroke-linejoin:round"/>
+      <path d="M-5-10C-3.3-11 3.3-11 5-10 3.3-9-3.3-9-5-10Z" style="fill:var(--grain);stroke:var(--person, var(--ink-soft));stroke-width:.8;stroke-linejoin:round"/>
+    </g>
+    <!-- icons for the wheel, 24 × 24 around the origin -->
+    <g id="i-livia">
+      <path d="M-7.5 6.5C-3.5 3.5 1-.5 6.5-6.5" style="fill:none;stroke:var(--leaf);stroke-width:1.3;stroke-linecap:round"/>
+      <path d="M-3.2 3.6C-5.9 1.9-6.7-.8-5.9-2.3c2.3.6 3.4 3 2.7 5.9zM1.6-.6c2 1.6 4.8 1.9 5.9.9-1.4-1.9-4.1-2.3-5.9-.9zM2.8-4.4c.3-2.6 2-4.4 3.8-4.6.2 2.2-1.4 4-3.8 4.6z" style="fill:var(--leaf-fill)"/>
+      <ellipse cx="-.9" cy="1.9" rx="1.9" ry="2.5" transform="rotate(-35 -.9 1.9)" style="fill:var(--fig)"/>
+    </g>
+    <g id="i-vita">
+      <path d="M0-6.6c-.4-1.6.2-3 1.6-3.8M1-7.4c1.6-1.6 4.2-1.8 5.6-.4-1.6 1.4-4 1.6-5.6.4z" style="fill:var(--leaf-fill);stroke:var(--leaf-fill);stroke-width:.9;stroke-linecap:round"/>
+      <g style="fill:var(--fig)"><circle cx="-2.4" cy="-4.2" r="2"/><circle cx="1.6" cy="-4.2" r="2"/><circle cx="-4.2" cy="-.6" r="2"/><circle cx="-.4" cy="-.6" r="2"/><circle cx="3.4" cy="-.8" r="2"/><circle cx="-2.2" cy="3" r="2"/><circle cx="1.6" cy="2.8" r="2"/><circle cx="-.3" cy="6.4" r="1.9"/></g>
+    </g>
+    <g id="i-emmer">
+      <path d="M0 9V-2" style="stroke:var(--grain);stroke-width:1.2;stroke-linecap:round"/>
+      <g style="fill:var(--grain)"><path d="M0-1.6c-2.6-.4-3.8-2.2-3.8-4 2.2.2 3.6 1.8 3.8 4zM0-1.6c2.6-.4 3.8-2.2 3.8-4-2.2.2-3.6 1.8-3.8 4zM0-5.4c-2.4-.4-3.4-2-3.4-3.8 2 .2 3.2 1.8 3.4 3.8zM0-5.4c2.4-.4 3.4-2 3.4-3.8-2 .2-3.2 1.8-3.4 3.8z"/><path d="M0-8.6c-.9-1.2-.9-2.4 0-3.6.9 1.2.9 2.4 0 3.6z"/></g>
+    </g>
+    <g id="i-riza">
+      <path d="M0 8C-.6 3.4-2.6-.6-5-3M0 8V-6M0 8c.6-3.6 2.4-6.6 5-8.6" style="fill:none;stroke:var(--leaf-fill);stroke-width:1.3;stroke-linecap:round"/>
+      <path d="M0-6c2.4-1.4 4.6-.4 5.4 2.6" style="fill:none;stroke:var(--grain);stroke-width:2;stroke-linecap:round;stroke-dasharray:1.6 1.2"/>
+    </g>
+    <g id="i-camilla">
+      <path d="M-.4 8.4C-6 4.6-6.6-2.6-.4-8.6 5.6-3.4 5.4 4.2-.4 8.4z" style="fill:var(--tea)"/>
+      <path d="M-.4 8.4V-5.6M-.4 1.4l-2.4-2.2M-.4-1.6l2.2-2" style="fill:none;stroke:var(--olive-hi);stroke-width:.9;stroke-linecap:round"/>
+    </g>
+    <g id="i-kaffa">
+      <ellipse cx="-2.4" cy=".4" rx="3.3" ry="4.6" transform="rotate(-24 -2.4 .4)" style="fill:var(--fig)"/>
+      <ellipse cx="2.8" cy="-.6" rx="3.3" ry="4.6" transform="rotate(20 2.8 -.6)" style="fill:var(--fig)"/>
+      <path d="M-1.4-3.4c-1.8 1.8-2.2 4-1.2 7.4M3.6-4.6c-1.6 2-1.8 4.2-.8 7.2" style="fill:none;stroke:var(--paper-2);stroke-width:.9;stroke-linecap:round"/>
+    </g>
+    <g id="i-polly">
+      <path d="M-8 7.5h16" style="stroke:var(--trunk);stroke-width:1;stroke-linecap:round"/>
+      <path d="M-3.2 7.5v-5" style="stroke:var(--trunk);stroke-width:1.2"/>
+      <circle cx="-3.2" cy="-1.6" r="4.6" style="fill:var(--leaf-fill)"/>
+      <path d="M2.2 7.5c-.4-2.8 1.2-4.4 3.2-4.4s3.4 1.6 3 4.4z" style="fill:var(--olive)"/>
+      <path d="M5.4 3.2c-.2-2.4.8-4.6 2.6-5.6M5.4 3.1C4.6.8 3.2-.6 1.6-1" style="fill:none;stroke:var(--leaf-fill);stroke-width:1;stroke-linecap:round"/>
+      <circle cx="-5.2" cy="-2.6" r="1" style="fill:var(--fig)"/><circle cx="-1.6" cy="-.4" r="1" style="fill:var(--fig)"/>
+    </g>
+  </defs>
+</svg>
+
+<header class="bar">
+  <i class="bar-prog" aria-hidden="true"><b id="barProg"></b></i>
+  <div class="bar-in">
+    <a class="brand" href="#top" data-go="0" aria-label="Agrigore">
+      <svg class="mk" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27C7.5 16 15.5 8 27 5 24.5 16 16.5 24 5 27Z" fill="var(--leaf-fill)"/><path d="M6.8 25.2C12 20.4 17 15.4 24.6 7.4" stroke="var(--paper)" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>
+      <b class="wm">Agrigore</b>
+    </a>
+    <nav aria-label="Chapters / Bölümler">
+      <ul>
+        <li><a href="#ch-for" data-go="1" data-ch="for"><span class="nx">I</span><span lang="en">What it’s for</span><span lang="tr">Ne işe yarar</span></a></li>
+        <li><a href="#ch-how" data-go="3" data-ch="how"><span class="nx">II</span><span lang="en">How it works</span><span lang="tr">Nasıl çalışır</span></a></li>
+        <li><a href="#ch-livia" data-go="6" data-ch="livia"><span class="nx">III</span>Livia</a></li>
+        <li><a href="#ch-principles" data-go="7" data-ch="principles"><span class="nx">IV</span><span lang="en">Principles</span><span lang="tr">İlkeler</span></a></li>
+        <li><a href="#ch-inside" data-go="8" data-ch="inside"><span class="nx">V</span><span lang="en">Inside</span><span lang="tr">İçeride</span></a></li>
+        <li><a href="#ch-egregore" data-go="9" data-ch="egregore"><span class="nx">VI</span>Egregore</a></li>
+      </ul>
+    </nav>
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="Language / Dil">
+        <button type="button" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
+        <button type="button" data-set-lang="tr" aria-pressed="false" aria-label="Türkçe">TR</button>
+      </div>
+      <div class="deck deck-bar" role="group" aria-label="Slides / Slaytlar">
+        <button class="js-prev" type="button" aria-label="Previous / Önceki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+        <span class="count js-count">1 / 11</span>
+        <button class="js-next" type="button" aria-label="Next / Sonraki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+      </div>
+      <button type="button" class="pill" id="bSlides" aria-pressed="false">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="9" rx="1"/><path d="M6 14h4"/></svg>
+        <span class="label"><span lang="en">Slides</span><span lang="tr">Slayt</span></span>
+      </button>
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="Theme"></button>
+      <a class="join" href="#join" data-go="10"><span lang="en">Join the waitlist</span><span lang="tr">Listeye katıl</span></a>
+    </div>
+  </div>
+</header>
+
+<!-- ─────────── FIRST SCREEN ─────────── -->
+<section class="hero slide solo" id="top" data-state="land" data-ch="top" aria-labelledby="h1">
+  <div class="hero-in">
+    <div class="pitch">
+      <p class="eyebrow"><span lang="en">Agrigore · for any crop and any land</span><span lang="tr">Agrigore · her ürün ve her arazi için</span></p>
+      <h1 id="h1"><span lang="en"><em>Situated</em> agricultural intelligence.</span><span lang="tr"><em>Yere özgü</em> tarım zekâsı.</span></h1>
+      <p class="lede" lang="en">Agrigore brings together <span class="nw"><span class="g res"></span>research,</span> <span class="nw"><span class="g exp"></span>local</span> experts and <span class="nw"><span class="g grow"></span>growers,</span> and keeps every piece of knowledge with the place where it holds. The first incarnation is <b>Livia</b>, for the olive groves of the Northern Aegean.</p>
+      <p class="lede" lang="tr">Agrigore <span class="nw"><span class="g res"></span>araştırmaları,</span> <span class="nw"><span class="g exp"></span>yerel</span> uzmanları ve <span class="nw"><span class="g grow"></span>üreticileri</span> bir araya getirir; her bilgiyi geçerli olduğu yerle birlikte tutar. İlk bedeni <b>Livia</b>: Kuzey Ege’nin zeytinlikleri için.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#join" data-go="10"><span lang="en">Join the Livia waitlist</span><span lang="tr">Livia bekleme listesine katıl</span></a>
+        <a class="btn" href="#ch-for" data-go="1"><span lang="en">See how it works</span><span lang="tr">Nasıl çalıştığını gör</span> <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg></a>
+      </div>
+      <p class="built"><span lang="en">Built on</span><span lang="tr">Temeli</span> <a href="https://egregore.xyz" rel="noopener">Egregore</a></p>
+    </div>
+    <figure class="wheel" id="wheel1" aria-label="Agrigore takes the shape of each crop and land">
+      <svg id="wheelSvg" viewBox="0 0 480 480" role="img" aria-label=""></svg>
+      <div class="inc">
+        <button type="button" class="inc-nav" id="incPrev" aria-label="Previous / Önceki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+        <div class="inc-text" id="incText" aria-live="polite">
+          <div class="inc-top"><b id="incName">Livia</b><span class="inc-tag first" id="incTag"></span></div>
+          <div class="inc-crop" id="incCrop"></div>
+        </div>
+        <button type="button" class="inc-nav" id="incNext" aria-label="Next / Sonraki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+      </div>
+      <p class="inc-keys"><kbd>←</kbd> <kbd>→</kbd> <span lang="en">turn the wheel</span><span lang="tr">çarkı çevirir</span></p>
+    </figure>
+  </div>
+</section>
+
+<!-- ─────────── THE STORY: one picture ─────────── -->
+<main class="story" id="main">
+  <div class="stage">
+    <svg class="scene" id="scene" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label=""></svg>
+    <div class="tip" id="tip" hidden><b></b><span></span></div>
+  </div>
+
+  <div class="steps">
+    <section class="step slide" id="ch-for" data-state="decide" data-ch="for">
+      <div class="inner">
+        <p class="num"><span lang="en">I · What it’s for</span><span lang="tr">I · Ne işe yarar</span><span class="n">01</span></p>
+        <h2><span lang="en">A dozen decisions a year, and any one can cost the harvest.</span><span lang="tr">Yılda bir düzine karar; her biri hasada mal olabilir.</span></h2>
+        <p lang="en">In an olive grove: <b>when to prune</b> and how hard, <b>whether to water</b>, whether <b>the olive fly</b> is worth a spray, <b>when to pick</b>. Every crop has its own list, and each call comes once a year, so a working life allows <a href="https://www.aspeninstitute.org/blog-posts/howard-buffett-book-talk/" rel="noopener">about forty tries</a> at each. One grower cut their trees back from the top and saw the yield fall <mark>from about 200 kg a tree to about 70</mark>.</p>
+        <p lang="tr">Bir zeytin bahçesinde: <b>ne zaman ve ne kadar budamalı</b>, <b>sulamalı mı</b>, <b>zeytin sineği</b> ilaçlamaya değer mi, <b>ne zaman toplamalı</b>. Her ürünün kendi listesi var ve her karar yılda bir kez gelir; bir çalışma ömrü her biri için <a href="https://www.aspeninstitute.org/blog-posts/howard-buffett-book-talk/" rel="noopener">kırk kadar deneme</a> tanır. Ağaçlarını tepeden kesen bir üreticinin verimi <mark>ağaç başına yaklaşık 200 kg’dan 70 kg’a</mark> düştü.</p>
+        <p class="key" lang="en">No one gets enough seasons to learn it all alone.</p>
+        <p class="key" lang="tr">Kimsenin hepsini tek başına öğrenecek kadar mevsimi yok.</p>
+        <ul class="legend"><li><i class="gq"></i><span lang="en">a decision a grower has to make</span><span lang="tr">üreticinin vermesi gereken bir karar</span></li></ul>
+      </div>
+    </section>
+
+    <section class="step slide" data-state="purpose" data-ch="for">
+      <div class="inner">
+        <p class="num"><span lang="en">I · What it’s for</span><span lang="tr">I · Ne işe yarar</span><span class="n">02</span></p>
+        <h2><span lang="en">What saves one grove can harm the next.</span><span lang="tr">Bir bahçeyi kurtaran, yanındakine zarar verebilir.</span></h2>
+        <p lang="en">Whether advice holds depends on <em>the land, the water, the variety and the season</em>. The knowledge to decide well is scattered: in <span class="nw"><span class="g res"></span><b>research papers</b></span>, in the heads of <span class="nw"><span class="g exp"></span><b>local experts</b></span>, and in what <span class="nw"><span class="g grow"></span><b>growers</b></span> learn season after season. A generic AI answers from the global average and <mark>loses the place</mark>.</p>
+        <p lang="tr">Bir tavsiyenin işe yarayıp yaramayacağı <em>araziye, suya, çeşide ve mevsime</em> bağlıdır. İyi karar vermek için gereken bilgi dağınıktır: <span class="nw"><span class="g res"></span><b>araştırma makalelerinde</b></span>, <span class="nw"><span class="g exp"></span><b>yerel uzmanların</b></span> aklında ve <span class="nw"><span class="g grow"></span><b>üreticilerin</b></span> mevsim mevsim öğrendiklerinde. Genel bir yapay zekâ küresel ortalamadan yanıt verir ve <mark>yeri kaybeder</mark>.</p>
+        <p class="key" lang="en">Agrigore brings the three together and keeps the place.</p>
+        <p class="key" lang="tr">Agrigore üçünü bir araya getirir ve yeri korur.</p>
+      </div>
+    </section>
+
+    <section class="step slide" id="ch-how" data-state="model" data-ch="how">
+      <div class="inner">
+        <p class="num"><span lang="en">II · How it works</span><span lang="tr">II · Nasıl çalışır</span><span class="n">03</span></p>
+        <h2><span lang="en">Three sources, one memory.</span><span lang="tr">Üç kaynak, tek bellek.</span></h2>
+        <p lang="en">Each source brings something the others cannot. Agrigore turns all three into <b>claims</b> and keeps each one with its <em>place, crop and conditions</em>, in <mark>one memory</mark> that every answer draws on.</p>
+        <p lang="tr">Her kaynak ötekilerin getiremediği bir şeyi getirir. Agrigore üçünü de <b>iddialara</b> dönüştürür ve her birini <em>yeri, ürünü ve koşullarıyla</em>, her yanıtın başvurduğu <mark>tek bir bellekte</mark> tutar.</p>
+        <ul class="model">
+          <li><span class="g res"></span><b><span lang="en">Research</span><span lang="tr">Araştırma</span></b><span><span lang="en">what has been measured: papers and official guidance</span><span lang="tr">ölçülmüş olan: makaleler ve resmî rehberler</span></span></li>
+          <li><span class="g exp"></span><b><span lang="en">Local experts</span><span lang="tr">Yerel uzmanlar</span></b><span><span lang="en">what works here, gathered in seminars</span><span lang="tr">burada işe yarayan, seminerlerde toplanır</span></span></li>
+          <li><span class="g grow"></span><b><span lang="en">Growers</span><span lang="tr">Üreticiler</span></b><span><span lang="en">questions, and what happened when they tried</span><span lang="tr">sorular ve denediklerinde ne olduğu</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="step slide" data-state="answer" data-ch="how">
+      <div class="inner">
+        <p class="num"><span lang="en">II · How it works</span><span lang="tr">II · Nasıl çalışır</span><span class="n">04</span></p>
+        <h2><span lang="en">Answers that show their sources.</span><span lang="tr">Kaynağını gösteren yanıtlar.</span></h2>
+        <p lang="en">A grower on the <b>dry hills</b> asks about their own trees. Agrigore reads the conditions, answers from the claims that best match that land, and <mark>shows where every sentence came from</mark>.</p>
+        <p lang="tr"><b>Kuru tepelerdeki</b> bir üretici kendi ağaçlarını sorar. Agrigore koşulları okur, o araziye en iyi uyan iddialardan yanıt verir ve <mark>her cümlenin nereden geldiğini gösterir</mark>.</p>
+        <div class="card">
+          <div class="m-q"><p class="m-who"><span lang="en">Grower · Gömeç</span><span lang="tr">Üretici · Gömeç</span></p><p><span lang="en">My trees are about forty years old. Should I rejuvenate them with a hard pruning?</span><span lang="tr">Ağaçlarım kırk yaş civarında. Sert bir gençleştirme budaması yapmalı mıyım?</span></p></div>
+          <p class="m-who" style="color:var(--leaf)"><span lang="en">Answered from three claims</span><span lang="tr">Üç iddiadan yanıtlandı</span></p>
+          <ul class="legend" style="margin:2px 0 12px">
+            <li><span class="g res"></span><span lang="en">1 from research</span><span lang="tr">1’i araştırmadan</span></li>
+            <li><span class="g exp"></span><span lang="en">2 from local experts</span><span lang="tr">2’si yerel uzmanlardan</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="step slide" data-state="loop" data-ch="how">
+      <div class="inner">
+        <p class="num"><span lang="en">II · How it works</span><span lang="tr">II · Nasıl çalışır</span><span class="n">05</span></p>
+        <h2><span lang="en">Questions show it what to learn next.</span><span lang="tr">Sorular ona neyi öğreneceğini gösterir.</span></h2>
+        <p lang="en">When an answer depends on your grove, Agrigore <b>asks</b>. When the knowledge itself is missing, it <b>says so</b> and logs the question. Each gap then starts two searches: a <b>targeted research run</b> through the literature, and a place on <b>the next seminar’s agenda</b>. What they find comes back as <mark>new claims</mark>.</p>
+        <p lang="tr">Yanıt bahçenize bağlıysa Agrigore <b>sorar</b>. Bilginin kendisi eksikse <b>bunu söyler</b> ve soruyu kaydeder. Her boşluk sonra iki arayış başlatır: literatürde <b>hedefli bir araştırma taraması</b> ve <b>bir sonraki seminerin gündeminde</b> bir yer. Bulunanlar <mark>yeni iddialar</mark> olarak geri döner.</p>
+        <div class="timeline" aria-live="off">
+          <div class="row">
+            <div class="now" id="gapNow"></div>
+            <button class="replay" type="button" id="gapReplay"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.6-3.7"/><path d="M3 2.5v3h3"/></svg><span lang="en">Play again</span><span lang="tr">Tekrar oynat</span></button>
+          </div>
+          <div class="track"><i id="gapBar"></i></div>
+        </div>
+        <ul class="legend" style="margin-top:12px">
+          <li><i class="gq gap"></i><span lang="en">Logged question</span><span lang="tr">Kaydedilen soru</span></li>
+          <li><span class="g res"></span><span lang="en">Targeted research run</span><span lang="tr">Hedefli araştırma taraması</span></li>
+          <li><span class="g exp"></span><span lang="en">Next seminar</span><span lang="tr">Sonraki seminer</span></li>
+        </ul>
+        <p class="fine"><span lang="en">The loop as designed. Field testing with growers comes next.</span><span lang="tr">Tasarlandığı hâliyle döngü. Sırada üreticilerle sahada deneme var.</span></p>
+      </div>
+    </section>
+
+    <section class="step slide fit" id="ch-livia" data-state="livia" data-ch="livia">
+      <div class="inner">
+        <p class="num"><span lang="en">III · Meet Livia</span><span lang="tr">III · Livia ile tanışın</span><span class="n">06</span></p>
+        <h2><span lang="en">Livia, the first incarnation.</span><span lang="tr">Livia, ilk beden.</span></h2>
+        <p lang="en">Livia is Agrigore for the olive groves of <b>Ayvalık, Edremit and Gömeç</b>, and she works in Turkish. Send her a question from below: the picture lights the claims that answer it.</p>
+        <p lang="tr">Livia, <b>Ayvalık, Edremit ve Gömeç</b> zeytinlikleri için Agrigore’dur ve Türkçe çalışır. Aşağıdan ona bir soru gönderin: resim onu yanıtlayan iddiaları aydınlatır.</p>
+        <div class="demo" id="demo">
+          <div class="d-body" id="dBody" aria-live="polite" aria-busy="false"></div>
+          <div class="d-ask">
+            <p class="d-ask-l"><span lang="en">Ask Livia</span><span lang="tr">Livia’ya sorun</span></p>
+            <div class="d-qs" id="dQs" role="group" aria-label="Example questions / Örnek sorular"></div>
+          </div>
+          <p class="d-note"><span lang="en">Example answers built from sources in Livia’s knowledge base. Livia works in Turkish; switch to TR for the originals.</span><span lang="tr">Livia’nın bilgi tabanındaki kaynaklardan kurulmuş örnek yanıtlar.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step slide" id="ch-principles" data-state="conditions" data-ch="principles">
+      <div class="inner">
+        <p class="num"><span lang="en">IV · Principles</span><span lang="tr">IV · İlkeler</span><span class="n">07</span></p>
+        <h2><span lang="en">Every claim keeps its conditions.</span><span lang="tr">Her iddia koşullarını korur.</span></h2>
+        <p lang="en">A claim is stored with <em>the land, the variety and the water</em> it was observed under, and with <b>who said it</b>. Those conditions set how much it counts: a question from the irrigated plain leans on <mark>what holds on the plain</mark>, and evidence from further away can still help, labelled as such. A statement that loses a condition, a negation or a timing is refused.</p>
+        <p lang="tr">Bir iddia, gözlendiği <em>arazi, çeşit ve suyla</em> ve <b>kimin söylediğiyle</b> birlikte saklanır. Ne kadar ağırlık taşıyacağını bu koşullar belirler: sulu ovadan gelen bir soru <mark>ovada geçerli olana</mark> dayanır; daha uzaktan gelen kanıt da, öyle olduğu belirtilerek, yine işe yarayabilir. Bir koşulunu, olumsuzluğunu ya da zamanlamasını yitiren ifade reddedilir.</p>
+        <div class="card">
+          <p class="eyebrow"><span lang="en">One claim, opened</span><span lang="tr">Açılmış bir iddia</span></p>
+          <blockquote><span lang="en">“5 × 5 is very risky in a dry grove, 6 × 6 is borderline, 8 × 8 is safe in a drought.”</span><span lang="tr">“5x5 susuz bahçede çok riskli, 6x6 sınırda, 8x8 kuraklığa güvenli.”</span></blockquote>
+          <dl>
+            <dt><span lang="en">Land</span><span lang="tr">Arazi</span></dt><dd><span lang="en">dry hills, Gulf of Edremit</span><span lang="tr">kuru tepeler, Edremit Körfezi</span></dd>
+            <dt><span lang="en">Variety</span><span lang="tr">Çeşit</span></dt><dd>Ayvalık</dd>
+            <dt><span lang="en">Water</span><span lang="tr">Su</span></dt><dd><span lang="en">unirrigated</span><span lang="tr">susuz</span></dd>
+            <dt><span lang="en">Slope</span><span lang="tr">Eğim</span></dt><dd><span lang="en">contour planting above 5%</span><span lang="tr">%5’in üstünde kontur dikim</span></dd>
+            <dt><span lang="en">Source</span><span lang="tr">Kaynak</span></dt><dd><span class="g exp"></span><span lang="en">a grower since 1996 · seminar 1</span><span lang="tr">1996’dan beri üretici · seminer 1</span></dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="step slide" id="ch-inside" data-state="whole" data-ch="inside">
+      <div class="inner">
+        <p class="num"><span lang="en">V · Inside the memory</span><span lang="tr">V · Belleğin içi</span><span class="n">08</span></p>
+        <h2><span lang="en">What Livia knows, and how it is held.</span><span lang="tr">Livia’nın bildikleri ve nasıl tutulduğu.</span></h2>
+        <p lang="en">Every mark is a claim or a question, placed over the land where it holds and linked to where it came from. Answers weigh them by <mark>how closely their conditions match your grove</mark>: the nearest evidence counts most, and when Livia has to reach further, she says so.</p>
+        <p lang="tr">Her işaret, geçerli olduğu arazinin üzerine yerleşmiş ve geldiği yere bağlı bir iddia ya da sorudur. Yanıtlar onları <mark>koşullarının bahçenize ne kadar uyduğuna</mark> göre tartar: en yakın kanıt en çok sayılır; Livia daha uzağa uzanmak zorunda kaldığında bunu söyler.</p>
+        <ul class="model facts">
+          <li><span class="g res"></span><b><span lang="en">Research</span><span lang="tr">Araştırma</span></b><span><span lang="en"><b>1,200+</b> olive research documents in Turkish and English, split into 32,736 passages, beside official guidance.</span><span lang="tr">Türkçe ve İngilizce <b>1.200’ü aşkın</b> zeytin araştırması, 32.736 paragrafa bölünmüş olarak resmî rehberlerin yanında.</span></span></li>
+          <li><span class="g exp"></span><b><span lang="en">Local experts</span><span lang="tr">Yerel uzmanlar</span></b><span><span lang="en">Five seminars so far. The first brought eight growers and experts together for three hours and left <b>85 claims</b>, <b>6 disagreements</b> kept side by side, <b>10 open questions</b>, and a report that went back to the room for correction.</span><span lang="tr">Şimdiye dek beş seminer. İlki sekiz üretici ve uzmanı üç saat bir araya getirdi; geride <b>85 iddia</b>, yan yana tutulan <b>6 anlaşmazlık</b>, <b>10 açık soru</b> ve düzeltilmek üzere katılımcılara geri dönen bir rapor bıraktı.</span></span></li>
+          <li><span class="g grow"></span><b><span lang="en">Growers</span><span lang="tr">Üreticiler</span></b><span><span lang="en">Real questions from a farmers’ forum opened the first seminar. The field season adds their feedback.</span><span lang="tr">Bir çiftçi forumundan gelen gerçek sorular ilk semineri açtı. Saha sezonu onların geri bildirimini ekler.</span></span></li>
+        </ul>
+        <p class="hint"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l8 5-3.5 1 2.5 5-1.6.8-2.5-5L4 11z"/></svg><span lang="en">Hover over or tap any mark to open its record.</span><span lang="tr">Kaydını açmak için bir işaretin üzerine gelin ya da dokunun.</span></p>
+      </div>
+    </section>
+
+    <section class="step slide" id="ch-egregore" data-state="egregore" data-ch="egregore">
+      <div class="inner">
+        <p class="num"><span lang="en">VI · Built on Egregore</span><span lang="tr">VI · Egregore üzerine kurulu</span><span class="n">09</span></p>
+        <h2><span lang="en">Writing began as a farm record.</span><span lang="tr">Yazı bir tarım kaydı olarak başladı.</span></h2>
+        <p lang="en">The first tablets in Mesopotamia counted <b>grain and herds</b>: a memory that outlived the people who wrote it, and one a whole community could learn from. Agrigore takes that relationship to its next form, using frontier AI and careful systems design to turn daily field experience into <mark>situated intelligence and shared memory</mark>.</p>
+        <p lang="tr">Mezopotamya’daki ilk tabletler <b>tahılı ve sürüleri</b> sayıyordu: onu yazanlardan uzun yaşayan ve bütün bir topluluğun öğrenebildiği bir bellek. Agrigore bu ilişkiyi bir sonraki biçimine taşıyor; öncü yapay zekâyı ve özenli sistem tasarımını kullanarak sahadaki gündelik deneyimi <mark>yere özgü bir zekâya ve ortak belleğe</mark> dönüştürüyor.</p>
+        <p lang="en">It runs on <a href="https://egregore.xyz" rel="noopener"><b>Egregore</b></a>, infrastructure for collective intelligence: a shared memory where people and their AI keep what they learn, decide and correct, with its sources. Every member’s assistant starts from what the group already knows, and <em>a correction made once reaches the next person who asks</em>.</p>
+        <p lang="tr">Temelinde <a href="https://egregore.xyz" rel="noopener"><b>Egregore</b></a> var: kolektif zekâ için bir altyapı; insanların ve yapay zekâlarının öğrendiklerini, verdikleri kararları ve yaptıkları düzeltmeleri kaynaklarıyla birlikte tuttuğu ortak bir bellek. Her üyenin asistanı topluluğun zaten bildiğinden başlar ve <em>bir kez yapılan düzeltme soran bir sonraki kişiye ulaşır</em>.</p>
+        <p lang="en">Agrigore’s members are <b>growers, local experts, researchers and developers</b>, with Livia among them.</p>
+        <p lang="tr">Agrigore’un üyeleri <b>üreticiler, yerel uzmanlar, araştırmacılar ve geliştiricilerdir</b>; Livia da onların arasındadır.</p>
+        <div class="links">
+          <a class="btn" href="https://egregore.xyz" rel="noopener">egregore.xyz <span aria-hidden="true">→</span></a>
+          <a class="btn" href="https://egregore.xyz/view/curvelabs/shared-minds" rel="noopener"><span lang="en">Read: Towards Shared Minds</span><span lang="tr">Oku: Towards Shared Minds (İngilizce)</span> <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ─────────── THE CLOSE: two ways in ─────────── -->
+<section class="cta slide solo" id="join" data-state="land" data-ch="join" aria-labelledby="cta-h">
+  <div class="cta-in">
+    <div class="cta-main">
+      <p class="eyebrow"><span lang="en">Livia’s first field season</span><span lang="tr">Livia’nın ilk saha sezonu</span></p>
+      <h2 id="cta-h"><span lang="en">Grow olives in the <em>Northern Aegean</em>?</span><span lang="tr"><em>Kuzey Ege</em>’de zeytin mi yetiştiriyorsunuz?</span></h2>
+      <p lang="en">Livia goes into the field next: growers try her on their own questions through a season, and the people who know the groves check her answers. Join the waitlist to take part.</p>
+      <p lang="tr">Livia sırada sahaya çıkıyor: üreticiler onu bir sezon boyunca kendi sorularıyla dener, bahçeleri tanıyan insanlar yanıtlarını denetler. Katılmak için bekleme listesine yazılın.</p>
+      <form class="wl" id="wl" novalidate>
+        <input type="email" id="wlEmail" autocomplete="email" required aria-label="Email / E-posta">
+        <input type="text" id="wlSite" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <select id="wlRole" aria-label="I am / Ben"></select>
+        <button type="submit"><span lang="en">Join the waitlist</span><span lang="tr">Listeye katıl</span></button>
+      </form>
+      <p class="wl-note" id="wlMsg"><span lang="en">No newsletter. We write personally when there is a place for you.</span><span lang="tr">Bülten yok. Size yer açıldığında kişisel olarak yazarız.</span></p>
+    </div>
+    <div class="cta-side">
+      <figure class="wheel static" id="wheel2" aria-hidden="true" style="margin:0"><svg id="wheelSvg2" viewBox="0 0 480 480"></svg></figure>
+      <div class="partner">
+        <h3><span lang="en">Another crop, another region?</span><span lang="tr">Başka bir ürün, başka bir bölge?</span></h3>
+        <p lang="en">Agrigore takes the shape of a new place with local partners: cooperatives, research institutes, advisors and funders. Write to us about partnerships or anything else.</p>
+        <p lang="tr">Agrigore yeni bir yerin biçimini yerel ortaklarla alır: kooperatifler, araştırma enstitüleri, danışmanlar ve destekçiler. Ortaklıklar ya da başka her konu için bize yazın.</p>
+        <div class="row"><a class="btn" href="mailto:agrigore@egregore.xyz?subject=Agrigore"><span lang="en">Write to us</span><span lang="tr">Bize yazın</span> <span aria-hidden="true">→</span></a><span class="mail">agrigore@egregore.xyz</span></div>
+      </div>
+    </div>
+  </div>
+  <ol class="route">
+    <li class="done"><span class="when"><span lang="en">Done</span><span lang="tr">Tamam</span></span><b><span lang="en">A library and a method</span><span lang="tr">Bir kütüphane ve bir yöntem</span></b><span lang="en">Every claim kept with its conditions.</span><span lang="tr">Her iddia koşullarıyla saklandı.</span></li>
+    <li class="done"><span class="when"><span lang="en">Done</span><span lang="tr">Tamam</span></span><b><span lang="en">Five seminars</span><span lang="tr">Beş seminer</span></b><span lang="en">With growers and experts of the Northern Aegean.</span><span lang="tr">Kuzey Ege’nin üretici ve uzmanlarıyla.</span></li>
+    <li class="next"><span class="when"><span lang="en">Next</span><span lang="tr">Sırada</span></span><b><span lang="en">Livia in the field</span><span lang="tr">Livia sahada</span></b><span lang="en">A season of growers’ own questions.</span><span lang="tr">Üreticilerin kendi sorularıyla bir sezon.</span></li>
+    <li class="later"><span class="when"><span lang="en">Later</span><span lang="tr">Sonra</span></span><b><span lang="en">Other crops and regions</span><span lang="tr">Başka ürünler ve bölgeler</span></b><span lang="en">The same system, with local partners.</span><span lang="tr">Aynı sistem, yerel ortaklarla.</span></li>
+  </ol>
+  <div class="foot">
+    <span><span lang="en">Agrigore is an Egregore Labs project.</span><span lang="tr">Agrigore bir Egregore Labs projesidir.</span> <a href="https://egregore.xyz" rel="noopener">egregore.xyz</a></span>
+    <span><a href="mailto:agrigore@egregore.xyz">agrigore@egregore.xyz</a></span>
+    <span>© 2026 Egregore Labs</span>
+  </div>
+</section>
+
+<nav class="deck deck-float" aria-label="Slides / Slaytlar">
+  <button class="js-prev" type="button" aria-label="Previous / Önceki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+  <span class="count js-count">1 / 11</span>
+  <button class="js-next" type="button" aria-label="Next / Sonraki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+</nav>
+
+<script type="application/json" id="demo-data">
+[
+  {
+    "chip": {"en": "Pruning at forty", "tr": "Kırk yaşında budama"},
+    "who": {"en": "Grower · Gömeç", "tr": "Üretici · Gömeç"},
+    "q": {"en": "My trees are about forty years old. Should I rejuvenate them with a hard pruning?", "tr": "Ağaçlarım kırk yaş civarında. Sert bir gençleştirme budaması yapmalı mıyım?"},
+    "cond": [
+      {"k": {"en": "Land", "tr": "Arazi"}, "v": {"en": "dry hills", "tr": "kuru tepe"}},
+      {"k": {"en": "Trees", "tr": "Ağaç"}, "v": {"en": "about 40 years", "tr": "yaklaşık 40 yaş"}},
+      {"k": {"en": "Water", "tr": "Su"}, "v": {"en": "unirrigated", "tr": "susuz"}}
+    ],
+    "a": [
+      {"t": {"en": "Forty is not old for an olive. Growers in the region say it is regular pruning that keeps a tree young.", "tr": "Kırk yaş bir zeytin için yaşlı sayılmaz. Bölgenin üreticilerine göre ağacı genç tutan, düzenli budamadır."}, "s": [1]},
+      {"t": {"en": "Research on unirrigated groves points the same way: regularly pruned old trees used water more efficiently and were less affected by drought.", "tr": "Susuz bahçelerde yapılan araştırma da aynı yönü gösteriyor: düzenli budanan yaşlı ağaçlar suyu daha etkin kullandı ve kuraklıktan daha az etkilendi."}, "s": [2]},
+      {"t": {"en": "A caution from one grower: after topping their trees, yield per tree fell from about 200 kg to about 70 kg.", "tr": "Bir üreticiden uyarı: ağaçlarını tepeden kestikten sonra ağaç başına verim yaklaşık 200 kg’dan 70 kg’a düştü."}, "s": [1]}
+    ],
+    "src": [
+      {"tier": "exp", "t": {"en": "Seminar 1", "tr": "Seminer 1"}, "d": {"en": "growers and experts of the Gulf · Aug 2026", "tr": "Körfez’in üretici ve uzmanları · Ağustos 2026"}},
+      {"tier": "res", "t": {"en": "Zeytin Bilimi (Olive Science), 2018", "tr": "Zeytin Bilimi, 2018"}, "d": {"en": "pruning and water use in old trees", "tr": "yaşlı ağaçlarda budama ve su kullanımı"}}
+    ],
+    "claims": ["forty", "prune", "topping"],
+    "at": 2
+  },
+  {
+    "chip": {"en": "Spacing on dry slopes", "tr": "Kuru yamaçta aralık"},
+    "who": {"en": "Grower · Ayvalık", "tr": "Üretici · Ayvalık"},
+    "q": {"en": "How far apart should I plant Ayvalık saplings on a dry slope?", "tr": "Susuz bir yamaçta Ayvalık fidanlarını hangi aralıkla dikmeliyim?"},
+    "cond": [
+      {"k": {"en": "Variety", "tr": "Çeşit"}, "v": {"en": "Ayvalık", "tr": "Ayvalık"}},
+      {"k": {"en": "Water", "tr": "Su"}, "v": {"en": "unirrigated", "tr": "susuz"}},
+      {"k": {"en": "Land", "tr": "Arazi"}, "v": {"en": "slope", "tr": "eğimli"}}
+    ],
+    "a": [
+      {"t": {"en": "Without irrigation, growers prefer 7 × 7 m for Ayvalık trees. 5 × 5 m is very risky in a dry grove, 6 × 6 m is borderline, and 8 × 8 m is safe in a drought.", "tr": "Sulama yoksa üreticiler Ayvalık için 7 × 7 m’yi tercih ediyor. Susuz bahçede 5 × 5 m çok riskli, 6 × 6 m sınırda, 8 × 8 m kuraklıkta güvenli."}, "s": [1]},
+      {"t": {"en": "Where the slope is steeper than 5%, plant along the contour.", "tr": "Eğim yüzde beşi geçiyorsa kontur dikimi yapın."}, "s": [1]},
+      {"t": {"en": "Very dense hedge plantings rely mostly on a few Spanish and Italian varieties. Growers here do not consider Ayvalık suited to it.", "tr": "Çok sık, çit tipi dikimler çoğunlukla birkaç İspanyol ve İtalyan çeşidine dayanıyor. Buradaki üreticiler Ayvalık’ı buna uygun görmüyor."}, "s": [2, 1]}
+    ],
+    "src": [
+      {"tier": "exp", "t": {"en": "Seminar 1", "tr": "Seminer 1"}, "d": {"en": "growers and experts of the Gulf · Aug 2026", "tr": "Körfez’in üretici ve uzmanları · Ağustos 2026"}},
+      {"tier": "res", "t": {"en": "Zeytin Bilimi (Olive Science), 2017", "tr": "Zeytin Bilimi, 2017"}, "d": {"en": "high-density olive growing", "tr": "sık dikim zeytin yetiştiriciliği"}}
+    ],
+    "claims": ["space", "contour", "hedge"],
+    "at": 2
+  },
+  {
+    "chip": {"en": "Variety for dry land", "tr": "Kuru araziye çeşit"},
+    "who": {"en": "Grower · Edremit", "tr": "Üretici · Edremit"},
+    "q": {"en": "I have unirrigated land near Edremit. Which olive variety should I plant?", "tr": "Edremit yakınlarında susuz bir arazim var. Hangi zeytin çeşidini dikmeliyim?"},
+    "cond": [
+      {"k": {"en": "Region", "tr": "Bölge"}, "v": {"en": "Gulf of Edremit", "tr": "Edremit Körfezi"}},
+      {"k": {"en": "Water", "tr": "Su"}, "v": {"en": "unirrigated", "tr": "susuz"}},
+      {"k": {"en": "Aim", "tr": "Amaç"}, "v": {"en": "not given yet", "tr": "henüz belirtilmedi"}}
+    ],
+    "a": [
+      {"t": {"en": "First decide whether you are growing for oil or for the table. The variety follows from that.", "tr": "Önce yağlık mı sofralık mı yetiştireceğinize karar verin; çeşit bundan sonra gelir."}, "s": [1]},
+      {"t": {"en": "On dry land in the Gulf, growers favour the local Ayvalık variety, called Edremit yağlık in the literature: the two names are one cultivar. Gemlik can be grown only where the land can be irrigated.", "tr": "Körfez’in kuru arazilerinde üreticiler yerel Ayvalık çeşidini tercih ediyor; literatürdeki adı Edremit yağlık, iki ad aynı çeşidi gösteriyor. Gemlik ancak sulanabilen arazide yetiştirilebilir."}, "s": [1]},
+      {"t": {"en": "Buy saplings from a certified source. Growers named the olive production station in Edremit.", "tr": "Fidanı sertifikalı bir kaynaktan alın. Üreticiler Edremit’teki zeytin üretim istasyonunu önerdi."}, "s": [1]}
+    ],
+    "ask": {"en": "Is the grove for oil or for table olives?", "tr": "Bahçe yağlık için mi, sofralık için mi?"},
+    "src": [
+      {"tier": "exp", "t": {"en": "Seminar 1", "tr": "Seminer 1"}, "d": {"en": "growers and experts of the Gulf · Aug 2026", "tr": "Körfez’in üretici ve uzmanları · Ağustos 2026"}}
+    ],
+    "claims": ["ayvalik", "gemlik", "station"],
+    "at": 2
+  },
+  {
+    "chip": {"en": "Between the trees", "tr": "Ağaç araları"},
+    "who": {"en": "Grower · Edremit", "tr": "Üretici · Edremit"},
+    "q": {"en": "Can I plant something between my olive trees?", "tr": "Zeytin ağaçlarımın arasına bir şey ekebilir miyim?"},
+    "cond": [
+      {"k": {"en": "Region", "tr": "Bölge"}, "v": {"en": "Gulf of Edremit", "tr": "Edremit Körfezi"}},
+      {"k": {"en": "Water", "tr": "Su"}, "v": {"en": "not given, both cases", "tr": "belirtilmedi, iki durum"}}
+    ],
+    "a": [
+      {"t": {"en": "On dry land, growers agree: plant nothing between the trees.", "tr": "Kuru arazide üreticiler hemfikir: ağaç aralarına hiçbir şey ekmeyin."}, "s": [1]},
+      {"t": {"en": "Where you can irrigate, green manure is the one exception: chickpea or broad bean, turned into the soil at flowering.", "tr": "Sulayabiliyorsanız tek istisna yeşil gübre: nohut ya da bakla, çiçeklenmede toprağa karıştırılır."}, "s": [1]},
+      {"t": {"en": "The reason is water. Nitrogen does not bind in dry soil, so without irrigation even green manure does not help.", "tr": "Sebep su. Azot kuru toprağa bağlanmaz; bu yüzden sulama yoksa yeşil gübre de işe yaramaz."}, "s": [1]}
+    ],
+    "src": [
+      {"tier": "exp", "t": {"en": "Seminar 1", "tr": "Seminer 1"}, "d": {"en": "agreed by the room · Aug 2026", "tr": "salonun ortak görüşü · Ağustos 2026"}}
+    ],
+    "claims": ["between", "manure"],
+    "at": 1
+  },
+  {
+    "chip": {"en": "Is my yield low?", "tr": "Verimim düşük mü?"},
+    "who": {"en": "Grower · Gömeç", "tr": "Üretici · Gömeç"},
+    "q": {"en": "I harvested about 20 kg per tree this year. Is that low?", "tr": "Bu yıl ağaç başına 20 kg civarı hasat ettim. Bu düşük mü?"},
+    "cond": [
+      {"k": {"en": "Region", "tr": "Bölge"}, "v": {"en": "Gulf of Edremit", "tr": "Edremit Körfezi"}},
+      {"k": {"en": "Missing", "tr": "Eksik"}, "v": {"en": "variety, water, age, last year", "tr": "çeşit, su, yaş, geçen yıl"}}
+    ],
+    "a": [
+      {"t": {"en": "I can’t judge that yet, because yield depends on conditions you haven’t told me.", "tr": "Bunu henüz değerlendiremem, çünkü verim bana henüz söylemediğiniz koşullara bağlı."}}
+    ],
+    "ask": {"en": "Which variety are they, is the grove irrigated, how old are the trees, and what did you harvest last year?", "tr": "Hangi çeşit, bahçe sulu mu, ağaçlar kaç yaşında ve geçen yıl ne kadar hasat ettiniz?"},
+    "gap": {"en": "Yield ranges for groves in the Gulf are not yet in my sources. I’ve logged the question for the next seminar.", "tr": "Körfez’deki bahçeler için verim aralıkları henüz kaynaklarımda yok. Soruyu bir sonraki seminer için kaydettim."},
+    "claims": []
+  }
+]
+</script>
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var root = document.documentElement, body = document.body;
+  var params = new URLSearchParams(location.search);
+  var reduce = params.get("motion") === "0" || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var DUR = reduce ? 0 : 1100;
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function mk(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+  function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function halton(i, b) { var f = 1, r = 0; while (i > 0) { f /= b; r += f * (i % b); i = Math.floor(i / b); } return r; }
+  function sstep(a, b, x) { var t = (x - a) / (b - a); t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
+  function bump(x, c, w) { var d = (x - c) / w; return Math.exp(-d * d); }
+  var EASE = {
+    io: function (p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; },
+    back: function (p) { var c1 = 1.45, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); }
+  };
+
+  /* ── language ─────────────────────────────────────────────────── */
+  var lang = root.getAttribute("data-lang") === "tr" ? "tr" : "en";
+  function L(o) { return o == null ? "" : typeof o === "string" ? o : (o[lang] != null ? o[lang] : o.en); }
+  var onLang = [];
+  function setLang(v, quiet) {
+    lang = v;
+    root.setAttribute("data-lang", v); root.lang = v;
+    if (!quiet) store.set("agrigore-lang", v);
+    [].forEach.call(document.querySelectorAll("[data-set-lang]"), function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-set-lang") === v ? "true" : "false"); });
+    var t = document.querySelector('meta[name="title-' + v + '"]'); if (t) document.title = t.content;
+    onLang.forEach(function (f) { f(); });
+  }
+  [].forEach.call(document.querySelectorAll("[data-set-lang]"), function (b) {
+    b.addEventListener("click", function () { setLang(b.getAttribute("data-set-lang")); });
+  });
+
+  /* ── theme ────────────────────────────────────────────────────── */
+  var themes = ["auto", "dark", "light"];
+  var theme = params.get("theme") || store.get("agrigore-theme") || "auto";
+  if (themes.indexOf(theme) < 0) theme = "auto";
+  var tBtn = $("themeBtn");
+  var ICON = {
+    auto: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 2 A6 6 0 0 1 8 14 Z" fill="currentColor"/></svg>',
+    dark: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.5 10.6A5.5 5.5 0 0 1 5.4 4.5 5.5 5.5 0 1 0 11.5 10.6Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+    light: '<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>'
+  };
+  var TNAME = { auto: { en: "Theme: automatic (T)", tr: "Tema: otomatik (T)" }, dark: { en: "Theme: dark (T)", tr: "Tema: koyu (T)" }, light: { en: "Theme: light (T)", tr: "Tema: açık (T)" } };
+  function setTheme(v, quiet) {
+    theme = v;
+    if (v === "auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v);
+    if (!quiet) store.set("agrigore-theme", v);
+    tBtn.innerHTML = ICON[v]; tBtn.setAttribute("aria-label", L(TNAME[v])); tBtn.title = L(TNAME[v]);
+  }
+  tBtn.addEventListener("click", function () { setTheme(themes[(themes.indexOf(theme) + 1) % 3]); });
+  onLang.push(function () { setTheme(theme, true); });
+
+  /* ── the wheel: one intelligence, many places ─────────────────── */
+  var INC = [
+    { id: "livia", name: "Livia", crop: { en: "olives · Northern Aegean", tr: "zeytin · Kuzey Ege" }, first: true },
+    { id: "vita", name: "Vita", crop: { en: "vines · rolling hills", tr: "bağ · dalgalı tepeler" } },
+    { id: "emmer", name: "Emmer", crop: { en: "wheat · open plateau", tr: "buğday · açık yayla" } },
+    { id: "riza", name: "Riza", crop: { en: "rice · terraced paddies", tr: "pirinç · teraslı çeltikler" } },
+    { id: "camilla", name: "Camilla", crop: { en: "tea · steep, misty slopes", tr: "çay · dik, sisli yamaçlar" } },
+    { id: "kaffa", name: "Kaffa", crop: { en: "coffee · shaded highlands", tr: "kahve · gölgeli yaylalar" } },
+    { id: "polly", name: "Polly", crop: { en: "permaculture · food forest", tr: "permakültür · yenilebilir orman" } }
+  ];
+  var TAGS_INC = { first: { en: "first prototype", tr: "ilk prototip" }, maybe: { en: "concept", tr: "konsept" } };
+  // each land in a 400 × 400 lens: g = ground line, f = far ridge, build = water, plants and extras
+  var LAND = {
+    livia: {
+      g: function (x) { return x < 74 ? 297 + (74 - x) * 0.9 : 297 - 7 * sstep(74, 170, x) - 62 * sstep(170, 330, x) + 12 * sstep(330, 420, x) + 1.4 * Math.sin(x / 9) * sstep(200, 260, x); },
+      f: function (x) { return 272 - 16 * bump(x, 34, 30) - 9 * bump(x, 118, 34) - 10 * bump(x, 300, 90); },
+      build: function (g, P) {
+        var sea = "M-10 300 L76 300";
+        for (var sx = 76; sx >= -10; sx -= 4) sea += " L" + sx + " " + g(sx).toFixed(1);
+        P.extra('<path class="lwater" d="' + sea + ' Z"/><path class="lwave" d="M6 308q6-3 12 0t12 0M30 316q6-3 12 0t12 0"/>');
+        for (var x = 84; x <= 392; ) { P.plant("p-olive", x, 0.82 + 0.16 * P.r(), P.r() < 0.5); x += x < 170 ? 15 : x < 300 ? 21 : 28; }
+      }
+    },
+    vita: {
+      g: function (x) { return 284 - 22 * Math.sin((x - 20) / 62) - 5 * Math.sin(x / 23); },
+      f: function (x) { return 246 - 12 * Math.sin(x / 88 + 1); },
+      build: function (g, P) {
+        var back = "", front = "M6 " + (g(6) - 12).toFixed(1);
+        for (var x = 6; x <= 396; x += 6) front += " L" + x + " " + (g(x) - 12).toFixed(1);
+        for (x = 10; x <= 390; x += 9) back += '<use href="#p-vine" transform="translate(' + x + " " + (g(x) - 15).toFixed(1) + ') scale(.7)" opacity=".5"/>';
+        P.extra(back);
+        for (x = 6; x <= 396; x += 12) P.plant("p-vine", x, 0.86);
+        P.extra('<path class="wire" d="' + front + '"/>');
+      }
+    },
+    emmer: {
+      g: function (x) { return 292 - 3 * Math.sin(x / 47); },
+      f: function (x) { return 266 - 30 * bump(x, 110, 62) - 18 * bump(x, 300, 50) - 6 * bump(x, 220, 30); },
+      build: function (g, P) {
+        P.plant("p-tree", 318, 1.15, false, undefined, 0);
+        var s = "";
+        for (var x = 8; x <= 392; x += 6) s += '<use href="#p-wheat" transform="translate(' + x + " " + (g(x) - 5).toFixed(1) + ') scale(.68)" opacity=".45"/>';
+        P.extra(s);
+        for (x = 6; x <= 394; x += 5.2) P.plant("p-wheat", x + (P.r() - 0.5) * 2, 0.72 + 0.34 * P.r());
+      }
+    },
+    riza: {
+      g: function (x) { var k = Math.min(4, Math.floor(x / 80)), u = x - 80 * k; return 232 + 22 * k + (k < 4 ? 22 * sstep(66, 80, u) : 0); },
+      f: function (x) { return 238 - 34 * bump(x, 50, 70) - 10 * bump(x, 250, 90); },
+      build: function (g, P) {
+        var s = "";
+        for (var k = 0; k < 5; k++) {
+          var y = 232 + 22 * k;
+          s += '<rect class="lwater" x="' + (80 * k + 1) + '" y="' + (y - 1.4) + '" width="' + (k < 4 ? 64 : 80) + '" height="3.4"/>';
+          s += '<path class="lwave" d="M' + (80 * k + 12) + " " + (y + 0.4) + "h" + (k < 4 ? 18 : 26) + '"/>';
+        }
+        P.extra(s);
+        for (k = 0; k < 5; k++) for (var x = 80 * k + 5; x <= 80 * k + (k < 4 ? 62 : 78); x += 7) P.plant("p-rice", x, 0.72 + 0.14 * P.r());
+      }
+    },
+    camilla: {
+      g: function (x) { return 334 - 148 * sstep(0, 400, x) + 4 * Math.sin(x / 19); },
+      f: function (x) { return 232 - 46 * bump(x, 110, 90) - 30 * bump(x, 320, 70); },
+      build: function (g, P) {
+        P.extra('<rect class="mist" x="-10" y="222" width="420" height="16" opacity=".55"/><rect class="mist" x="-10" y="258" width="420" height="10" opacity=".4"/>');
+        for (var r = 0; r < 5; r++) for (var x = 8 + (r % 2) * 7; x <= 394; x += 14) { var y = g(x) + 4 + 15 * r; if (y < 396) P.plant("p-tea", x, 0.74 + 0.05 * r, false, y); }
+      }
+    },
+    kaffa: {
+      g: function (x) { return 282 - 10 * Math.sin(x / 41) - 18 * sstep(240, 400, x); },
+      f: function (x) { return 262 - 96 * bump(x, 292, 50) - 20 * bump(x, 96, 60); },
+      build: function (g, P) {
+        [60, 150, 250, 344].forEach(function (x) { P.plant("p-shade", x, 0.95 + 0.1 * P.r(), false, undefined, 0); });
+        for (var x = 8; x <= 394; x += 11) P.plant("p-coffee", x, 0.74 + 0.12 * P.r());
+      }
+    },
+    polly: {
+      g: function (x) { return 272 + 24 * bump(x, 200, 96) - 8 * sstep(300, 400, x); },
+      f: function (x) { return 244 - 16 * bump(x, 70, 60) - 12 * bump(x, 330, 60); },
+      build: function (g, P) {
+        P.extra('<ellipse class="lwater" cx="200" cy="' + (g(200) + 1.5).toFixed(1) + '" rx="44" ry="5.5"/><path class="lwave" d="M178 ' + (g(200) + 1.5).toFixed(1) + 'h18M206 ' + (g(200) + 3).toFixed(1) + 'h14"/>');
+        [[60, "p-tree", 1.25], [342, "p-tree", 1.12], [104, "p-fruit", 0.98], [294, "p-fruit", 0.92]].forEach(function (p) { P.plant(p[1], p[0], p[2], P.r() < 0.5); });
+        [82, 126, 150, 250, 272, 318, 362].forEach(function (x) { P.plant("p-shrub", x, 0.78 + 0.2 * P.r()); });
+        [16, 30, 138, 160, 240, 262, 380, 392].forEach(function (x) { P.plant("p-herb", x, 1.05); });
+        [44, 116, 284, 330].forEach(function (x) { P.plant("p-vine", x, 0.6); });
+      }
+    }
+  };
+  var SAMPLES = 81;
+  function sampleOf(fn) { var a = []; for (var i = 0; i < SAMPLES; i++) a.push(fn(i * 5)); return a; }
+
+  function Wheel(svg, opts) {
+    opts = opts || {};
+    var C = 240, RR = 208, uid = svg.id;
+    svg.innerHTML = "";
+    var defs = mk("defs", {}, svg);
+    defs.innerHTML = '<clipPath id="lc-' + uid + '"><circle cx="200" cy="200" r="180"/></clipPath>' +
+      '<linearGradient id="lsoilG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--soil)"/><stop offset="1" style="stop-color:var(--soil-2)"/></linearGradient>';
+    mk("circle", { cx: C, cy: C, r: RR, "class": "ring-track" }, svg);
+    var ring = mk("g", {}, svg);
+    var N = INC.length, step = 360 / N, nodes = [];
+    for (var t = 0; t < N * 4; t++) {
+      var ta = (-90 + t * step / 4) * Math.PI / 180;
+      if (t % 4 === 0) continue;
+      mk("line", { x1: (C + (RR - 3) * Math.cos(ta)).toFixed(1), y1: (C + (RR - 3) * Math.sin(ta)).toFixed(1), x2: (C + (RR + 3) * Math.cos(ta)).toFixed(1), y2: (C + (RR + 3) * Math.sin(ta)).toFixed(1), "class": "ring-tick" }, ring);
+    }
+    INC.forEach(function (inc, i) {
+      var a = (-90 + i * step) * Math.PI / 180, nx = C + RR * Math.cos(a), ny = C + RR * Math.sin(a);
+      var g = mk("g", { "class": "node" + (inc.first ? " first" : ""), "data-i": i }, ring);
+      var inner = mk("g", {}, g);
+      mk("circle", { cx: 0, cy: 0, r: 18, "class": "dot" }, inner);
+      var face = mk("g", { "class": "face" }, inner);
+      mk("use", { href: "#i-" + inc.id }, face);
+      nodes.push({ g: g, inner: inner, x: nx, y: ny });
+      if (opts.onPick) g.addEventListener("click", function () { opts.onPick(i); });
+    });
+    mk("path", { d: "M" + C + " " + (C - RR - 24) + " l-6.5 -8 h13 z", "class": "pointer" }, svg);
+    var lens = mk("g", { transform: "translate(40 40)" }, svg);
+    mk("circle", { cx: 200, cy: 200, r: 180, "class": "sky" }, lens);
+    var clip0 = mk("g", { "clip-path": "url(#lc-" + uid + ")" }, lens);
+    var clip = mk("g", { transform: "translate(0 -44)" }, clip0);
+    var farP = mk("path", { "class": "far" }, clip), soilP = mk("path", { "class": "lsoil" }, clip);
+    var landG = {}, lands = opts.only ? [opts.only] : INC.map(function (x) { return x.id; });
+    lands.forEach(function (id) {
+      var def = LAND[id], g = mk("g", { "class": "lland" }, clip), r = mulberry(id.length * 977 + 13);
+      var extras = mk("g", { "class": "extra" }, g), plants = mk("g", {}, g);
+      var P = {
+        r: r,
+        extra: function (html) { extras.insertAdjacentHTML("beforeend", html); },
+        plant: function (sym, x, s, flip, y, delay) {
+          var gy = y === undefined ? def.g(x) + 0.6 : y;
+          s *= 1.25;
+          var w = mk("g", { transform: "translate(" + x.toFixed(1) + " " + gy.toFixed(1) + ") scale(" + (flip ? -s : s).toFixed(3) + " " + s.toFixed(3) + ")" }, plants);
+          mk("use", { href: "#" + sym, "class": "crop", style: "--d:" + (delay !== undefined ? delay : Math.round(420 + x * 1.35 + r() * 90)) + "ms" }, w);
+        }
+      };
+      def.build(def.g, P);
+      landG[id] = g;
+    });
+    var ridgeP = mk("path", { "class": "lridge" }, clip);
+    mk("circle", { cx: 200, cy: 200, r: 180, "class": "lens-rim" }, lens);
+
+    var curG = sampleOf(LAND[lands[0]].g), curF = sampleOf(LAND[lands[0]].f), mraf = 0;
+    function draw(G, F) {
+      var d = "M-10 " + G[0].toFixed(1), f = "M-10 " + F[0].toFixed(1), r = "";
+      for (var i = 0; i < SAMPLES; i++) { d += " L" + i * 5 + " " + G[i].toFixed(1); f += " L" + i * 5 + " " + F[i].toFixed(1); r += (i ? " L" : "M") + i * 5 + " " + G[i].toFixed(1); }
+      soilP.setAttribute("d", d + " L410 " + G[SAMPLES - 1].toFixed(1) + " L410 470 L-10 470 Z");
+      farP.setAttribute("d", f + " L410 " + F[SAMPLES - 1].toFixed(1) + " L410 470 L-10 470 Z");
+      ridgeP.setAttribute("d", r);
+    }
+    function morphTo(id, instant) {
+      var G1 = sampleOf(LAND[id].g), F1 = sampleOf(LAND[id].f), G0 = curG.slice(), F0 = curF.slice(), t0 = performance.now(), D = 900;
+      cancelAnimationFrame(mraf);
+      if (instant || reduce) { curG = G1; curF = F1; draw(curG, curF); return; }
+      (function tick(now) {
+        var p = Math.min(1, (now - t0) / D), k = EASE.io(p);
+        for (var i = 0; i < SAMPLES; i++) { curG[i] = G0[i] + (G1[i] - G0[i]) * k; curF[i] = F0[i] + (F1[i] - F0[i]) * k; }
+        draw(curG, curF);
+        if (p < 1) mraf = requestAnimationFrame(tick);
+      })(t0);
+    }
+    var angle = 0, raf = 0, cur = -1;
+    function setAngle(a) {
+      angle = a;
+      ring.setAttribute("transform", "rotate(" + a.toFixed(2) + " " + C + " " + C + ")");
+      nodes.forEach(function (n) { n.inner.setAttribute("transform", "translate(" + n.x.toFixed(1) + " " + n.y.toFixed(1) + ") rotate(" + (-a).toFixed(2) + ")"); });
+    }
+    function turnTo(a1, instant) {
+      cancelAnimationFrame(raf);
+      var a0 = angle, t0 = performance.now(), D = 820;
+      if (instant || reduce) { setAngle(a1); return; }
+      (function tick(now) {
+        var p = Math.min(1, (now - t0) / D);
+        setAngle(a0 + (a1 - a0) * EASE.back(p));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      })(t0);
+    }
+    // k counts turns: the wheel only ever turns one way, so a full turn lands back on Livia
+    function show(k, instant) {
+      var i = ((k % N) + N) % N, id = INC[i].id;
+      nodes.forEach(function (n, j) { n.g.classList.toggle("on", j === i); });
+      turnTo(-k * step, instant);
+      if (landG[id]) {
+        Object.keys(landG).forEach(function (key) {
+          var g = landG[key];
+          if (key === id) { g.classList.remove("out"); if (instant || reduce) g.classList.add("on"); else { g.classList.remove("on"); void g.getBoundingClientRect(); requestAnimationFrame(function () { g.classList.add("on"); }); } }
+          else if (g.classList.contains("on")) { g.classList.remove("on"); g.classList.add("out"); }
+        });
+        morphTo(id, instant);
+      }
+      cur = k;
+    }
+    draw(curG, curF);
+    return { show: show, get k() { return cur; }, normalize: function () { var i = ((cur % N) + N) % N; cur = i; setAngle(-i * step); } };
+  }
+
+  var W1 = null, wheelTimer = 0, wheelAuto = !reduce && params.get("wheel") !== "0", wheelVisible = true;
+  var incText = $("incText"), incName = $("incName"), incTag = $("incTag"), incCrop = $("incCrop");
+  function caption(i, animate) {
+    var inc = INC[i];
+    function fill() {
+      incName.textContent = inc.name;
+      incTag.textContent = L(inc.first ? TAGS_INC.first : TAGS_INC.maybe);
+      incTag.classList.toggle("first", !!inc.first);
+      incCrop.textContent = L(inc.crop);
+      $("wheelSvg").setAttribute("aria-label", inc.name + " · " + L(inc.crop) + " · " + L(inc.first ? TAGS_INC.first : TAGS_INC.maybe));
+    }
+    if (!animate || reduce) { fill(); return; }
+    incText.classList.add("swap");
+    setTimeout(function () { fill(); incText.classList.remove("swap"); }, 240);
+  }
+  function wheelGo(k, animate) { W1.show(k, !animate); caption(((k % INC.length) + INC.length) % INC.length, animate); }
+  function stopWheel() { clearTimeout(wheelTimer); wheelTimer = 0; wheelAuto = false; }
+  function playWheel() {
+    clearTimeout(wheelTimer);
+    if (!wheelAuto) return;
+    // one full turn through the places Agrigore could grow into, then back to Livia, where it rests
+    function tick() {
+      if (!wheelVisible) { wheelTimer = setTimeout(tick, 600); return; }
+      var k = W1.k + 1;
+      wheelGo(k, true);
+      if (k % INC.length === 0) { wheelAuto = false; setTimeout(function () { W1.normalize(); }, 900); return; }
+      wheelTimer = setTimeout(tick, 2300);
+    }
+    wheelTimer = setTimeout(tick, 1600);
+  }
+  W1 = Wheel($("wheelSvg"), { onPick: function (i) { stopWheel(); var k = W1.k, n = INC.length, cur = ((k % n) + n) % n, fwd = (i - cur + n) % n; wheelGo(k + fwd, true); } });
+  $("incPrev").addEventListener("click", function () { stopWheel(); wheelGo(W1.k - 1, true); });
+  $("incNext").addEventListener("click", function () { stopWheel(); wheelGo(W1.k + 1, true); });
+  var W2 = Wheel($("wheelSvg2"), { only: "livia" });
+  W2.show(0, true);
+  onLang.push(function () { caption(((W1.k % INC.length) + INC.length) % INC.length, false); });
+
+  /* ── the picture ──────────────────────────────────────────────── */
+  var svg = $("scene"), stage = document.querySelector(".stage"), tipEl = $("tip");
+  function el(tag, attrs, parent) { return mk(tag, attrs, parent || svg); }
+  var rand = mulberry(20260926);
+  // the Gulf in cross-section: sea, the irrigable coastal plain, gentle slopes, dry hills
+  function ground(x) {
+    if (x < 110) return 612 + (110 - x) * 0.6;
+    return 612 - 14 * sstep(110, 330, x) - 96 * sstep(330, 565, x) - 74 * sstep(545, 715, x) + 20 * sstep(715, 810, x) + 2.4 * Math.sin((x - 520) / 17) * sstep(540, 620, x);
+  }
+  var SEA_Y = 616;
+  var BANDS = [{ id: "plain", x0: 110, x1: 335, cx: 222 }, { id: "slope", x0: 335, x1: 560, cx: 448 }, { id: "hill", x0: 560, x1: 800, cx: 680 }];
+  function bandOf(x) { return x < 335 ? 0 : x < 560 ? 1 : 2; }
+
+  var STR = {
+    sea1: { en: "Gulf of", tr: "Edremit" }, sea2: { en: "Edremit", tr: "Körfezi" },
+    plain: { en: "Plain", tr: "Ova" }, plainS: { en: "irrigable", tr: "sulanabilir" },
+    slope: { en: "Slopes", tr: "Yamaçlar" }, slopeS: { en: "gentle", tr: "hafif eğimli" },
+    hill: { en: "Dry hills", tr: "Kuru tepeler" }, hillS: { en: "unirrigated", tr: "susuz" },
+    lib: { en: "Research", tr: "Araştırma" }, libS: { en: "1,200+ documents", tr: "1.200+ belge" },
+    room: { en: "Local experts", tr: "Yerel uzmanlar" }, roomS: { en: "5 seminars", tr: "5 seminer" },
+    grow: { en: "Growers", tr: "Üreticiler" }, growS: { en: "questions and feedback", tr: "sorular ve geri bildirim" },
+    band: { en: "one shared memory", tr: "tek bir ortak bellek" },
+    gap: { en: "not yet known", tr: "henüz bilinmiyor" },
+    pair: { en: "kept side by side", tr: "yan yana tutulur" },
+    mem: { en: "one shared memory", tr: "tek bir ortak bellek" },
+    t1: { en: "Ayvalık", tr: "Ayvalık" }, t2: { en: "unirrigated", tr: "susuz" }, t3: { en: "slope over 5%", tr: "eğim %5’in üstünde" },
+    m0: { en: "Researchers", tr: "Araştırmacılar" }, m1: { en: "Local experts", tr: "Yerel uzmanlar" }, m2: { en: "Livia", tr: "Livia" }, m3: { en: "Growers", tr: "Üreticiler" }, m4: { en: "Developers", tr: "Geliştiriciler" }
+  };
+  var ZONE = [{ en: "Irrigable plain", tr: "Sulanabilir ova" }, { en: "Gentle slopes", tr: "Hafif yamaçlar" }, { en: "Dry hills", tr: "Kuru tepeler" }];
+  var SRCL = { res: { en: "Research", tr: "Araştırma" }, exp: { en: "Local experts", tr: "Yerel uzmanlar" }, grow: { en: "Growers", tr: "Üreticiler" } };
+  var TOPICS = [{ en: "Varieties", tr: "Çeşitler" }, { en: "Soil and water", tr: "Toprak ve su" }, { en: "Pruning", tr: "Budama" }, { en: "Pests and diseases", tr: "Zararlılar ve hastalıklar" }, { en: "Harvest and oil", tr: "Hasat ve yağ" }];
+  var SHAPE = { res: "M-.86-.86H.86V.86H-.86Z", exp: "M1 0A1 1 0 1 1-1 0 1 1 0 1 1 1 0Z", grow: "M0-1.16L1.06.72H-1.06Z" };
+
+  var defs = el("defs", {});
+  defs.innerHTML =
+    '<linearGradient id="soilG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--soil)"/><stop offset=".62" style="stop-color:var(--soil)"/><stop offset="1" style="stop-color:var(--soil);stop-opacity:0"/></linearGradient>' +
+    '<linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--sea);stop-opacity:.2"/><stop offset="1" style="stop-color:var(--sea);stop-opacity:0"/></linearGradient>' +
+    '<linearGradient id="fadeX" gradientUnits="userSpaceOnUse" x1="-20" y1="0" x2="820" y2="0"><stop offset="0" stop-color="#000"/><stop offset=".075" stop-color="#fff"/><stop offset=".93" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>' +
+    '<mask id="landM" maskUnits="userSpaceOnUse" x="-40" y="0" width="880" height="800"><rect x="-40" y="0" width="880" height="800" fill="url(#fadeX)"/></mask>';
+  var egrBack = el("g", { "class": "layer-egr" });
+  var world = el("g", { "class": "world" });
+  var Lr = {};
+  ["land", "cols", "lines", "struct", "claims", "over", "hover", "labels"].forEach(function (n) { Lr[n] = el("g", { "class": "layer-" + n }, world); });
+  var landArt = el("g", { mask: "url(#landM)" }, Lr.land);
+  var egrFront = el("g", { "class": "layer-egr" });
+
+  /* ── tween registry: every object animates on its own clock ───── */
+  var objs = [], lineObjs = [];
+  function makeObj(apply, init, isLine) {
+    var o = { cur: { x: 400, y: 400, o: 0, r: 0 }, from: null, to: null, next: null, apply: apply, isLine: !!isLine };
+    for (var k in init) o.cur[k] = init[k];
+    (isLine ? lineObjs : objs).push(o);
+    return o;
+  }
+  function T(o, t, delay, opt) { for (var k in t) o.next[k] = t[k]; o.nextDelay = delay || 0; o.nextOpt = opt || null; }
+  function fader(e) { var o = makeObj(function (ob) { e.setAttribute("opacity", ob.cur.o.toFixed(3)); }, {}); e.setAttribute("opacity", "0"); return o; }
+  var D = {};
+  var MS = 1, FS = 1;
+
+  /* labels: text, size and position follow the language and the rendered size */
+  var LABELS = [];
+  function lab(parent, key, x, y, cls, size, anchor, fixed) {
+    var r = { e: el("text", { "class": cls, "text-anchor": anchor || "middle" }, parent), key: key, x: x, y: y, size: size, fixed: !!fixed };
+    LABELS.push(r); return r;
+  }
+  function layoutLabels() {
+    LABELS.forEach(function (r) {
+      var f = r.fixed ? 1 : FS;
+      var x = typeof r.x === "function" ? r.x(f) : r.x, y = typeof r.y === "function" ? r.y(f) : r.y;
+      r.e.setAttribute("x", (+x).toFixed(1)); r.e.setAttribute("y", (+y).toFixed(1));
+      r.e.setAttribute("font-size", (r.size * f).toFixed(1));
+      r.e.textContent = typeof r.key === "function" ? r.key() : L(STR[r.key]);
+    });
+  }
+
+  // soil, sea and ridge: the one thing that never leaves the picture
+  var soil = "M-20 " + ground(-20).toFixed(1), x;
+  for (x = -15; x <= 820; x += 5) soil += " L" + x + " " + ground(x).toFixed(1);
+  el("path", { d: soil + " L820 728 L-20 728 Z", "class": "soil" }, landArt);
+  el("rect", { x: -20, y: SEA_Y, width: 124, height: 112, "class": "water" }, landArt);
+  [[34, 632, 44], [26, 698, 50], [44, 712, 34]].forEach(function (w) {
+    el("path", { d: "M" + w[0] + " " + w[1] + " q" + (w[2] / 4) + " -4 " + (w[2] / 2) + " 0 t" + (w[2] / 2) + " 0", "class": "wave" }, landArt);
+  });
+  var ridge = "M104 " + ground(104).toFixed(1);
+  for (x = 105; x <= 820; x += 5) ridge += " L" + x + " " + ground(x).toFixed(1);
+  el("path", { d: ridge, "class": "ridge" }, landArt);
+
+  // the growers stand on their own land; olive trees crowd the irrigable plain and thin out over the dry hills
+  var GROWERS = [{ x: 252 }, { x: 470 }, { x: 650 }];
+  GROWERS.forEach(function (g) { g.y = ground(g.x); g.hx = g.x; g.hy = g.y - 16; });
+  var treesG = el("g", {}, landArt), TREES = [];
+  [[124, 328, 18, 0.86], [350, 550, 25, 0.95], [576, 794, 33, 1]].forEach(function (b) {
+    for (var tx = b[0]; tx <= b[1]; tx += b[2]) {
+      var px = tx + (rand() - .5) * b[2] * .3;
+      if (GROWERS.some(function (g) { return Math.abs(g.x - px) < 11; })) continue;
+      TREES.push({ u: el("use", { href: "#p-olive" }, treesG), x: px, y: ground(px) + 0.5, s: b[3] * (0.9 + rand() * 0.2), flip: rand() < 0.5 });
+    }
+  });
+  var growG = el("g", {}, Lr.land);
+  GROWERS.forEach(function (g) { g.use = el("use", { href: "#p-person" }, growG); });
+  D.growers = fader(growG);
+  var growLabG = el("g", {}, Lr.labels); D.growLab = fader(growLabG);
+  lab(growLabG, "grow", 470, function (f) { return 584 + 4 * (f - 1); }, "zl halo", 14);
+  lab(growLabG, "growS", 470, function (f) { return 600 + 16 * (f - 1); }, "zs halo", 10.5);
+
+  var zonesG = el("g", {}, Lr.land); D.zones = fader(zonesG);
+  BANDS.forEach(function (b) {
+    lab(zonesG, b.id, b.cx, 668, "zl", 15);
+    lab(zonesG, b.id + "S", b.cx, function (f) { return 668 + 18 * f; }, "zs", 11);
+  });
+  lab(zonesG, "sea1", 64, 656, "zs sea", 11);
+  lab(zonesG, "sea2", 64, function (f) { return 656 + 16 * f; }, "zs sea", 11);
+
+  // the memory: a layer of knowledge over the land
+  (function () {
+    var d = "M118 " + (ground(118) - 216).toFixed(1), xx;
+    for (xx = 125; xx <= 800; xx += 5) d += " L" + xx + " " + (ground(xx) - 216).toFixed(1);
+    for (xx = 800; xx >= 118; xx -= 5) d += " L" + xx + " " + (ground(xx) - 26).toFixed(1);
+    var g = el("g", { mask: "url(#landM)" }, Lr.cols);
+    el("path", { d: d + " Z", "class": "band" }, g);
+    D.band = fader(g);
+  })();
+  var bandLabG = el("g", {}, Lr.labels); D.bandLab = fader(bandLabG);
+  lab(bandLabG, "band", 126, function (f) { return ground(126) - 226 - 6 * (f - 1); }, "cap leaf halo", 10.5, "start");
+
+  // a band's knowledge column: the air above that land
+  function colPath(x0, x1, top) {
+    var d = "M" + x0 + " " + ground(x0).toFixed(1) + " L" + x0 + " " + (top + 16) + " Q" + x0 + " " + top + " " + (x0 + 16) + " " + top + " L" + (x1 - 16) + " " + top + " Q" + x1 + " " + top + " " + x1 + " " + (top + 16) + " L" + x1 + " " + ground(x1).toFixed(1);
+    for (var xx = x1; xx >= x0; xx -= 5) d += " L" + xx + " " + ground(xx).toFixed(1);
+    return d + " Z";
+  }
+  D.colHill = fader(el("path", { d: colPath(566, 796, 226), "class": "col" }, Lr.cols));
+  D.colPlain = fader(el("path", { d: colPath(116, 334, 386), "class": "col" }, Lr.cols));
+
+  /* ── the two sources above the land ───────────────────────────── */
+  var LIB = { x: 116, y: 128 }, ROOM = { x: 684, y: 128 };
+  var libG = el("g", { "class": "lib" }, Lr.struct);
+  el("circle", { cx: -7, cy: -4, r: 32, "class": "pulse" }, libG);
+  [[-24, -30], [-18, -25], [-12, -20]].forEach(function (p, i) {
+    el("rect", { x: p[0], y: p[1], width: 34, height: 42, rx: 3, "class": "doc" }, libG);
+    if (i === 2) [-12, -6, 0, 6].forEach(function (yy, k) { el("line", { x1: p[0] + 7, y1: yy, x2: p[0] + (k === 3 ? 20 : 27), y2: yy, "class": "docl" }, libG); });
+  });
+  lab(libG, "lib", 0, -58, "zl", 15, "middle", true);
+  lab(libG, "libS", 0, -42, "zs", 10.5, "middle", true);
+  var roomG = el("g", { "class": "room" }, Lr.struct);
+  el("circle", { cx: 0, cy: 0, r: 30, "class": "pulse" }, roomG);
+  el("circle", { cx: 0, cy: 0, r: 12, "class": "table" }, roomG);
+  for (var pi = 0; pi < 8; pi++) {
+    var pa = -Math.PI / 2 + pi * Math.PI / 4, pg = el("g", { "class": "person", transform: "translate(" + (29 * Math.cos(pa)).toFixed(1) + " " + (29 * Math.sin(pa)).toFixed(1) + ") scale(.6)" }, roomG);
+    el("path", { d: "M-11 13 a11 10 0 0 1 22 0 z", "class": "torso" }, pg); el("circle", { cx: 0, cy: -5, r: 6.5, "class": "head" }, pg);
+  }
+  lab(roomG, "room", 0, -64, "zl", 15, "middle", true);
+  lab(roomG, "roomS", 0, -48, "zs", 10.5, "middle", true);
+  D.lib = fader(libG); D.room = fader(roomG);
+
+  /* ── claims and questions ─────────────────────────────────────── */
+  var CLAIMS = [], CM = {};
+  function addClaim(c) {
+    c.e = el("path", { d: SHAPE[c.src], "class": "c " + c.src }, Lr.claims);
+    c.band = bandOf(c.x); c.cls = "";
+    c.obj = makeObj(function (o) {
+      c.e.setAttribute("transform", "translate(" + o.cur.x.toFixed(1) + " " + o.cur.y.toFixed(1) + ") scale(" + Math.max(0.001, o.cur.r * MS).toFixed(3) + ")");
+      c.e.setAttribute("opacity", Math.min(1, o.cur.o).toFixed(3));
+    }, { x: c.x, y: c.y });
+    c.obj.claim = c; c.i = CLAIMS.length; CLAIMS.push(c); if (c.id) CM[c.id] = c;
+  }
+  var S1 = { en: "Seminar 1", tr: "Seminer 1" };
+  function src1(en, tr) { return { en: S1.en + " · " + en, tr: S1.tr + " · " + tr }; }
+  var FORUM = { en: "Grower question · from a farmers’ forum · taken to seminar 1", tr: "Üretici sorusu · bir çiftçi forumundan · seminer 1’e taşındı" };
+  // records that exist: testimony from the first seminar, two research findings, and real growers' questions
+  [
+    { id: "space", x: 655, h: 118, src: "exp", t: { en: "Without irrigation, Ayvalık trees 7 × 7 m apart: 5 × 5 is very risky, 8 × 8 safe in a drought.", tr: "Sulama yoksa Ayvalık ağaçları 7 × 7 m aralıkla: 5 × 5 çok riskli, 8 × 8 kuraklıkta güvenli." }, s: src1("a grower since 1996", "1996’dan beri üretici") },
+    { id: "contour", x: 738, h: 80, src: "exp", t: { en: "On slopes steeper than 5%, plant along the contour.", tr: "Eğim yüzde beşi geçiyorsa kontur dikimi yapın." }, s: src1("a grower since 1996", "1996’dan beri üretici") },
+    { id: "between", x: 596, h: 60, src: "exp", t: { en: "On dry land, plant nothing between the trees: nitrogen does not bind in dry soil.", tr: "Kuru arazide ağaç aralarına bir şey ekmeyin: azot kuru toprağa bağlanmaz." }, s: src1("agreed by the room", "salonun ortak görüşü") },
+    { id: "prune", x: 706, h: 166, src: "res", t: { en: "Regularly pruned old trees used water more efficiently and suffered less in drought.", tr: "Düzenli budanan yaşlı ağaçlar suyu daha etkin kullandı ve kuraklıktan daha az etkilendi." }, s: { en: "Zeytin Bilimi (Olive Science), 2018", tr: "Zeytin Bilimi, 2018" } },
+    { id: "forty", x: 612, h: 150, src: "exp", t: { en: "Forty is not old for an olive; regular pruning keeps a tree young.", tr: "Kırk yaş bir zeytin için yaşlı sayılmaz; ağacı genç tutan düzenli budamadır." }, s: S1 },
+    { id: "topping", x: 766, h: 132, src: "exp", t: { en: "After topping, yield per tree fell from about 200 kg to about 70 kg.", tr: "Tepeden kesimden sonra ağaç başına verim yaklaşık 200 kg’dan 70 kg’a düştü." }, s: src1("one grower’s caution", "bir üreticinin uyarısı") },
+    { id: "gemlikdry", x: 684, h: 48, src: "exp", t: { en: "Unirrigated Gemlik on a hilltop bears every year, if harvested by hand and pruned every year.", tr: "Tepedeki susuz Gemlik, elle hasat edilir ve her yıl budanırsa her yıl ürün verir." }, s: src1("one grower’s grove", "bir üreticinin bahçesi") },
+    { id: "gemlik", x: 262, h: 72, src: "exp", t: { en: "Gemlik can be grown only where the land can be irrigated.", tr: "Gemlik ancak sulanabilen arazide yetiştirilebilir." }, s: src1("an agricultural engineer", "bir ziraat mühendisi") },
+    { id: "manure", x: 180, h: 112, src: "exp", t: { en: "Where you can irrigate, green manure is the one crop between the trees, turned in at flowering.", tr: "Sulayabiliyorsanız ağaç arasına tek ekilecek şey yeşil gübredir; çiçeklenmede toprağa karıştırılır." }, s: src1("agreed by the room", "salonun ortak görüşü") },
+    { id: "hedge", x: 310, h: 150, src: "res", t: { en: "Very dense hedge plantings rely mostly on a few Spanish and Italian varieties.", tr: "Çok sık, çit tipi dikimler çoğunlukla birkaç İspanyol ve İtalyan çeşidine dayanır." }, s: { en: "Zeytin Bilimi (Olive Science), 2017", tr: "Zeytin Bilimi, 2017" } },
+    { id: "ayvalik", x: 372, h: 152, src: "exp", t: { en: "Ayvalık yağlık and Edremit yağlık, the literature’s name, are one cultivar.", tr: "Ayvalık yağlık ile literatürdeki adıyla Edremit yağlık aynı çeşittir." }, s: S1 },
+    { id: "station", x: 150, h: 160, src: "exp", t: { en: "Buy saplings from a certified source; growers named the olive production station in Edremit.", tr: "Fidanı sertifikalı bir kaynaktan alın; üreticiler Edremit’teki zeytin üretim istasyonunu önerdi." }, s: S1 },
+    { id: "q1", x: 205, h: 46, src: "grow", t: { en: "Which cultivars suit this region, and where should I buy saplings?", tr: "Bölge için önereceğiniz çeşitler hangileri? Fidanı nereden, neye dikkat ederek almalı?" }, s: FORUM },
+    { id: "q2", x: 296, h: 42, src: "grow", t: { en: "Is high-density planting worth it, for labour and for yield?", tr: "Bodur ya da sık dikim cazip mi, işçilik ve verim bakımından?" }, s: FORUM },
+    { id: "q3", x: 158, h: 42, src: "grow", t: { en: "What can I plant between my trees?", tr: "Ağaç aralarına ne ekilebilir?" }, s: FORUM },
+    { id: "q4", x: 724, h: 40, src: "grow", t: { en: "How should I rejuvenate trees over forty?", tr: "Kırk yaş üstü ağaçta gençleştirme budaması nasıl olmalı?" }, s: FORUM },
+    { id: "q5", x: 384, h: 44, src: "grow", t: { en: "What would you tell someone starting olives from outside the region?", tr: "Zeytin yapılmayan bir yerden zeytinciliğe girmek isteyene ne dersiniz?" }, s: FORUM }
+  ].forEach(function (c) { c.y = ground(c.x) - c.h; addClaim(c); });
+
+  // the empty patch over the slopes: what nobody has answered yet
+  var GAPR = { x0: 398, x1: 514, y0: 372, y1: 492 };
+  function nearGap(px, py, pad) { return px > GAPR.x0 - pad && px < GAPR.x1 + pad && py > GAPR.y0 - pad && py < GAPR.y1 + pad; }
+  [16, 16, 12].forEach(function (n, bi) {
+    var b = BANDS[bi], made = 0, i = 1 + bi * 97;
+    while (made < n && i < 2000) {
+      i++;
+      var px = b.x0 + 16 + (b.x1 - b.x0 - 32) * halton(i, 2), h = 64 + (bi === 2 ? 122 : 142) * halton(i, 3), py = ground(px) - h;
+      if (nearGap(px, py, 10)) continue;
+      if (CLAIMS.some(function (c) { return Math.hypot(c.x - px, c.y - py) < 18; })) continue;
+      addClaim({ x: px, y: py, src: rand() < .66 ? "res" : "exp", topic: Math.floor(rand() * 5) });
+      made++;
+    }
+  });
+  // what the next seminar adds once the gap is on its agenda
+  var FILL = [];
+  for (var hi = 3; FILL.length < 8 && hi < 400; hi++) {
+    var fx = GAPR.x0 + 14 + (GAPR.x1 - GAPR.x0 - 28) * halton(hi, 2), fy = GAPR.y0 + 14 + (GAPR.y1 - GAPR.y0 - 28) * halton(hi, 3);
+    if (FILL.some(function (c) { return Math.hypot(c.x - fx, c.y - fy) < 22; })) continue;
+    var fres = FILL.length < 3;
+    var fc = { x: fx, y: fy, src: fres ? "res" : "exp", topic: 4, fill: true, fi: FILL.length, s: fres ? { en: "from a targeted research run", tr: "hedefli bir araştırma taramasından" } : { en: "from the next seminar", tr: "bir sonraki seminerden" } };
+    addClaim(fc); FILL.push(fc);
+  }
+  var byX = CLAIMS.slice().sort(function (a, b) { return a.x - b.x; });
+  byX.forEach(function (c, k) { c.order = k / byX.length; });
+
+  /* ── markers ──────────────────────────────────────────────────── */
+  function marker(build, init, layer) {
+    var g = el("g", {}, layer || Lr.over), inner = el("g", {}, g);
+    build(inner);
+    var o = makeObj(function (ob) { g.setAttribute("transform", "translate(" + ob.cur.x.toFixed(1) + " " + ob.cur.y.toFixed(1) + ") scale(" + Math.max(0.001, ob.cur.r * MS).toFixed(3) + ")"); g.setAttribute("opacity", ob.cur.o.toFixed(3)); }, init);
+    g.setAttribute("opacity", "0");
+    return o;
+  }
+  var haloC = el("circle", { r: 0, "class": "ring" }, Lr.over);
+  var HALO = makeObj(function (o) { haloC.setAttribute("cx", o.cur.x.toFixed(1)); haloC.setAttribute("cy", o.cur.y.toFixed(1)); haloC.setAttribute("r", Math.max(0, o.cur.r * MS).toFixed(2)); haloC.setAttribute("opacity", o.cur.o.toFixed(3)); }, {});
+  // the question: one pin, pinned to the land it is about. open = a decision to make,
+  // ask = the question being answered now, gap = not yet known to the memory
+  var QPIN = "M0 0C-2.2-5-9.5-9.3-9.5-17.5A9.5 9.5 0 1 1 9.5-17.5C9.5-9.3 2.2-5 0 0Z", QMARK = "M-3.4-21.3C-3.4-24.5 3.4-24.7 3.4-21.1 3.4-18.7 0-18.5 0-16.1";
+  function qPin(kind) {
+    return function (g) {
+      el("path", { d: QPIN, "class": "qp " + kind }, g);
+      el("path", { d: QMARK, "class": "qm " + kind }, g);
+      el("circle", { cx: 0, cy: -12.4, r: 1.45, "class": "qd " + kind }, g);
+    };
+  }
+  // a line leaves a pin from its head, not its point
+  function pinHead(o) { return { get cur() { var c = o.cur; return { x: c.x, y: c.y - 17.5 * c.r * MS }; } }; }
+  var PIN = marker(qPin("ask"), { x: 650, y: ground(650) - 60, r: 1 });
+  // open questions over each grower's land, then the ones nobody can answer yet, logged in the gap
+  var ASKQ = GROWERS.map(function (g) { return { x: g.x, y: g.y - 22, obj: marker(qPin("open"), { x: g.x, y: g.y - 14, r: .4 }) }; });
+  var GQ = [[420, 408], [474, 400], [496, 446], [436, 462], [478, 484]].map(function (p) {
+    return { x: p[0], y: p[1], obj: marker(qPin("gap"), { x: GROWERS[1].x, y: GROWERS[1].y - 16, r: .4 }) };
+  });
+
+  /* ── the olive year: a dozen decisions around one ring ────────── */
+  var YR = { x: 440, y: 250, R: 140 };
+  var YEAR = [
+    { en: "prune", tr: "budama" }, { en: "feed", tr: "gübre" }, { en: "plough", tr: "sürüm" }, { en: "between trees", tr: "ağaç arası" },
+    { en: "peacock spot", tr: "halkalı leke" }, { en: "water", tr: "sulama" }, { en: "olive fly", tr: "zeytin sineği" }, { en: "pick", tr: "hasat" },
+    { en: "pickers", tr: "işçi" }, { en: "mill", tr: "yağhane" }, { en: "sell", tr: "satış" }, { en: "plant", tr: "dikim" }
+  ];
+  var yrG = el("g", {}, Lr.cols); D.yr = fader(yrG);
+  el("circle", { cx: YR.x, cy: YR.y, r: YR.R, "class": "yr" }, yrG);
+  // the grower the year turns around
+  el("use", { href: "#p-person", transform: "translate(" + YR.x + " " + (YR.y + 20) + ") scale(3.1)", style: "--person:var(--ink)" }, yrG);
+  YEAR.forEach(function (d, i) {
+    var a = i * Math.PI / 6, ux = Math.sin(a), uy = -Math.cos(a);
+    d.x = YR.x + YR.R * ux; d.y = YR.y + YR.R * uy;
+    d.obj = marker(qPin("open"), { x: d.x, y: d.y, r: .3 });
+    var lg = el("g", {}, Lr.labels); d.lab = fader(lg);
+    // each name sits just outside its pin, on the side facing away from the ring
+    function place(f) {
+      var k = .95 * MS, hw = 9.5 * k, hh = 13.5 * k;
+      var edge = Math.min(Math.abs(ux) > 1e-3 ? hw / Math.abs(ux) : 1e9, Math.abs(uy) > 1e-3 ? hh / Math.abs(uy) : 1e9);
+      return { dist: edge + 6 * f, midY: d.y - hh };
+    }
+    lab(lg, function () { return L(d); },
+      function (f) { return d.x + ux * place(f).dist; },
+      function (f) { var p = place(f); return p.midY + uy * p.dist + (uy < -0.55 ? 0 : uy > 0.55 ? 7.5 * f : 3.8 * f); },
+      "cap yl halo", 10.5, ux > 0.3 ? "start" : ux < -0.3 ? "end" : "middle");
+  });
+  var gapG = el("g", {}, Lr.cols); D.gap = fader(gapG);
+  el("rect", { x: GAPR.x0, y: GAPR.y0, width: GAPR.x1 - GAPR.x0, height: GAPR.y1 - GAPR.y0, rx: 18, "class": "gapbox" }, gapG);
+  var gapLabG = el("g", {}, Lr.labels); D.gapLab = fader(gapLabG);
+  lab(gapLabG, "gap", (GAPR.x0 + GAPR.x1) / 2, function (f) { return GAPR.y0 - 10 - 4 * (f - 1); }, "cap sun halo", 10.5);
+  var pairG = el("g", {}, Lr.labels); D.pair = fader(pairG);
+  lab(pairG, "pair", function () { return (CM.gemlik.x + CM.gemlikdry.x) / 2 - 6; }, function (f) { return (CM.gemlik.y + CM.gemlikdry.y) / 2 - 14 * f; }, "cap halo", 10.5);
+  // conditions of the opened claim, drawn around it
+  var tagG = el("g", {}, Lr.labels); D.tags = fader(tagG);
+  var TAGS = [{ k: "t1", dx: -70, dy: -50, a: "end" }, { k: "t2", dx: 10, dy: -82, a: "middle" }, { k: "t3", dx: -58, dy: 56, a: "end" }];
+  TAGS.forEach(function (t) {
+    t.lab = lab(tagG, t.k, function (f) { return CM.space.x + t.dx * f; }, function (f) { return CM.space.y + t.dy * f + 4; }, "tag halo", 13.5, t.a);
+  });
+
+  /* ── Egregore: the whole memory becomes one shared memory ─────── */
+  var W0 = makeObj(function (o) { world.setAttribute("transform", Math.abs(o.cur.r - 1) < 1e-4 && Math.abs(o.cur.x) < 0.01 && Math.abs(o.cur.y) < 0.01 ? "" : "translate(" + o.cur.x.toFixed(2) + " " + o.cur.y.toFixed(2) + ") scale(" + o.cur.r.toFixed(4) + ")"); }, { x: 0, y: 0, r: 1, o: 1 });
+  var EC = { x: 400, y: 400, R: 172, ring: 290 };
+  D.disc = fader(el("circle", { cx: EC.x, cy: EC.y, r: EC.R, "class": "disc" }, egrBack));
+  var memLabG = el("g", {}, egrFront); D.memLab = fader(memLabG);
+  lab(memLabG, "mem", EC.x, function (f) { return EC.y + EC.R + 26 * f; }, "cap", 11);
+  var MEM = [{ k: "m0", a: -135, src: "res" }, { k: "m1", a: -45, src: "exp" }, { k: "m2", a: 45, livia: true }, { k: "m3", a: 135, src: "grow" }, { k: "m4", a: 90, dev: true }];
+  MEM.forEach(function (m) {
+    var a = m.a * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+    m.x = EC.x + EC.ring * c; m.y = EC.y + EC.ring * s;
+    m.edge = { x: EC.x + (EC.R + 6) * c, y: EC.y + (EC.R + (m.dev ? 44 : 6)) * s };
+    m.g = el("g", { "class": "member" }, egrFront);
+    m.glyph = el("g", {}, m.g);
+    if (m.livia) {
+      el("circle", { cx: 0, cy: 0, r: 18, "class": "mnode", style: "stroke:var(--leaf)" }, m.glyph);
+      var lf = el("g", { transform: "translate(-10 -10) scale(.84)" }, m.glyph);
+      lf.innerHTML = '<path d="M3 21 C 6 12, 13 5, 23 3 C 22 13, 15 20, 3 21 Z" style="fill:var(--leaf-fill)"/>';
+    } else if (m.dev) {
+      el("circle", { cx: 0, cy: 0, r: 18, "class": "mnode", style: "stroke:var(--ink-soft)" }, m.glyph);
+      el("path", { d: "M-3.4-4.4-7.8 0l4.4 4.4M3.4-4.4 7.8 0l-4.4 4.4M1.6-6.6-1.6 6.6", style: "fill:none;stroke:var(--ink-soft);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round" }, m.glyph);
+    } else {
+      var col = { res: "var(--sea)", exp: "var(--fig)", grow: "var(--leaf)" }[m.src];
+      el("circle", { cx: 0, cy: 0, r: 18, "class": "mnode", style: "stroke:" + col }, m.glyph);
+      el("path", { d: SHAPE[m.src], transform: "scale(7)", style: "fill:" + col }, m.glyph);
+    }
+    var anchor = c > 0.35 ? "start" : c < -0.35 ? "end" : "middle";
+    lab(m.g, m.k, function (f) { return (32 * f) * c; }, function (f) { return (32 * f) * s + 5 + (s < -0.5 ? -4 * f : s > 0.5 ? 8 * f : 0); }, "zl", 15, anchor);
+    m.obj = makeObj(function (o) { m.g.setAttribute("transform", "translate(" + o.cur.x.toFixed(1) + " " + o.cur.y.toFixed(1) + ")"); m.g.setAttribute("opacity", o.cur.o.toFixed(3)); }, { x: EC.x + 340 * c, y: EC.y + 340 * s });
+    m.g.setAttribute("opacity", "0");
+  });
+
+  /* ── lines: cur.r is how far the line has drawn from a to b ───── */
+  var LINES = {};
+  function line(key, a, b, cls, o, delay, opt) {
+    var l = LINES[key];
+    if (!l) {
+      l = { e: el("line", { "class": "ln" }, Lr.lines) };
+      if (key.charAt(0) === "e") egrFront.insertBefore(l.e, egrFront.firstChild);
+      l.obj = makeObj(function (ob) {
+        var A = l.a.cur || l.a, B = l.b.cur || l.b, p = Math.max(0, Math.min(1, ob.cur.r));
+        var ax = A.hx !== undefined ? A.hx : A.x, ay = A.hy !== undefined ? A.hy : A.y;
+        l.e.setAttribute("x1", ax.toFixed(1)); l.e.setAttribute("y1", ay.toFixed(1));
+        l.e.setAttribute("x2", (ax + (B.x - ax) * p).toFixed(1)); l.e.setAttribute("y2", (ay + (B.y - ay) * p).toFixed(1));
+        l.e.setAttribute("opacity", Math.min(1, ob.cur.o).toFixed(3));
+      }, {}, true);
+      l.obj.next = { x: 400, y: 400, o: 0, r: 0 }; // created mid-state: stage a complete target
+      LINES[key] = l;
+    }
+    l.a = a; l.b = b;
+    l.e.setAttribute("class", "ln " + cls);
+    T(l.obj, { o: o, r: 1 }, delay, opt);
+  }
+  var FLOWCLS = { res: "research", exp: "experts", grow: "growers" };
+
+  /* ── states ───────────────────────────────────────────────────── */
+  var fillN = 0, roomPulse = false, libPulse = false, litGrower = -1;
+  var GAP = { t: 15, timer: 0 }, gapPinned = false;
+  var dCur = 0;
+  function landBase() { T(W0, { x: 0, y: 0, r: 1, o: 1 }); T(D.zones, { o: 1 }); }
+  // every claim gets a target: shown (popping in if it was hidden) or folded away where it stands
+  function showClaims(level, r, spread, base) {
+    CLAIMS.forEach(function (c) {
+      var o = c.fill && c.fi >= fillN ? 0 : level(c);
+      var d = (base || 0) + (spread ? spread * c.order : 0);
+      if (o <= 0) { T(c.obj, { x: c.x, y: c.y, o: 0, r: 0 }, 0, c.obj.cur.o > 0.01 ? { dur: 380 } : { dur: 1 }); return; }
+      T(c.obj, { x: c.x, y: c.y, o: o, r: r || 4.2 }, c.obj.cur.o < 0.05 ? d : 0, c.obj.cur.o < 0.05 ? { ease: "back", dur: 640 } : null);
+    });
+  }
+  function all1() { return 1; }
+  function sourcesOn(o) { T(D.lib, { o: o }); T(D.room, { o: o }); T(D.growers, { o: o }); }
+  function hl(c, delay) { T(c.obj, { x: c.x, y: c.y, r: 6.8, o: 1 }, delay || 0, { ease: "back", dur: 700 }); c.cls = "hl"; }
+  function srcLine(c, delay) { line("s:" + c.i, c.obj, c.src === "res" ? LIB : ROOM, "src " + FLOWCLS[c.src], 1, delay); }
+  var STATES = {
+    land: function () { landBase(); },
+    decide: function () {
+      landBase(); T(D.growers, { o: 1 }, 150);
+      T(D.yr, { o: 1 }, 100);
+      // the year comes round: each decision pins itself to the ring in turn
+      YEAR.forEach(function (d, i) {
+        T(d.obj, { x: d.x, y: d.y, o: 1, r: .95 }, 300 + i * 110, { ease: "back", dur: 620 });
+        T(d.lab, { o: 1 }, 420 + i * 110, { dur: 480 });
+      });
+    },
+    purpose: function () {
+      landBase();
+      T(D.lib, { o: 1 }, 100); T(D.room, { o: 1 }, 250); T(D.growers, { o: 1 }, 400); T(D.growLab, { o: 1 }, 500);
+      // the year's decisions come down onto the growers' land and wait there as open questions
+      YEAR.forEach(function (d, i) { var g = GROWERS[i % 3]; T(d.obj, { x: g.x, y: g.y - 22, o: 0, r: .5 }, i * 25, { dur: 760 }); });
+      ASKQ.forEach(function (q, i) { T(q.obj, { x: q.x, y: q.y, o: 1, r: .85 }, 650 + i * 160, { ease: "back", dur: 700 }); });
+    },
+    model: function () {
+      landBase(); sourcesOn(1); T(D.growLab, { o: 1 });
+      T(D.band, { o: 1 }, 150); T(D.bandLab, { o: 1 }, 1000);
+      showClaims(all1, 4.2, 1000, 250);
+      CLAIMS.forEach(function (c) {
+        if (c.fill) return;
+        var d = 250 + c.order * 1000;
+        if (c.src === "res" && c.i % 4 === 0) line("m:" + c.i, LIB, c.obj, "flow research", .45, d);
+        else if (c.src === "exp" && c.i % 3 === 0) line("m:" + c.i, ROOM, c.obj, "flow experts", .45, d);
+        else if (c.src === "grow") line("m:" + c.i, GROWERS[c.band], c.obj, "flow growers", .7, d);
+      });
+    },
+    answer: function () {
+      landBase(); sourcesOn(1);
+      T(D.colHill, { o: .5 });
+      var ans = [CM.forty, CM.prune, CM.topping];
+      showClaims(function (c) { return ans.indexOf(c) >= 0 ? 1 : c.band === 2 ? .34 : .12; }, 4.2);
+      ans.forEach(function (c, i) { hl(c, 150 + i * 120); srcLine(c, 450 + i * 170); });
+      T(PIN, { x: GROWERS[2].x, y: GROWERS[2].y - 22, o: 1, r: 1 }, 250, { ease: "back", dur: 700 });
+      litGrower = 2;
+    },
+    loop: function () {
+      landBase(); sourcesOn(1);
+      var t = GAP.t, asked = Math.min(5, t), searching = t >= 6 && t < 15, filled = Math.max(0, Math.min(8, t - 6)), done = t >= 15;
+      fillN = filled;
+      showClaims(function (c) { return c.src === "grow" ? .5 : 1; }, 4.2);
+      T(D.gap, { o: done ? 0 : 1 }, 0, done ? { dur: 900 } : null); T(D.gapLab, { o: done ? 0 : 1 }, 0, done ? { dur: 900 } : null);
+      GQ.forEach(function (q, i) {
+        if (i < asked && filled < 3) T(q.obj, { x: q.x, y: q.y, o: 1, r: .75 }, 0, q.obj.cur.o < 0.05 ? { ease: "back", dur: 700 } : null);
+        else if (i < asked) T(q.obj, { x: q.x, y: q.y, o: 0, r: .5 }, 0, { dur: 420 });
+        else T(q.obj, { x: GROWERS[1].x, y: GROWERS[1].y - 18, o: 0, r: .4 }, 0, { dur: 1 });
+        // every logged question goes two ways: a research run through the library, and the seminar's agenda
+        if (searching && filled < 3 && i < asked) { line("rr:" + i, pinHead(q.obj), LIB, "run", .85, i * 60, { dur: 700 }); line("ag:" + i, pinHead(q.obj), ROOM, "agenda", .85, 120 + i * 60, { dur: 700 }); }
+      });
+      FILL.forEach(function (c) { if (c.fi < filled) line("f:" + c.fi, c.src === "res" ? LIB : ROOM, c.obj, "flow " + FLOWCLS[c.src], done ? .35 : .7, 0, { dur: 520 }); });
+      libPulse = t >= 6 && t <= 9; roomPulse = t >= 8 && t < 15; litGrower = asked > 0 && filled < 3 ? 1 : -1;
+    },
+    livia: function () {
+      landBase(); sourcesOn(1);
+      var d = DEMO[dCur] || {}, set = (d.claims || []).map(function (id) { return CM[id]; }).filter(Boolean);
+      showClaims(function (c) { return set.length ? (set.indexOf(c) >= 0 ? 1 : .18) : d.gap ? .3 : .7; }, 4.2);
+      set.forEach(function (c, i) { hl(c, 150 + i * 120); srcLine(c, 450 + i * 160); });
+      // the question, pinned where it was asked; one nobody can answer yet waits in the gap
+      if (typeof d.at === "number" && GROWERS[d.at]) { T(PIN, { x: GROWERS[d.at].x, y: GROWERS[d.at].y - 22, o: 1, r: 1 }, 250, { ease: "back", dur: 700 }); litGrower = d.at; }
+      if (d.gap) { T(D.gap, { o: 1 }, 200); T(D.gapLab, { o: 1 }, 400); T(GQ[0].obj, { x: (GAPR.x0 + GAPR.x1) / 2, y: GAPR.y0 + 72, o: 1, r: .95 }, 350, { ease: "back", dur: 700 }); }
+    },
+    conditions: function () {
+      landBase();
+      var f = CM.space;
+      T(D.colHill, { o: .45 }, 150);
+      showClaims(function (c) { return c === f ? 1 : c.band === 2 ? .42 : .14; }, 4.2);
+      hl(f, 250);
+      T(HALO, { x: f.x, y: f.y, o: 1, r: 16 }, 400, { ease: "back", dur: 700 });
+      line("drop", f.obj, { x: f.x, y: ground(f.x) - 4 }, "drop", .9, 650);
+      TAGS.forEach(function (t, i) { line("tag:" + i, f.obj, { x: f.x + t.dx * FS * .82, y: f.y + t.dy * FS * .82 }, "tagl", .8, 750 + i * 110); });
+      T(D.tags, { o: 1 }, 950);
+    },
+    whole: function () {
+      landBase(); sourcesOn(1);
+      fillN = FILL.length;
+      T(D.band, { o: 1 });
+      showClaims(all1, 4.2);
+      line("pair", CM.gemlik.obj, CM.gemlikdry.obj, "pair", .9, 500);
+      T(D.pair, { o: 1 }, 900);
+    },
+    egregore: function () {
+      T(W0, { x: EC.x - 400 * .34, y: EC.y - 480 * .34, r: .34, o: 1 }, 0, { dur: 1300 });
+      fillN = FILL.length;
+      T(D.growers, { o: 1 });
+      showClaims(all1, 7.5);
+      T(D.disc, { o: 1 }, 250); T(D.memLab, { o: 1 }, 1100);
+      MEM.forEach(function (m, i) {
+        T(m.obj, { x: m.x, y: m.y, o: 1 }, 700 + i * 120, { ease: "back", dur: 700 });
+        line("e:" + i, m.obj, m.edge, "flow leaf", .75, 1000 + i * 120);
+      });
+    }
+  };
+  var ALT = {
+    land: { en: "An olive landscape in cross-section: the Gulf of Edremit, an irrigable plain, gentle slopes and dry hills.", tr: "Kesit hâlinde bir zeytin arazisi: Edremit Körfezi, sulanabilir ova, hafif yamaçlar ve kuru tepeler." },
+    decide: { en: "A grower at the centre of one olive year, ringed by twelve pins, one for each decision: pruning, feeding, ploughing, what grows between the trees, peacock spot, water, the olive fly, the harvest, pickers, the mill, selling and planting.", tr: "Bir zeytin yılının ortasında bir üretici, çevresinde on iki iğne; her iğne bir karar: budama, gübre, sürüm, ağaç arası, halkalı leke, sulama, zeytin sineği, hasat, işçi, yağhane, satış ve dikim." },
+    purpose: { en: "The year's decisions come down onto the growers' land as open questions, while the knowledge to answer them sits apart: research documents and a seminar of local experts.", tr: "Yılın kararları üreticilerin arazisine açık sorular olarak iner; onları yanıtlayacak bilgi ise ayrı durur: araştırma belgeleri ve yerel uzmanların semineri." },
+    model: { en: "The three sources feed one shared memory over the land: squares from research, circles from local experts, triangles from growers.", tr: "Üç kaynak arazinin üzerindeki tek bir ortak belleği besler: araştırmadan kareler, yerel uzmanlardan daireler, üreticilerden üçgenler." },
+    answer: { en: "A grower on the dry hills asks. Three claims that hold for the dry hills answer, with lines to their sources: one to research, two to local experts.", tr: "Kuru tepelerdeki bir üretici sorar. Kuru tepelerde geçerli üç iddia yanıt verir; kaynaklarına çizgiler uzanır: biri araştırmaya, ikisi yerel uzmanlara." },
+    loop: { en: "Questions rise from a grower into the empty patch. Each starts a research run in the library and goes onto the next seminar's agenda; new claims from both fill the patch.", tr: "Sorular bir üreticiden boş alana yükselir. Her biri kütüphanede bir araştırma taraması başlatır ve sonraki seminerin gündemine girer; ikisinden gelen yeni iddialar boşluğu doldurur." },
+    livia: { en: "Livia's memory, with the claims that answer the selected question lit and linked to their sources.", tr: "Livia'nın belleği; seçilen soruyu yanıtlayan iddialar aydınlanır ve kaynaklarına bağlanır." },
+    conditions: { en: "One claim is opened: Ayvalık, unirrigated, slope over five percent, tied to the dry hills. Claims over the dry hills stay bright; those from other land fade.", tr: "Bir iddia açılmıştır: Ayvalık, susuz, eğim yüzde beşin üstünde, kuru tepelere bağlı. Kuru tepelerin üzerindeki iddialar parlak kalır; başka arazilerden gelenler söner." },
+    whole: { en: "All claims and questions over the land, marked by source, with two claims about Gemlik kept side by side.", tr: "Arazinin üzerinde tüm iddialar ve sorular, kaynağına göre işaretli; Gemlik üzerine iki iddia yan yana tutulur." },
+    egregore: { en: "The whole landscape shrinks into one shared memory, with researchers, local experts, growers, developers and Livia around it.", tr: "Tüm arazi tek bir ortak belleğe küçülür; çevresinde araştırmacılar, yerel uzmanlar, üreticiler, geliştiriciler ve Livia." }
+  };
+
+  /* ── engine ───────────────────────────────────────────────────── */
+  var all = function () { return objs.concat(lineObjs); };
+  function begin() {
+    all().forEach(function (o) { o.next = { x: o.cur.x, y: o.cur.y, o: 0, r: o.isLine ? 0 : o.cur.r }; o.nextDelay = 0; o.nextOpt = null; });
+    CLAIMS.forEach(function (c) { c.cls = ""; });
+    fillN = 0; roomPulse = false; libPulse = false; litGrower = -1;
+  }
+  function same(a, b) { return Math.abs(a.x - b.x) < 0.01 && Math.abs(a.y - b.y) < 0.01 && Math.abs(a.o - b.o) < 0.001 && Math.abs(a.r - b.r) < 0.001; }
+  var raf = 0;
+  function commit(instant, dur) {
+    CLAIMS.forEach(function (c) { c.e.setAttribute("class", "c " + c.src + (c.cls ? " " + c.cls : "")); });
+    roomG.classList.toggle("pulsing", roomPulse);
+    libG.classList.toggle("pulsing", libPulse);
+    GROWERS.forEach(function (g, i) { g.use.style.setProperty("--person", i === litGrower ? "var(--leaf)" : "var(--ink-soft)"); });
+    var now = performance.now(), base = DUR ? (dur || DUR) : 0;
+    all().forEach(function (o) {
+      var tgt = o.next;
+      if (o.to ? same(o.to, tgt) : same(o.cur, tgt)) return; // already there, or already on its way: keep its clock
+      o.from = { x: o.cur.x, y: o.cur.y, o: o.cur.o, r: o.cur.r };
+      o.to = tgt; o.t0 = now; o.delay = o.nextDelay;
+      o.dur = base ? ((o.nextOpt && o.nextOpt.dur) || base) : 0;
+      o.ease = EASE[(o.nextOpt && o.nextOpt.ease) || "io"];
+    });
+    if (instant || !base) { all().forEach(function (o) { if (o.to) { o.cur = o.to; o.to = null; } }); paint(); return; }
+    if (!raf) raf = requestAnimationFrame(frame);
+  }
+  function stepObj(o, now) {
+    if (!o.to) return true;
+    var p = o.dur ? (now - o.t0 - o.delay) / o.dur : 1;
+    if (p <= 0) return false;
+    if (p >= 1) { o.cur = o.to; o.to = null; return true; }
+    var k = o.ease(p), f = o.from, t = o.to;
+    o.cur = { x: f.x + (t.x - f.x) * k, y: f.y + (t.y - f.y) * k, o: f.o + (t.o - f.o) * k, r: f.r + (t.r - f.r) * k };
+    return false;
+  }
+  function frame(now) {
+    var done = true;
+    objs.forEach(function (o) { var moving = !!o.to; if (!stepObj(o, now)) done = false; if (moving) o.apply(o); });
+    lineObjs.forEach(function (o) { if (!stepObj(o, now)) done = false; o.apply(o); });
+    raf = done ? 0 : requestAnimationFrame(frame);
+  }
+  function paint() { objs.forEach(function (o) { o.apply(o); }); lineObjs.forEach(function (o) { o.apply(o); }); }
+  var curState = "";
+  function setState(name, instant, dur) { clearFocus(); begin(); STATES[name](); commit(instant, dur); svg.setAttribute("aria-label", L(ALT[name])); }
+
+  /* ── hover / tap: one claim, or one source ────────────────────── */
+  var focused = null;
+  function clearFocus() {
+    if (focused) {
+      focused = null;
+      while (Lr.hover.firstChild) Lr.hover.removeChild(Lr.hover.firstChild);
+      svg.classList.remove("dim");
+    }
+    tipEl.hidden = true;
+  }
+  function ctm() { return svg.getScreenCTM(); }
+  function toClient(pt) { var c = ctm(); return { x: c.a * pt.x + c.c * pt.y + c.e, y: c.b * pt.x + c.d * pt.y + c.f }; }
+  function toSvg(px, py) { var c = ctm().inverse(); return { x: c.a * px + c.c * py + c.e, y: c.b * px + c.d * py + c.f }; }
+  function placeTip(pt) {
+    if (narrow()) { // on a phone, dock under the picture so the tip never covers what it describes
+      var sr = stage.getBoundingClientRect();
+      tipEl.style.left = "12px"; tipEl.style.right = "12px"; tipEl.style.maxWidth = "none";
+      tipEl.style.top = (sr.height + 4) + "px";
+      return;
+    }
+    tipEl.style.right = ""; tipEl.style.maxWidth = "";
+    var c = toClient(pt), r = stage.getBoundingClientRect(), w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+    var tx = Math.max(8, Math.min(r.width - w - 8, c.x - r.left - w / 2));
+    var ty = c.y - r.top - h - 16;
+    if (ty < 8) ty = c.y - r.top + 20;
+    tipEl.style.left = tx + "px"; tipEl.style.top = ty + "px";
+  }
+  function showTip(pt, title, sub) {
+    tipEl.querySelector("b").textContent = title;
+    tipEl.querySelector("span").textContent = sub;
+    tipEl.hidden = false;
+    placeTip(pt);
+  }
+  function hv(tag, attrs) { return el(tag, attrs, Lr.hover); }
+  function focusClaim(c) {
+    if (focused === c) return;
+    clearFocus(); focused = c;
+    var p = c.obj.cur, S = c.src === "res" ? LIB : c.src === "exp" ? ROOM : GROWERS[c.band];
+    var srcOn = (c.src === "res" ? D.lib : c.src === "exp" ? D.room : D.growers).cur.o > 0.5;
+    hv("line", { x1: p.x.toFixed(1), y1: p.y.toFixed(1), x2: p.x.toFixed(1), y2: (ground(p.x) - 3).toFixed(1), "class": "hv-ln drop" });
+    if (srcOn) hv("line", { x1: p.x.toFixed(1), y1: p.y.toFixed(1), x2: S.hx !== undefined ? S.hx : S.x, y2: S.hy !== undefined ? S.hy : S.y, "class": "hv-ln " + c.src });
+    hv("path", { d: SHAPE[c.src], transform: "translate(" + p.x.toFixed(1) + " " + p.y.toFixed(1) + ") scale(" + (((p.r || 4.2) + 2.4) * MS).toFixed(2) + ")", "class": "hv-c " + c.src });
+    svg.classList.add("dim");
+    var zone = L(ZONE[c.band]), title, sub;
+    if (c.t) { title = L(c.t); sub = zone + " · " + L(c.s); }
+    else if (c.fill) { title = L(TOPICS[c.topic]); sub = L(SRCL[c.src]) + " · " + L(c.s) + " · " + zone; }
+    else { title = L(TOPICS[c.topic]); sub = L(SRCL[c.src]) + " · " + zone; }
+    showTip({ x: p.x, y: p.y - 6 }, title, sub);
+  }
+  // research and the seminar are big targets: their note follows the pointer instead of covering them
+  function focusNode(which, e) {
+    if (focused !== which) {
+      clearFocus(); focused = which;
+      var lib = which === "lib";
+      tipEl.querySelector("b").textContent = lib ? (lang === "tr" ? "Araştırma" : "Research") : (lang === "tr" ? "Yerel uzmanlar" : "Local experts");
+      tipEl.querySelector("span").textContent = lib ? (lang === "tr" ? "1.217 belge · 32.736 paragraf · makaleler ve resmî rehberler" : "1,217 documents · 32,736 passages · papers and official guidance") : (lang === "tr" ? "5 seminer · ilki: 85 iddia, 6 anlaşmazlık, 10 açık soru" : "5 seminars · the first: 85 claims, 6 disagreements, 10 open questions");
+      tipEl.hidden = false;
+    }
+    if (narrow()) { placeTip(null); return; }
+    var r = stage.getBoundingClientRect(), w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+    var tx = e.clientX - r.left + 16, ty = e.clientY - r.top + 20;
+    if (tx + w > r.width - 8) tx = e.clientX - r.left - w - 16;
+    if (ty + h > r.height - 8) ty = e.clientY - r.top - h - 16;
+    tipEl.style.right = ""; tipEl.style.maxWidth = "";
+    tipEl.style.left = Math.max(8, tx) + "px"; tipEl.style.top = Math.max(8, ty) + "px";
+  }
+  function pick(e, touch) {
+    if (curState === "egregore" || curState === "land" || !curState) return null;
+    var pt = toSvg(e.clientX, e.clientY), scale = Math.abs(ctm().a) || 1;
+    if (D.lib.cur.o > 0.5 && Math.hypot(pt.x - LIB.x, pt.y - (LIB.y - 12)) < 50 * MS) return "lib";
+    if (D.room.cur.o > 0.5 && Math.hypot(pt.x - ROOM.x, pt.y - (ROOM.y - 12)) < 50 * MS) return "room";
+    var best = null, bd = Infinity;
+    CLAIMS.forEach(function (c) { if (c.obj.cur.o < 0.3) return; var d = Math.hypot(c.obj.cur.x - pt.x, c.obj.cur.y - pt.y); if (d < bd) { bd = d; best = c; } });
+    if (best && bd < Math.max((touch ? 20 : 11) / scale, best.obj.cur.r * MS + 3)) return best;
+    return null;
+  }
+  function handle(e, touch) {
+    var h = pick(e, touch);
+    if (touch && h && focused === h) { clearFocus(); return; }
+    svg.style.cursor = h ? "pointer" : "";
+    if (!h) clearFocus(); else if (typeof h === "string") focusNode(h, e); else focusClaim(h);
+  }
+  svg.addEventListener("pointermove", function (e) { if (e.pointerType !== "mouse") return; if (raf && curState !== "loop") { clearFocus(); return; } handle(e, false); });
+  svg.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") clearFocus(); });
+  svg.addEventListener("click", function (e) { if (e.pointerType === "mouse") return; handle(e, true); });
+
+  /* ── responsive scale ─────────────────────────────────────────── */
+  function rescale() {
+    var r = svg.getBoundingClientRect(), px = Math.min(r.width || 800, r.height || 800);
+    MS = px < 420 ? 1.45 : px < 560 ? 1.25 : px < 700 ? 1.1 : 1;
+    FS = px < 420 ? 1.62 : px < 560 ? 1.36 : px < 700 ? 1.14 : 1;
+    var k = Math.min(MS, 1.3), ts = Math.min(MS, 1.2);
+    TREES.forEach(function (t) { t.u.setAttribute("transform", "translate(" + t.x.toFixed(1) + " " + t.y.toFixed(1) + ") scale(" + ((t.flip ? -1 : 1) * t.s * ts).toFixed(3) + " " + (t.s * ts).toFixed(3) + ")"); });
+    GROWERS.forEach(function (g) { g.use.setAttribute("transform", "translate(" + g.x + " " + (g.y + 0.5).toFixed(1) + ") scale(" + (1.05 * ts).toFixed(3) + ")"); g.hy = g.y - 16 * ts; });
+    libG.setAttribute("transform", "translate(" + LIB.x + " " + LIB.y + ") scale(" + k + ")");
+    roomG.setAttribute("transform", "translate(" + ROOM.x + " " + ROOM.y + ") scale(" + k + ")");
+    MEM.forEach(function (m) { m.glyph.setAttribute("transform", "scale(" + MS + ")"); });
+    layoutLabels();
+    clearFocus();
+    paint();
+  }
+
+  /* ── Livia, in context (step 06): a chat whose answers light the picture ─ */
+  var DEMO = [];
+  try { DEMO = JSON.parse(($("demo-data") || {}).textContent || "[]"); } catch (e) { DEMO = []; }
+  var qBox = $("dQs"), dBody = $("dBody"), dTimers = [], dQueue = [], dPlayed = false, thread = [];
+  var UI = {
+    reads: { en: "Reading your conditions", tr: "Koşullarınızı okuyor" },
+    gap: { en: "Not yet known", tr: "Henüz bilinmiyor" },
+    asks: { en: "Livia asks", tr: "Livia soruyor" },
+    again: { en: "Start over", tr: "Baştan başla" }
+  };
+  var AV = '<span class="av" aria-hidden="true"><svg viewBox="0 0 26 24"><path d="M3 21C6 12 13 5 23 3 22 13 15 20 3 21Z"/></svg></span>';
+  var GO = '<span class="go" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 12.5v-9M4 7.2l4-4 4 4"/></svg></span>';
+  var AGAIN = '<span class="go" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5"/><path d="M3.2 2.6v2.9h2.9"/></svg></span>';
+  function dEdge() { dBody.classList.toggle("scrolled", dBody.scrollTop > 4); }
+  dBody.addEventListener("scroll", dEdge, { passive: true });
+  function toEnd(smooth) {
+    var asked = dBody.querySelectorAll(".msg.me"), q = asked[asked.length - 1];
+    var target = Math.min(dBody.scrollHeight - dBody.clientHeight, q ? q.offsetTop - 10 : Infinity);
+    if (target > dBody.scrollTop + 1) dBody.scrollTo({ top: target, behavior: smooth && !reduce ? "smooth" : "auto" });
+    else if (!smooth) dBody.scrollTop = Math.max(0, target);
+    dEdge();
+  }
+  // the questions not yet sent wait below; once all are asked, one button starts over
+  function renderQs() {
+    var left = DEMO.map(function (d, i) { return i; }).filter(function (i) { return thread.indexOf(i) < 0; });
+    qBox.innerHTML = left.length ? left.map(function (i) {
+      return '<button type="button" data-i="' + i + '"><span>' + esc(L(DEMO[i].chip || DEMO[i].q)) + "</span>" + GO + "</button>";
+    }).join("") : '<button type="button" data-again="1"><span>' + esc(L(UI.again)) + "</span>" + AGAIN + "</button>";
+  }
+  function cite(d, n) { var src = d.src && d.src[n - 1]; return '<sup class="cite ' + (src ? src.tier : "") + '">' + n + "</sup>"; }
+  // one exchange as chat messages: the question, then Livia's replies
+  function messages(d) {
+    var out = [], lv = function (cls, inner) { return '<div class="msg lv">' + AV + '<div class="bub' + (cls ? " " + cls : "") + '">' + inner + "</div></div>"; };
+    out.push('<div class="msg me"><div class="bub"><p class="who">' + esc(L(d.who)) + "</p><p>" + esc(L(d.q)) + "</p></div></div>");
+    if (d.cond && d.cond.length) out.push(lv("meta", '<p class="who">' + esc(L(UI.reads)) + '</p><div class="chips">' + d.cond.map(function (c) { return '<span class="chip"><i>' + esc(L(c.k)) + "</i>" + esc(L(c.v)) + "</span>"; }).join("") + "</div>"));
+    if (d.a && d.a.length) {
+      var body = d.a.map(function (p) { return "<p>" + esc(L(p.t)) + (p.s || []).map(function (n) { return cite(d, n); }).join("") + "</p>"; }).join("");
+      if (d.src && d.src.length) body += '<ol class="srcs">' + d.src.map(function (x, k) { return "<li>" + cite(d, k + 1) + "<span><b>" + esc(L(x.t)) + "</b>" + (x.d ? " · " + esc(L(x.d)) : "") + "</span></li>"; }).join("") + "</ol>";
+      out.push(lv("", body));
+    }
+    if (d.ask) out.push(lv("ask", '<p class="who">' + esc(L(UI.asks)) + "</p><p>" + esc(L(d.ask)) + "</p>"));
+    if (d.gap) out.push(lv("gap", '<p class="who">' + esc(L(UI.gap)) + "</p><p>" + esc(L(d.gap)) + "</p>"));
+    return out;
+  }
+  function dAppend(html, animate) {
+    dBody.insertAdjacentHTML("beforeend", animate && !reduce ? html.replace('class="msg ', 'class="rv msg ') : html);
+    toEnd(animate);
+  }
+  // a reply still being typed finishes at once when another question is sent
+  function dFlush() {
+    dTimers.forEach(clearTimeout); dTimers = [];
+    var ty = $("dTyping"); if (ty) ty.remove();
+    while (dQueue.length) dAppend(dQueue.shift(), false);
+    dBody.setAttribute("aria-busy", "false");
+  }
+  function renderThread() { dBody.innerHTML = ""; thread.forEach(function (i) { messages(DEMO[i]).forEach(function (m) { dAppend(m, false); }); }); toEnd(false); }
+  function dPlay(i, instant) {
+    if (!DEMO[i]) return;
+    dFlush();
+    if (thread.indexOf(i) < 0) thread.push(i);
+    dCur = i; dPlayed = true; renderQs();
+    if (curState === "livia") setState("livia", false, 700);
+    var parts = messages(DEMO[i]);
+    if (instant || reduce) { parts.forEach(function (m) { dAppend(m, false); }); return; }
+    dBody.setAttribute("aria-busy", "true");
+    dAppend(parts.shift(), true); // the question goes out from below
+    dQueue = parts;
+    var t = 420;
+    parts.forEach(function (m, k) {
+      dTimers.push(setTimeout(function () { if (!$("dTyping")) dAppend('<div class="msg lv" id="dTyping">' + AV + '<div class="bub typing" aria-hidden="true"><span></span><span></span><span></span></div></div>', true); }, t));
+      t += k === 0 ? 800 : 1050;
+      dTimers.push(setTimeout(function () {
+        var ty = $("dTyping"); if (ty) ty.remove();
+        if (dQueue.length) dAppend(dQueue.shift(), true);
+        if (!dQueue.length) dBody.setAttribute("aria-busy", "false");
+      }, t));
+      t += 260;
+    });
+  }
+  qBox.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    if (b.hasAttribute("data-again")) { dFlush(); thread = []; dBody.innerHTML = ""; dPlay(0); return; }
+    if (b.hasAttribute("data-i")) dPlay(+b.getAttribute("data-i"));
+  });
+  onLang.push(function () { dFlush(); renderQs(); renderThread(); });
+
+  /* ── the self-playing gap loop (step 04) ──────────────────────── */
+  var gapNow = $("gapNow"), gapBar = $("gapBar");
+  function renderGap() {
+    var t = GAP.t, n = Math.max(0, Math.min(8, t - 6)), s;
+    if (t === 0) s = lang === "tr" ? "Henüz bilinmiyor" : "Not yet known";
+    else if (t <= 5) s = lang === "tr" ? "Soruldu · " + t + " kayıt" : "Asked · " + t + " logged";
+    else if (t === 6) s = lang === "tr" ? "Bir araştırma taraması ve sonraki seminer" : "A research run and the next seminar";
+    else if (t <= 9) s = lang === "tr" ? "Araştırma taramasından · " + n + " yeni iddia" : "From the research run · " + n + " new claim" + (n === 1 ? "" : "s");
+    else if (t < 15) s = lang === "tr" ? "Seminerden · " + (n - 3) + " yeni iddia" : "From the seminar · " + (n - 3) + " new claim" + (n - 3 === 1 ? "" : "s");
+    else s = lang === "tr" ? "Yanıtlandı · 3’ü araştırmadan, 5’i yerel uzmanlardan" : "Answered · 3 from research, 5 from local experts";
+    gapNow.textContent = s;
+    gapBar.style.transform = "scaleX(" + Math.max(0.02, t / 15).toFixed(3) + ")";
+  }
+  function stopGap() { clearTimeout(GAP.timer); GAP.timer = 0; }
+  function startGap() {
+    stopGap();
+    if (!DUR) { GAP.t = 15; renderGap(); setState("loop", true); return; }
+    GAP.t = 0; renderGap(); setState("loop");
+    function tick() {
+      if (curState !== "loop") { stopGap(); return; }
+      GAP.t++; renderGap(); setState("loop", false, 700);
+      if (GAP.t < 15) GAP.timer = setTimeout(tick, GAP.t < 5 ? 560 : GAP.t < 7 ? 1050 : GAP.t === 9 ? 900 : 360);
+      else GAP.timer = 0;
+    }
+    GAP.timer = setTimeout(tick, 1300);
+  }
+  $("gapReplay").addEventListener("click", function () { if (curState === "loop") startGap(); });
+  onLang.push(renderGap);
+
+  /* ── the waitlist: a plain email, written for you ─────────────── */
+  var ROLES = [{ en: "I grow olives", tr: "Zeytin yetiştiriyorum" }, { en: "I advise growers", tr: "Üreticilere danışmanlık veriyorum" }, { en: "I research olives", tr: "Zeytin araştırıyorum" }, { en: "I’m interested in the tech", tr: "Teknolojiyle ilgileniyorum" }, { en: "Something else", tr: "Başka bir şey" }];
+  var wlRole = $("wlRole"), wlEmail = $("wlEmail"), wlMsg = $("wlMsg");
+  function renderRoles() {
+    var sel = wlRole.selectedIndex < 0 ? 0 : wlRole.selectedIndex;
+    wlRole.innerHTML = ROLES.map(function (r) { return "<option>" + esc(L(r)) + "</option>"; }).join("");
+    wlRole.selectedIndex = sel;
+    wlEmail.placeholder = lang === "tr" ? "e-posta adresiniz" : "your email";
+  }
+  var WAITLIST_URL = "https://egregore-production-55f2.up.railway.app/api/waitlist/livia";
+  var ROLE_CODES = ["grower", "advisor", "researcher", "tech", "other"];
+  var wlBtn = $("wl").querySelector("button[type=submit]");
+  function wlSay(text, ok) { wlMsg.classList.toggle("ok", !!ok); wlMsg.textContent = text; }
+  function wlMail(em, role) {
+    var subj = lang === "tr" ? "Livia bekleme listesi" : "Livia waitlist";
+    var bodyTxt = (lang === "tr" ? "Livia bekleme listesine katılmak istiyorum.\n\nE-posta: " : "I would like to join the Livia waitlist.\n\nEmail: ") + em + "\n" + (lang === "tr" ? "Ben: " : "I am: ") + role + "\n";
+    location.href = "mailto:agrigore@egregore.xyz?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(bodyTxt);
+    wlSay(lang === "tr" ? "E-posta uygulamanız agrigore@egregore.xyz adresine hazır bir mesajla açılıyor. Göndermeniz yeterli." : "Your email app is opening with a message to agrigore@egregore.xyz. Send it and we will add you.", true);
+  }
+  $("wl").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var em = wlEmail.value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { wlEmail.focus(); wlSay(lang === "tr" ? "Geçerli bir e-posta adresi yazın." : "Please enter a valid email address.", false); return; }
+    var i = Math.max(0, wlRole.selectedIndex), role = L(ROLES[i] || ROLES[0]);
+    var ctl = "AbortController" in window ? new AbortController() : null, timer = ctl ? setTimeout(function () { ctl.abort(); }, 9000) : 0;
+    wlBtn.disabled = true;
+    wlSay(lang === "tr" ? "Ekleniyor…" : "Adding you…", false);
+    fetch(WAITLIST_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: em, role: ROLE_CODES[i] || "other", lang: lang, website: $("wlSite").value }),
+      signal: ctl ? ctl.signal : undefined
+    }).then(function (r) {
+      if (r.ok) {
+        wlEmail.value = "";
+        wlSay(lang === "tr" ? "Listedesiniz. " + em + " adresine bir onay e-postası gönderdik." : "You are on the list. We sent a confirmation to " + em + ".", true);
+      } else if (r.status === 422) {
+        wlEmail.focus();
+        wlSay(lang === "tr" ? "Bu adres kabul edilmedi; lütfen kontrol edin." : "That address was not accepted; please check it.", false);
+      } else wlMail(em, role); // not deployed yet, busy, or down: email still works
+    }).catch(function () { wlMail(em, role); })
+      .then(function () { clearTimeout(timer); wlBtn.disabled = false; });
+  });
+  onLang.push(renderRoles);
+
+  /* ── scroll + slides ──────────────────────────────────────────── */
+  var hero = $("top"), cta = $("join");
+  var slides = [hero].concat([].slice.call(document.querySelectorAll(".step")), [cta]);
+  function isSolo(i) { return slides[i] && slides[i].classList.contains("solo"); }
+  var current = -1, mode = "scroll";
+  var bSlides = $("bSlides");
+  var prevBtns = [].slice.call(document.querySelectorAll(".js-prev")), nextBtns = [].slice.call(document.querySelectorAll(".js-next")), counts = [].slice.call(document.querySelectorAll(".js-count"));
+  var navLinks = [].slice.call(document.querySelectorAll(".bar nav a"));
+  var barEl = document.querySelector(".bar");
+  function narrow() { return window.innerWidth <= 880; }
+  function barH() { return barEl.offsetHeight; }
+
+  function activate(i, instant) {
+    if (i === current) return;
+    current = i;
+    slides.forEach(function (s, k) { s.classList.toggle("on", k === i); });
+    body.classList.toggle("at-solo", isSolo(i));
+    body.classList.toggle("at-top", i === 0);
+    var ch = slides[i].getAttribute("data-ch");
+    navLinks.forEach(function (a) { a.setAttribute("aria-current", a.getAttribute("data-ch") === ch ? "true" : "false"); });
+    var st = slides[i].getAttribute("data-state");
+    if (st !== curState || instant) {
+      curState = st;
+      if (st === "loop" && !instant) startGap();
+      else { stopGap(); if (st === "loop" && !gapPinned) { GAP.t = 15; renderGap(); } setState(st, instant); }
+      if (st === "livia" && !dPlayed) dPlay(dCur, instant);
+    }
+    counts.forEach(function (c) { c.textContent = (i + 1) + " / " + slides.length; });
+    if (typeof updProg === "function") updProg();
+    prevBtns.forEach(function (b) { b.disabled = i === 0; });
+    nextBtns.forEach(function (b) { b.disabled = i === slides.length - 1; });
+  }
+  function activeFromScroll() {
+    var top = barH() + (narrow() ? stage.offsetHeight : 0);
+    var ln = top + (window.innerHeight - top) * (narrow() ? 0.3 : 0.42), idx = 0;
+    slides.forEach(function (s, k) { if (s.getBoundingClientRect().top <= ln) idx = k; });
+    return idx;
+  }
+  function fromScroll() { if (mode === "scroll") activate(activeFromScroll()); }
+  var ticking = false;
+  var barProg = $("barProg");
+  function updProg() {
+    var f;
+    if (mode === "slides") f = slides.length > 1 ? Math.max(0, current) / (slides.length - 1) : 0;
+    else { var max = document.documentElement.scrollHeight - window.innerHeight; f = max > 0 ? window.scrollY / max : 0; }
+    barProg.style.transform = "scaleX(" + Math.max(0, Math.min(1, f)).toFixed(4) + ")";
+  }
+  window.addEventListener("scroll", function () {
+    barEl.classList.toggle("scrolled", window.scrollY > 8);
+    updProg();
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; fromScroll(); }); }
+  }, { passive: true });
+
+  // where a section rests in scroll mode (the same place native snap puts it)
+  function anchorOf(i) {
+    if (i === 0) return 0;
+    var top = slides[i].getBoundingClientRect().top + window.scrollY;
+    return Math.max(0, top - barH() - (narrow() && !isSolo(i) ? stage.offsetHeight : 0));
+  }
+
+  /* spring: a slide settles into place with a little give, and resists being pulled away */
+  var SPR = { y: 0, v: 0, el: null, ax: "y", raf: 0, last: 0 }, K = 190, CD = 19;
+  function applySpring() {
+    var t = SPR.y ? (SPR.ax === "x" ? "translate3d(" + SPR.y.toFixed(2) + "px,0,0)" : "translate3d(0," + SPR.y.toFixed(2) + "px,0)") : "";
+    if (SPR.el) SPR.el.style.transform = t;
+    svg.style.transform = SPR.y && SPR.el && !SPR.el.classList.contains("solo") ? (SPR.ax === "x" ? "translate3d(" + (SPR.y * 0.08).toFixed(2) + "px,0,0)" : "translate3d(0," + (SPR.y * 0.1).toFixed(2) + "px,0)") : "";
+  }
+  function springLoop(now) {
+    var dt = Math.min(0.034, (now - SPR.last) / 1000), n = 4, h = dt / n;
+    SPR.last = now;
+    for (var i = 0; i < n; i++) { var a = -K * SPR.y - CD * SPR.v; SPR.v += a * h; SPR.y += SPR.v * h; }
+    if (Math.abs(SPR.y) < 0.08 && Math.abs(SPR.v) < 0.08) { SPR.y = 0; SPR.v = 0; applySpring(); SPR.raf = 0; return; }
+    applySpring();
+    SPR.raf = requestAnimationFrame(springLoop);
+  }
+  function hold(y, ax) {
+    if (SPR.raf) { cancelAnimationFrame(SPR.raf); SPR.raf = 0; }
+    if (ax) SPR.ax = ax;
+    if (slides[current]) SPR.el = slides[current];
+    SPR.v = 0; SPR.y = reduce ? 0 : y; applySpring();
+  }
+  function release() {
+    if (reduce || !SPR.y) { SPR.y = 0; SPR.v = 0; applySpring(); return; }
+    if (!SPR.raf) { SPR.last = performance.now(); SPR.raf = requestAnimationFrame(springLoop); }
+  }
+  function resist(d) { return 48 * (1 - Math.exp(-d / 170)); }
+  function clearSlideStyles() {
+    if (SPR.raf) { cancelAnimationFrame(SPR.raf); SPR.raf = 0; }
+    SPR.y = 0; SPR.v = 0; SPR.el = null;
+    slides.forEach(function (s) { s.style.transform = ""; s.style.transition = ""; });
+    svg.style.transform = "";
+  }
+  function go(i, ax) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (i === current) { release(); return; }
+    var prev = slides[current], dir = i > current ? 1 : -1, axis = ax || "y";
+    activate(i);
+    var s = slides[i]; if (s) s.scrollTop = 0;
+    if (mode === "slides" && !reduce) {
+      if (prev && prev !== s) {
+        var from = SPR.el === prev ? SPR.y : 0, off = -72 * dir;
+        prev.style.transition = "none";
+        prev.style.transform = axis === "x" ? "translate3d(" + from + "px,0,0)" : "translate3d(0," + from + "px,0)";
+        void prev.offsetWidth;
+        prev.style.transition = "transform .46s cubic-bezier(.3,.7,.2,1), opacity .3s ease, visibility 0s linear .3s";
+        prev.style.transform = axis === "x" ? "translate3d(" + off + "px,0,0)" : "translate3d(0," + off + "px,0)";
+        setTimeout(function () { if (!prev.classList.contains("on")) { prev.style.transform = ""; prev.style.transition = ""; } }, 520);
+      }
+      s.style.transition = "";
+      SPR.el = s;
+      hold(64 * dir, axis);
+      release();
+    }
+    try { history.replaceState(null, "", "#s" + (i + 1)); } catch (e) {}
+  }
+  function slidesLabel(on) { bSlides.querySelector(".label").innerHTML = on ? '<span lang="en">Scroll</span><span lang="tr">Kaydır</span>' : '<span lang="en">Slides</span><span lang="tr">Slayt</span>'; }
+  function enterSlides(i) {
+    stopGlide(); clearTimeout(PG.idle); root.classList.remove("gliding");
+    mode = "slides";
+    body.setAttribute("data-mode", "slides");
+    bSlides.setAttribute("aria-pressed", "true"); slidesLabel(true);
+    var target = typeof i === "number" ? i : Math.max(0, current);
+    current = -1; go(target);
+    rescale();
+  }
+  function exitSlides() {
+    var i = Math.max(0, current);
+    mode = "scroll";
+    clearSlideStyles();
+    body.removeAttribute("data-mode");
+    bSlides.setAttribute("aria-pressed", "false"); slidesLabel(false);
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+    window.scrollTo(0, anchorOf(i));
+    rescale();
+    fromScroll();
+  }
+  function toggleSlides() { if (mode === "slides") exitSlides(); else enterSlides(); }
+  bSlides.addEventListener("click", toggleSlides);
+  prevBtns.forEach(function (b) { b.addEventListener("click", function () { go(current - 1); }); });
+  nextBtns.forEach(function (b) { b.addEventListener("click", function () { go(current + 1); }); });
+  [].forEach.call(document.querySelectorAll("[data-go]"), function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var i = +a.getAttribute("data-go");
+      if (mode === "slides") { go(i); return; }
+      stopGlide(); clearTimeout(PG.idle); PG.acc = 0; root.classList.remove("gliding");
+      window.scrollTo({ top: anchorOf(i), behavior: reduce ? "auto" : "smooth" });
+    });
+  });
+
+  /* Wheel and trackpad in scroll mode: native snap treats wheel input as "nearest point once it
+     stops", so a single notch springs back. Page by section here instead, with the slides' give:
+     the pull resists, past the threshold it lets go and springs into the next section, and a
+     flick's momentum is swallowed so it never skips two. Touch, keys and scrollbar stay native. */
+  var PG = { acc: 0, dir: 0, idle: 0, lock: 0, raf: 0, y: 0, v: 0, target: 0, last: 0 };
+  function sectionAt(y) { var idx = 0; for (var i = 0; i < slides.length; i++) if (anchorOf(i) <= y + 2) idx = i; return idx; }
+  function visibleH(i) { return window.innerHeight - barH() - (narrow() && !isSolo(i) ? stage.offsetHeight : 0); }
+  // entering a section from below lands on its last screen, so a tall section is never skipped
+  function restOf(i, fromBelow) { return anchorOf(i) + (fromBelow ? Math.max(0, slides[i].offsetHeight - visibleH(i)) : 0); }
+  function stopGlide() { if (PG.raf) { cancelAnimationFrame(PG.raf); PG.raf = 0; } }
+  function pgLoop(now) {
+    var dt = Math.min(0.034, (now - PG.last) / 1000), n = 4, h = dt / n;
+    PG.last = now;
+    for (var k = 0; k < n; k++) { var a = -110 * (PG.y - PG.target) - 17.6 * PG.v; PG.v += a * h; PG.y += PG.v * h; }
+    if (Math.abs(PG.y - PG.target) < 0.75 && Math.abs(PG.v) < 24) { landGlide(); return; }
+    window.scrollTo(0, PG.y);
+    PG.raf = requestAnimationFrame(pgLoop);
+  }
+  function landGlide() { stopGlide(); window.scrollTo(0, PG.target); root.classList.remove("gliding"); }
+  ["keydown", "mousedown", "touchstart"].forEach(function (t) {
+    window.addEventListener(t, function () { if (mode === "scroll" && (PG.raf || root.classList.contains("gliding"))) { clearTimeout(PG.idle); PG.acc = 0; landGlide(); } }, { passive: true, capture: true });
+  });
+  function glideTo(target) {
+    root.classList.add("gliding");
+    PG.target = target;
+    if (!PG.raf) { PG.y = window.scrollY; PG.v = 0; PG.last = performance.now(); PG.raf = requestAnimationFrame(pgLoop); }
+  }
+  function canScroll(elm, down) { return elm && (down ? elm.scrollTop + elm.clientHeight < elm.scrollHeight - 1 : elm.scrollTop > 0); }
+  window.addEventListener("wheel", function (e) {
+    if (mode !== "scroll" || reduce || e.ctrlKey) return; // ctrl+wheel is pinch-zoom
+    var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+    if (!dy || Math.abs(e.deltaX) > Math.abs(dy)) return;
+    var fwd = dy > 0 ? 1 : -1, y = window.scrollY;
+    var inner = e.target.closest && e.target.closest(".d-body");
+    if (inner && canScroll(inner, fwd > 0) && !PG.acc) return; // Livia's answer scrolls first
+    var i = sectionAt(PG.raf ? PG.target : y), a = anchorOf(i), sec = slides[i];
+    var visible = visibleH(i), end = a + Math.max(0, sec.offsetHeight - visible);
+    // a section taller than the screen scrolls natively until its edge is in view
+    if (!PG.raf && sec.offsetHeight > visible + 4 && ((fwd > 0 && y < end - 2) || (fwd < 0 && y > a + 2))) return;
+    e.preventDefault();
+    var now = performance.now();
+    clearTimeout(PG.idle);
+    if (now < PG.lock) { PG.lock = now + 170; return; }
+    if (fwd !== PG.dir) { PG.acc = 0; PG.dir = fwd; }
+    PG.acc += Math.abs(dy) * (Math.abs(dy) >= 60 ? 1.5 : 1); // a mouse notch counts a little more than a trackpad nudge
+    var next = i + fwd, edge = next < 0 || next >= slides.length;
+    if (!edge && PG.acc >= 140) { PG.acc = 0; PG.lock = now + 420; glideTo(restOf(next, fwd < 0)); return; }
+    stopGlide();
+    root.classList.add("gliding");
+    var restAt = fwd > 0 ? end : a;
+    window.scrollTo(0, restAt + fwd * resist(PG.acc) * (edge ? 0.45 : 1));
+    PG.idle = setTimeout(function () { PG.acc = 0; glideTo(restAt); }, 140);
+  }, { passive: false });
+
+  function atEdge(fwd) { return (fwd > 0 && current >= slides.length - 1) || (fwd < 0 && current <= 0); }
+  // slides: pull against the slide, let go past the threshold, swallow the flick's tail
+  var WH = { acc: 0, dir: 0, idle: 0, lock: 0 };
+  window.addEventListener("wheel", function (e) {
+    if (mode !== "slides") return;
+    var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY, dx = e.deltaMode === 1 ? e.deltaX * 16 : e.deltaX;
+    var d = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+    if (!d) return;
+    var s = slides[current], inner = e.target.closest && e.target.closest(".d-body");
+    if (inner && Math.abs(dy) >= Math.abs(dx) && canScroll(inner, d > 0) && !WH.acc) return;
+    if (Math.abs(dy) >= Math.abs(dx) && canScroll(s, d > 0) && !WH.acc) return; // a long slide scrolls first
+    e.preventDefault();
+    var now = performance.now();
+    clearTimeout(WH.idle);
+    if (now < WH.lock) { WH.lock = now + 170; return; }
+    var fwd = d > 0 ? 1 : -1;
+    if (fwd !== WH.dir) { WH.acc = 0; WH.dir = fwd; }
+    WH.acc += Math.abs(d) * (Math.abs(d) >= 60 ? 1.5 : 1);
+    if (!atEdge(fwd) && WH.acc >= 140) { WH.acc = 0; WH.lock = now + 420; go(current + fwd); return; }
+    hold(-fwd * resist(WH.acc) * (atEdge(fwd) ? 0.45 : 1), "y");
+    WH.idle = setTimeout(function () { WH.acc = 0; release(); }, 140);
+  }, { passive: false });
+
+  // touch in slides: drag with resistance; past the threshold it turns, short of it it springs back
+  var drag = null;
+  document.addEventListener("touchstart", function (e) {
+    if (mode !== "slides" || e.touches.length > 1) { drag = null; return; }
+    if (e.target.closest && e.target.closest("input, select, button, a, .d-qs, .wheel")) { drag = null; return; }
+    var t = e.touches[0];
+    drag = { x: t.clientX, y: t.clientY, axis: null, d: 0 };
+  }, { passive: true });
+  document.addEventListener("touchmove", function (e) {
+    if (!drag || mode !== "slides") return;
+    var t = e.touches[0], dx = t.clientX - drag.x, dy = t.clientY - drag.y;
+    if (!drag.axis) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      drag.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    }
+    var d = drag.axis === "x" ? dx : dy, fwd = d < 0 ? 1 : -1;
+    if (drag.axis === "y" && canScroll(slides[current], fwd > 0)) { drag = null; return; }
+    e.preventDefault();
+    drag.d = d;
+    hold((d < 0 ? -1 : 1) * resist(Math.abs(d) * 1.1) * (atEdge(fwd) ? 0.45 : 1), drag.axis);
+  }, { passive: false });
+  document.addEventListener("touchend", function () {
+    if (!drag || mode !== "slides") return;
+    var d = drag.d, axis = drag.axis, fwd = d < 0 ? 1 : -1;
+    drag = null;
+    if (Math.abs(d) > 60 && !atEdge(fwd)) go(current + fwd, axis || "y"); else release();
+  }, { passive: true });
+
+  /* ── keys ─────────────────────────────────────────────────────── */
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target, tag = t && t.tagName, k = e.key;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+    if ((tag === "BUTTON" || tag === "A") && (k === " " || k === "Enter")) return;
+    if (k === "p" || k === "P") { e.preventDefault(); toggleSlides(); return; }
+    if (k === "t" || k === "T") { e.preventDefault(); tBtn.click(); return; }
+    if (k === "Escape" && focused) { e.preventDefault(); clearFocus(); return; }
+    // on the first screen, left and right turn the wheel (in scroll and in slides mode)
+    if (current === 0 && (k === "ArrowRight" || k === "ArrowLeft")) { e.preventDefault(); stopWheel(); wheelGo(W1.k + (k === "ArrowRight" ? 1 : -1), true); return; }
+    if (mode !== "slides") return;
+    switch (k) {
+      case "ArrowRight": case "ArrowDown": case " ": case "PageDown": case "Enter": e.preventDefault(); go(current + 1, k === "ArrowRight" ? "x" : "y"); break;
+      case "ArrowLeft": case "ArrowUp": case "PageUp": case "Backspace": e.preventDefault(); go(current - 1, k === "ArrowLeft" ? "x" : "y"); break;
+      case "Home": e.preventDefault(); go(0); break;
+      case "End": e.preventDefault(); go(slides.length - 1); break;
+      case "Escape": e.preventDefault(); exitSlides(); break;
+      case "f": case "F":
+        e.preventDefault();
+        if (document.fullscreenElement) { if (document.exitFullscreen) document.exitFullscreen(); }
+        else if (root.requestFullscreen) root.requestFullscreen();
+        break;
+    }
+  });
+
+  var rsz = 0;
+  window.addEventListener("resize", function () { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(function () { rescale(); dEdge(); fromScroll(); }); });
+  onLang.push(function () { layoutLabels(); clearFocus(); if (curState) svg.setAttribute("aria-label", L(ALT[curState])); slidesLabel(mode === "slides"); });
+  // the wheel turns only while someone can see it
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { wheelVisible = es[0].isIntersecting; }, { threshold: 0.3 }).observe($("wheel1"));
+
+  /* ── init (review overrides: ?lang= ?theme= ?s=N ?step=N ?motion=0 ?wheel=0 ?inc=N ?ask=N ?gap=0-15 ?focus=claim-id) ── */
+  setTheme(theme, true);
+  setLang(lang, true);
+  var incP = parseInt(params.get("inc"), 10);
+  if (!isNaN(incP)) { wheelAuto = false; wheelGo(Math.max(0, Math.min(INC.length - 1, incP)), false); } else wheelGo(0, false);
+  var askP = parseInt(params.get("ask"), 10);
+  if (!isNaN(askP)) dCur = Math.max(0, Math.min(DEMO.length - 1, askP - 1));
+  var gp = parseInt(params.get("gap"), 10);
+  if (!isNaN(gp)) { GAP.t = Math.max(0, Math.min(15, gp)); gapPinned = true; }
+  renderGap();
+  rescale();
+  var sParam = parseInt(params.get("s"), 10), hash = /^#s(\d+)$/.exec(location.hash || ""), stepParam = parseInt(params.get("step"), 10);
+  if (!isNaN(sParam) || hash) {
+    var n = !isNaN(sParam) ? sParam : parseInt(hash[1], 10);
+    mode = "slides"; body.setAttribute("data-mode", "slides");
+    bSlides.setAttribute("aria-pressed", "true"); slidesLabel(true);
+    rescale();
+    var si = Math.max(0, Math.min(slides.length - 1, n - 1));
+    curState = ""; activate(si, true);
+  } else if (!isNaN(stepParam)) {
+    var ti = Math.max(0, Math.min(slides.length - 1, stepParam));
+    window.scrollTo(0, anchorOf(ti));
+    curState = ""; activate(activeFromScroll(), true);
+  } else {
+    activate(activeFromScroll(), true);
+  }
+  if (current === 0 || mode === "slides") playWheel(); else { wheelAuto = false; }
+  var focusParam = params.get("focus");
+  if (focusParam && CM[focusParam]) setTimeout(function () { focusClaim(CM[focusParam]); }, 80);
+  if ("fonts" in document) document.fonts.ready.then(function () { layoutLabels(); });
+})();
+</script>
+</body>
+</html>
