@@ -191,7 +191,17 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   .join:hover { color: var(--paper); background: color-mix(in srgb, var(--ink) 86%, var(--leaf)); }
   .join { transition: opacity .25s var(--ease); }
   body.at-top .join { opacity: 0; pointer-events: none; }
-  body[data-mode="slides"] .join { display: none; }
+  body[data-mode="slides"] .join { visibility: hidden; pointer-events: none; }
+  /* the join button's slot stays when slides mode swaps it for the slide controls, so nothing beside it moves */
+  .ctl-end { position: relative; display: flex; align-items: center; }
+  .ctl-end .deck-bar { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+  /* a label that changes with the language or the mode keeps the width of its longest form */
+  .ov { display: inline-grid; }
+  .ov > * { grid-area: 1 / 1; justify-self: center; }
+  :root .ov > [lang]:not(html) { display: inline !important; visibility: hidden; }
+  :root[data-lang="en"] .ov > [lang="en"]:not([data-when]), :root[data-lang="tr"] .ov > [lang="tr"]:not([data-when]),
+  :root[data-lang="en"] body:not([data-mode="slides"]) .ov > [lang="en"][data-when="scroll"], :root[data-lang="tr"] body:not([data-mode="slides"]) .ov > [lang="tr"][data-when="scroll"],
+  :root[data-lang="en"] body[data-mode="slides"] .ov > [lang="en"][data-when="slides"], :root[data-lang="tr"] body[data-mode="slides"] .ov > [lang="tr"][data-when="slides"] { visibility: visible; }
   @media (max-width: 1200px) { .bar nav { display: none; } }
   @media (max-width: 640px) {
     :root { --bar: 58px; }
@@ -692,17 +702,19 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
         <button type="button" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
         <button type="button" data-set-lang="tr" aria-pressed="false" aria-label="Türkçe">TR</button>
       </div>
-      <div class="deck deck-bar" role="group" aria-label="Slides / Slaytlar">
-        <button class="js-prev" type="button" aria-label="Previous / Önceki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
-        <span class="count js-count">1 / 11</span>
-        <button class="js-next" type="button" aria-label="Next / Sonraki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
-      </div>
       <button type="button" class="pill" id="bSlides" aria-pressed="false">
         <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="9" rx="1"/><path d="M6 14h4"/></svg>
-        <span class="label"><span lang="en">Slides</span><span lang="tr">Slayt</span></span>
+        <span class="label ov"><span lang="en" data-when="scroll">Slides</span><span lang="tr" data-when="scroll">Slayt</span><span lang="en" data-when="slides">Scroll</span><span lang="tr" data-when="slides">Kaydır</span></span>
       </button>
       <button type="button" class="icon-btn" id="themeBtn" aria-label="Theme"></button>
-      <a class="join" href="#join" data-go="10"><span lang="en">Join the waitlist</span><span lang="tr">Listeye katıl</span></a>
+      <div class="ctl-end">
+        <a class="join" href="#join" data-go="10"><span class="ov"><span lang="en">Join the waitlist</span><span lang="tr">Listeye katıl</span></span></a>
+        <div class="deck deck-bar" role="group" aria-label="Slides / Slaytlar">
+          <button class="js-prev" type="button" aria-label="Previous / Önceki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+          <span class="count js-count">1 / 11</span>
+          <button class="js-next" type="button" aria-label="Next / Sonraki"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -1074,7 +1086,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     onLang.forEach(function (f) { f(); });
   }
   [].forEach.call(document.querySelectorAll("[data-set-lang]"), function (b) {
-    b.addEventListener("click", function () { setLang(b.getAttribute("data-set-lang")); });
+    b.addEventListener("click", function () { keepPlace(function () { setLang(b.getAttribute("data-set-lang")); }); });
   });
 
   /* ── theme ────────────────────────────────────────────────────── */
@@ -2141,6 +2153,17 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     return idx;
   }
   function fromScroll() { if (mode === "scroll") activate(activeFromScroll()); }
+  // switching language rewraps every text above too: keep the section being read exactly where it was
+  function keepPlace(change) {
+    if (mode !== "scroll" || current < 0) { change(); return; }
+    var sec = slides[current], before = sec.getBoundingClientRect().top;
+    change();
+    var shift = sec.getBoundingClientRect().top - before;
+    if (Math.abs(shift) < 0.5) return;
+    root.classList.add("gliding");
+    window.scrollBy(0, shift);
+    requestAnimationFrame(function () { root.classList.remove("gliding"); });
+  }
   var ticking = false;
   var barProg = $("barProg");
   function updProg() {
@@ -2217,12 +2240,11 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     }
     try { history.replaceState(null, "", "#s" + (i + 1)); } catch (e) {}
   }
-  function slidesLabel(on) { bSlides.querySelector(".label").innerHTML = on ? '<span lang="en">Scroll</span><span lang="tr">Kaydır</span>' : '<span lang="en">Slides</span><span lang="tr">Slayt</span>'; }
   function enterSlides(i) {
     stopGlide(); clearTimeout(PG.idle); root.classList.remove("gliding");
     mode = "slides";
     body.setAttribute("data-mode", "slides");
-    bSlides.setAttribute("aria-pressed", "true"); slidesLabel(true);
+    bSlides.setAttribute("aria-pressed", "true");
     var target = typeof i === "number" ? i : Math.max(0, current);
     current = -1; go(target);
     rescale();
@@ -2232,7 +2254,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
     mode = "scroll";
     clearSlideStyles();
     body.removeAttribute("data-mode");
-    bSlides.setAttribute("aria-pressed", "false"); slidesLabel(false);
+    bSlides.setAttribute("aria-pressed", "false");
     try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
     if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
     window.scrollTo(0, anchorOf(i));
@@ -2386,7 +2408,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
 
   var rsz = 0;
   window.addEventListener("resize", function () { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(function () { rescale(); dEdge(); fromScroll(); }); });
-  onLang.push(function () { layoutLabels(); clearFocus(); if (curState) svg.setAttribute("aria-label", L(ALT[curState])); slidesLabel(mode === "slides"); });
+  onLang.push(function () { layoutLabels(); clearFocus(); if (curState) svg.setAttribute("aria-label", L(ALT[curState])); });
   // the wheel turns only while someone can see it
   if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { wheelVisible = es[0].isIntersecting; }, { threshold: 0.3 }).observe($("wheel1"));
 
@@ -2405,7 +2427,7 @@ var t=q.get("theme")||g("agrigore-theme");if(t==="dark"||t==="light")d.setAttrib
   if (!isNaN(sParam) || hash) {
     var n = !isNaN(sParam) ? sParam : parseInt(hash[1], 10);
     mode = "slides"; body.setAttribute("data-mode", "slides");
-    bSlides.setAttribute("aria-pressed", "true"); slidesLabel(true);
+    bSlides.setAttribute("aria-pressed", "true");
     rescale();
     var si = Math.max(0, Math.min(slides.length - 1, n - 1));
     curState = ""; activate(si, true);
