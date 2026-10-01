@@ -442,11 +442,12 @@ var h=innerHeight;if(h>200)d.style.setProperty("--vh",h/100+"px");})();
   .bub.ask .who { color: var(--sea); }
   .msg.lv .bub.gap { background: var(--sun-dim); border: 1px dashed var(--sun); box-shadow: none; }
   .bub.gap .who { color: var(--sun); }
-  .bub .cite { display: inline-grid; place-items: center; min-width: 14px; height: 14px; margin-left: 3px; padding: 0 3px; font: 500 9px/1 var(--mono); color: var(--paper); vertical-align: 1.5px; }
+  .bub .cite { display: inline-grid; place-items: center; min-width: 14px; height: 14px; margin-left: 4px; padding: 0 3px; font: 500 9px/1 var(--mono); color: var(--paper); vertical-align: 1.5px; }
   .cite.exp { background: var(--fig); border-radius: 50%; } .cite.res { background: var(--sea); border-radius: 3px; } .cite.grow { background: var(--leaf); border-radius: 3px; }
   .bub .srcs { list-style: none; margin: 8px 0 0; padding: 7px 0 0; border-top: 1px dashed var(--line-2); display: grid; gap: 4px; font-size: 11.5px; line-height: 1.4; color: var(--ink-soft); }
-  .bub .srcs li { display: grid; grid-template-columns: 18px 1fr; align-items: baseline; }
-  .bub .srcs .cite { margin-left: 0; }
+  .bub .srcs li { display: grid; grid-template-columns: 22px 1fr; align-items: baseline; }
+  /* the chip keeps its own size: stretched to the column, the round one turned oval and met the text */
+  .bub .srcs .cite { margin-left: 0; justify-self: start; }
   .bub .srcs b { font-weight: 500; color: var(--ink); }
   .bub.typing { display: inline-flex; gap: 4px; padding: 11px 13px; }
   .bub.typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); animation: blink 1.1s infinite; }
